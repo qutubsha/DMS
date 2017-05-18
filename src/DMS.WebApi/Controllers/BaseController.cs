@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace DMS.WebApi.Controllers
-{
+{ 
     public class BaseController:Controller
     {
         private readonly ILogger<ValuesController> _logger;
