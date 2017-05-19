@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace DMS.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : BaseController
+    public class ValuesController : BaseController<ValuesController>
     {
         public ValuesController(ILogger<ValuesController> logger) : base(logger)
         {
