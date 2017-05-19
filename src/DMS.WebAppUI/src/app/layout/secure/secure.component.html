@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -6,17 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>Document Management System</title>
     <!-- Bootstrap Core CSS -->
-
-    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Custom CSS -->
-    <link href="../assets/css/sb-admin.css" rel="stylesheet" />
-    <!-- Morris Charts CSS -->
-    <link href="../assets/css/plugins/morris.css" rel="stylesheet" />
-    <!-- Custom Fonts -->
-    <link href="../assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="../assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
 </head>
 <body>
     <div id="wrapper">
@@ -368,6 +359,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
+                        <router-outlet></router-outlet>
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
@@ -449,13 +441,5 @@
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
-    <!-- jQuery -->
-    <script src="../assets/js/jquery.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../assets/js/bootstrap.min.js"></script>
-    <!-- Morris Charts JavaScript -->
-    <script src="../assets/js/plugins/morris/raphael.min.js"></script>
-    <script src="../assets/js/plugins/morris/morris.min.js"></script>
-    <script src="../assets/js/plugins/morris/morris-data.js"></script>
 </body>
 </html>

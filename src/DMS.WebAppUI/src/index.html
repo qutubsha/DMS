@@ -1,0 +1,69 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Document Management System</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style type="text/css">
+        .loader {
+            border: 16px solid #ffffff;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            margin-top: 15px;
+            margin-left: 35px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .outer {
+            display: table;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+
+        .middle {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .inner {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 5%;
+            width: 400px;
+        }
+
+        .custom-margin-bottom-dashboard {
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <app-root>
+        <div class="outer">
+            <div class="middle">
+                <div class="inner">
+                    <span class="custom-margin-bottom-dashboard">Loading, Please Wait...</span>
+                    <div class="loader"></div>
+                </div>
+            </div>
+        </div>
+    </app-root>
+</body>
+</html>
