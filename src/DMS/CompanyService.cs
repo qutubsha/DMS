@@ -25,7 +25,7 @@ namespace DMS
             _repository = repository;
         }
 
-        public ICompany AddCompany(ICompany company)
+        public async Task AddCompany(Company company)
         {
             // Throws null exception if company value is null
             if (company == null) throw new ArgumentNullException(nameof(company), "Company should not be null");
@@ -34,7 +34,7 @@ namespace DMS
             CompanyValidator.IsValid(company);
 
             // returns new company with DepartmentId
-            return _repository.AddCompany(company);
+            await _repository.AddCompany(company);
         }
     }
 }
