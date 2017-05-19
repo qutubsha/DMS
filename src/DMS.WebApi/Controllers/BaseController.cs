@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DMS.WebApi.Controllers
 { 
-    public class BaseController<T>:Controller
+    public abstract class BaseController<T>:Controller
     {
         private ILogger<T> _logger;
 
@@ -39,11 +39,11 @@ namespace DMS.WebApi.Controllers
             //    Log.Warn(ex.ToString());
             //    return StatusCode(System.Net.HttpStatusCode.Conflict);
             //}
-            //catch (FluentValidation.ValidationException ex)
-            //{
-            //    Log.Warn(ex.ToString());
-            //    return BadRequest(ex.Message);
-            //}
+            catch (FluentValidation.ValidationException ex)
+            {
+                _logger.LogWarning(ex.ToString());
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogWarning(ex.ToString());

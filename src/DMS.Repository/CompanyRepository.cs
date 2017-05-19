@@ -1,4 +1,5 @@
 ﻿using DMS.Abstraction;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,16 @@ namespace DMS.Repository
 {
     public class CompanyRepository : ICompanyRepository
     {
-        public ICompany AddCompany(ICompany company)
+        private readonly DMSContext _context = null;
+
+        public CompanyRepository(IOptions<Settings> settings)
         {
-            throw new NotImplementedException();
+            _context = new DMSContext(settings);
+        }
+
+        public async Task AddCompany(Company company)
+        {
+            await _context.Companies.InsertOneAsync(company);
         }
     }
 }

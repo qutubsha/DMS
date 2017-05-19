@@ -7,6 +7,6 @@ namespace DMS.Abstraction
 {
     public interface ICompanyService
     {
-        ICompany AddCompany(ICompany company);
+        Task AddCompany(Company company);
     }
 }
