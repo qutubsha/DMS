@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace DMS.WebApi.Controllers
 { 
-    public class BaseController:Controller
+    public class BaseController<T>:Controller
     {
-        private readonly ILogger<ValuesController> _logger;
+        private ILogger<T> _logger;
 
-        protected BaseController(ILogger<ValuesController> logger)
+        protected BaseController(ILogger<T> logger)
         {
             _logger = logger;
-            _logger.LogInformation("Just an error log message text.");
+            //_logger.LogInformation("Just an error log message text.");
         }
 
 
