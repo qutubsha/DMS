@@ -1,4 +1,5 @@
 ﻿using DMS.Abstraction;
+using DMS.Abstraction.Documents;
 using DMS.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +46,7 @@ namespace DMS.WebApi
                 options.Database = Configuration.GetSection("MongoConnection:Database").Value;
             });
             services.AddTransient<ICompanyRepository, CompanyRepository>();
+            services.AddTransient<IDocumentRepository, DocumentRepository>();
 
             services.AddSwaggerGen(c =>
             {
