@@ -17,7 +17,6 @@ namespace DMS.WebApi.Controllers
             //_logger.LogInformation("Just an error log message text.");
         }
 
-
         protected IActionResult Execute(Func<IActionResult> expression)
         {
             try
