@@ -26,5 +26,14 @@ namespace DMS.Repository
                 return _database.GetCollection<Company>("Company");
             }
         }
+
+
+        public IMongoCollection<User> Users
+        {
+            get
+            {
+                return _database.GetCollection<User>("User");
+            }
+        }
     }
 }
