@@ -35,6 +35,9 @@ namespace DMS
 
         //Task CheckInDocument(Document document, byte[] file);
 
-        //Task<List<Document>> GetAllDocuments(bool IsShared, string loginId);
+        public async Task<List<Document>> GetAllDocuments(bool IsShared, string loginId)
+        {
+            return await _repository.GetAllDocuments(IsShared, loginId);            
+        }
     }
 }
