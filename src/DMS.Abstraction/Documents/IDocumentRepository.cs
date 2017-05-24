@@ -17,6 +17,6 @@ namespace DMS.Abstraction.Documents
 
         //Task CheckInDocument(Document document, byte[] file);
 
-        //Task<List<Document>> GetAllDocuments(bool IsShared, string loginId);
+        Task<List<Document>> GetAllDocuments(bool IsShared, string loginId);
     }
 }

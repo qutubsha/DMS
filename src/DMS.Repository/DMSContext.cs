@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using DMS.Abstraction;
+using DMS.Abstraction.Documents;
 
 namespace DMS.Repository
 {
@@ -33,6 +34,14 @@ namespace DMS.Repository
             get
             {
                 return _database.GetCollection<User>("User");
+            }
+        }
+
+        public IMongoCollection<Document> Documents
+        {
+            get
+            {
+                return _database.GetCollection<Document>("Documents");
             }
         }
     }
