@@ -7,8 +7,11 @@ namespace DMS.Abstraction
 {
     public interface IRole
     {
-        string RoleId { get; set; }
+        int RoleId { get; set; }
         string RoleName { get; set; }
-        string Description { get; set; }
+        bool IsActive { get; set; }
+        DateTime? CreatedOn { get; set; }
+        DateTime? UpdatedOn { get; set; }
+        ICollection<Rights> Rights { get; set; } 
     }
 }

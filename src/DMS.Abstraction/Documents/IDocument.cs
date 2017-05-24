@@ -7,7 +7,7 @@ namespace DMS.Abstraction.Documents
 {
     public interface IDocument
     {
-        string DocumentId { get; set; }
+        int DocumentId { get; set; }
 
         string FileName { get; set; }
 
@@ -15,30 +15,28 @@ namespace DMS.Abstraction.Documents
 
         string CreatedBy { get; set; }
 
-        string CreatedOn { get; set; }
+        //string CreatedOn { get; set; }
 
         string ModifiedBy { get; set; }
 
-        string ModifiedOn { get; set; }
+       // string ModifiedOn { get; set; }
 
-        string IsDeleted { get; set; }
+        bool IsDeleted { get; set; }
 
         string DeletedBy { get; set; }
 
-        string DeletedOn { get; set; }
+        //string DeletedOn { get; set; }
 
-        string CurrentVersion { get; set; }
+        int CurrentVersion { get; set; }
 
-        string CurrentRevision { get; set; }
+        int CurrentRevision { get; set; }
 
-        string IsShared { get; set; }
+        bool IsShared { get; set; }
 
-        string LockedBy { get; set; }
+        int LockedBy { get; set; }
 
         byte[] DocumentData { get; set; }
 
         string DocumentTags { get; set; }
     }
-
-
 }

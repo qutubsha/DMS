@@ -1,6 +1,7 @@
 ﻿using DMS.Abstraction;
 using DMS.Abstraction.Documents;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +20,28 @@ namespace DMS.Repository
 
         //Task<Document> AddDocument(Document document, byte[] file);
 
-        //Task<Document> GetDocument(string loginId, string documentId, string versionId = null, string revisionId = null);
+        //Task<Document> GetDocument(string loginId, string documentId, string versionId = null, string revisionId = null)
+        //{
 
-        //Task<int> DeleteDocument(string documentId, string loginId);
+        //}
+
+        public async Task<DeleteResult> DeleteDocument(int documentId, int loginId)
+        {
+            //TODO : Check if user is allowed to delete document
+            var filter = Builders<Document>.Filter.Eq("DocumentId", documentId);
+            return await _context.Documents.DeleteOneAsync(filter);
+        }
 
         //Task<Document> CheckOutDocument(string documentId, string loginId);
 
         //Task CheckInDocument(Document document, byte[] file);
 
-        //Task<List<Document>> GetAllDocuments(bool IsShared, string loginId);
+        public async Task<List<Document>> GetAllDocuments(bool IsShared, int loginId)
+        {
+            //TODO : Get documentson which user has rights
+            var filter = Builders<Document>.Filter.Eq("IsShared", IsShared);
+            return  await _context.Documents.Find(filter).ToListAsync();
+           // return await _context.Documents.Find(_ => true).ToListAsync();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DMS.Abstraction.Documents;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,12 +30,18 @@ namespace DMS
 
         //Task<Document> GetDocument(string loginId, string documentId, string versionId = null, string revisionId = null);
 
-        //Task<int> DeleteDocument(string documentId, string loginId);
+        public async Task<DeleteResult> DeleteDocument(int documentId, int loginId)
+        {
+            return await _repository.DeleteDocument(documentId, loginId);
+        }
 
         //Task<Document> CheckOutDocument(string documentId, string loginId);
 
         //Task CheckInDocument(Document document, byte[] file);
 
-        //Task<List<Document>> GetAllDocuments(bool IsShared, string loginId);
+        public async Task<List<Document>> GetAllDocuments(bool IsShared, int loginId)
+        {
+            return await _repository.GetAllDocuments(IsShared, loginId);            
+        }
     }
 }

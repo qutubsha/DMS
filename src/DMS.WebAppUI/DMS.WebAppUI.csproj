@@ -102,9 +102,11 @@
     <Content Include="src\app\app.component.css" />
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\dashboard\dashboard.component.html" />
+    <Content Include="src\app\document\document.component.html" />
     <Content Include="src\app\layout\public\public.component.html" />
     <Content Include="src\app\layout\secure\secure.component.html" />
     <Content Include="src\app\login\login.component.html" />
+    <Content Include="src\app\login\registration.component.html" />
     <Content Include="src\assets\css\bootstrap-rtl.css" />
     <Content Include="src\assets\css\bootstrap-rtl.min.css" />
     <Content Include="src\assets\css\bootstrap.css" />
@@ -143,8 +145,14 @@
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
     <TypeScriptCompile Include="src\app\app-Routing.module.ts" />
+    <TypeScriptCompile Include="src\app\appSettings.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.module.ts" />
+    <TypeScriptCompile Include="src\app\document\document.component.ts" />
+    <TypeScriptCompile Include="src\app\document\document.module.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\document\document.ts" />
     <TypeScriptCompile Include="src\app\layout\public\public.component.ts" />
     <TypeScriptCompile Include="src\app\layout\public\public.routes.ts" />
     <TypeScriptCompile Include="src\app\layout\secure\secure.component.ts" />
@@ -152,6 +160,10 @@
     <TypeScriptCompile Include="src\app\login\login.component.ts" />
     <TypeScriptCompile Include="src\app\login\login.module.ts" />
     <TypeScriptCompile Include="src\app\login\login.ts" />
+    <TypeScriptCompile Include="src\app\login\registration.component.ts" />
+    <TypeScriptCompile Include="src\app\login\registration.module.ts" />
+    <TypeScriptCompile Include="src\app\path-finder.ts" />
+    <TypeScriptCompile Include="src\app\services\user.service.ts" />
     <TypeScriptCompile Include="src\app\shared\auth.guard.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />
@@ -209,7 +221,9 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="npm-debug.log" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
