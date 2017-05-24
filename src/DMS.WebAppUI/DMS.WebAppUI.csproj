@@ -105,6 +105,7 @@
     <Content Include="src\app\layout\public\public.component.html" />
     <Content Include="src\app\layout\secure\secure.component.html" />
     <Content Include="src\app\login\login.component.html" />
+    <Content Include="src\app\roles\roles.component.html" />
     <Content Include="src\assets\css\bootstrap-rtl.css" />
     <Content Include="src\assets\css\bootstrap-rtl.min.css" />
     <Content Include="src\assets\css\bootstrap.css" />
@@ -152,6 +153,7 @@
     <TypeScriptCompile Include="src\app\login\login.component.ts" />
     <TypeScriptCompile Include="src\app\login\login.module.ts" />
     <TypeScriptCompile Include="src\app\login\login.ts" />
+    <TypeScriptCompile Include="src\app\roles\roles.component.ts" />
     <TypeScriptCompile Include="src\app\shared\auth.guard.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />
