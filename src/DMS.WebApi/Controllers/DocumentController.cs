@@ -50,10 +50,11 @@ namespace DMS.WebApi.Controllers
             return "value";
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult AddDocument([FromBody]Document document,[FromBody]byte[] file)
         {
+            // TODO : Check add permission, save document in repository, check date time issue
+            return Execute(() => Ok(_documentService.AddDocument(document, file)));
         }
 
         // PUT api/values/5

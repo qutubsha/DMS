@@ -18,7 +18,10 @@ namespace DMS.Repository
             _context = new DMSContext(settings);
         }
 
-        //Task<Document> AddDocument(Document document, byte[] file);
+        public async Task AddDocument(Document document, byte[] file)
+        {
+            await _context.Documents.InsertOneAsync(document);
+        }
 
         //Task<Document> GetDocument(string loginId, string documentId, string versionId = null, string revisionId = null)
         //{
