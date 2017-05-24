@@ -7,18 +7,11 @@ namespace DMS.Abstraction
 {
     public class Role : IRole
     {
-
-        public Role()
-        {
-            RoleRights = new List<IRoleRights>();
-        }
-
-        public string RoleId { get; set; }
-
+        public int RoleId { get; set; }
         public string RoleName { get; set; }
-
-        public string Description { get; set; }
-
-        public List<IRoleRights> RoleRights { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
+        public ICollection<Rights> Rights { get; set; } = new List<Rights>();
     }
 }
