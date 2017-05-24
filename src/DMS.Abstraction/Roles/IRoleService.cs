@@ -7,7 +7,7 @@ namespace DMS.Abstraction.Roles
 {
     public interface IRoleService
     {
-        List<Role> GetAllRoles();
+        Task<List<Role>> GetAllRoles();
 
         //Task<Roles> AddRole(Roles role);
 

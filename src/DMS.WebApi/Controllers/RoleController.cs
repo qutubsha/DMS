@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using DMS.Repository;
 using Microsoft.Extensions.Logging;
 using DMS.Abstraction;
-using Microsoft.AspNetCore.Http;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,9 +25,7 @@ namespace DMS.WebApi.Controllers
         [HttpGet]
         public List<Role> Get()
         {
-            var rolecollections =   _roleService.GetAllRoles();
-            return rolecollections;
-            //return new List<string> { "cdf", "dfdf" };
+            return _roleService.GetAllRoles().Result;
         }
 
         // GET api/values/5
