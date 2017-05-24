@@ -40,7 +40,7 @@ namespace DMS.WebApi.Controllers
             //string url = "http://localhost:56833/api/Document/";
 
             //return new string[] { input, encrypted, decrypted , url+encrypted};
-            return _documentService.GetAllDocuments(false, "1").Result;//new string[] { "value1", "value2" };
+            return _documentService.GetAllDocuments(false, 1).Result;//new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
@@ -64,8 +64,9 @@ namespace DMS.WebApi.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id,int loginid)
         {
+             await _documentService.DeleteDocument(id, loginid);
         }
     }
 }
