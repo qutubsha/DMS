@@ -8,6 +8,7 @@ using DMS.WebApi.Class;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using DMS.Repository;
+using DMS.Abstraction.Documents;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,20 +27,20 @@ namespace DMS.WebApi.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<Document> Get()
         {
-            var SCollection = new ServiceCollection();
-            SCollection.AddDataProtection();
-            var SerPro = SCollection.BuildServiceProvider();
-            CipherService cipherService = ActivatorUtilities.CreateInstance<Class.CipherService>(SerPro);
+            //var SCollection = new ServiceCollection();
+            //SCollection.AddDataProtection();
+            //var SerPro = SCollection.BuildServiceProvider();
+            //CipherService cipherService = ActivatorUtilities.CreateInstance<Class.CipherService>(SerPro);
 
-            string input = "1/10-10-2017";
-            string encrypted = cipherService.Encrypt(input);
-            string decrypted = cipherService.Decrypt(encrypted);
-            string url = "http://localhost:56833/api/Document/";
+            //string input = "1/10-10-2017";
+            //string encrypted = cipherService.Encrypt(input);
+            //string decrypted = cipherService.Decrypt(encrypted);
+            //string url = "http://localhost:56833/api/Document/";
 
-            return new string[] { input, encrypted, decrypted , url+encrypted};
-            //return new string[] { "value1", "value2" };
+            //return new string[] { input, encrypted, decrypted , url+encrypted};
+            return _documentService.GetAllDocuments(false, "1").Result;//new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
