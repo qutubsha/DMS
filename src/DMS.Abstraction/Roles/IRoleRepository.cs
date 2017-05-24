@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DMS.Abstraction.Role
+namespace DMS.Abstraction.Roles
 {
-    public interface IRoleService
+    public interface IRoleRepository
     {
-        List<Roles> GetAllRoles();
+        List<Role> GetAllRoles();
 
         //Task<Roles> AddRole(Roles role);
 

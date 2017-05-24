@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using DMS.Repository;
-using DMS.Abstraction.DocumentAccessHistory;
+using DMS.Abstraction.DocumentAccessHistories;
+using DMS.Abstraction;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 

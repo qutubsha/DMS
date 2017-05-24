@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DMS.Abstraction;
-using DMS.Abstraction.Role;
+using DMS.Abstraction.Roles;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -23,7 +23,7 @@ namespace DMS.Repository
         //   //TODO: Implement method
         //}
 
-        public List<Roles> GetAllRoles()
+        public List<Role> GetAllRoles()
         {
             var roles = _context.Roles.Find(_ => true).ToList();
             return roles;

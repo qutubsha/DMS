@@ -1,10 +1,10 @@
-﻿using DMS.Abstraction.DocumentAccessHistory;
+﻿using DMS.Abstraction.DocumentAccessHistories;
 using DMS.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using DMS.Abstraction;
 namespace DMS
 {
     public class DocumentAccessHistoryService : IDocumentAccessHistoryService

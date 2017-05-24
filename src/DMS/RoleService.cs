@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DMS.Abstraction;
-using DMS.Abstraction.Role;
+using DMS.Abstraction.Roles;
 
 namespace DMS
 {
@@ -32,7 +32,7 @@ namespace DMS
         /// </summary>
         /// <param name="loginId"></param>
         /// <returns></returns>
-        public List<Roles> GetAllRoles()
+        public List<Role> GetAllRoles()
         {
            return  _roleRepository.GetAllRoles();
         }

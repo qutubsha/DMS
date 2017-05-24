@@ -27,7 +27,7 @@ namespace DMS.WebApi.Controllers
 
         // GET: api/values
         [HttpGet]
-        public List<Roles> Get()
+        public List<Role> Get()
         {
             var rolecollections =   _roleService.GetAllRoles();
             return rolecollections;
