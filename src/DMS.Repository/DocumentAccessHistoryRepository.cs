@@ -1,5 +1,5 @@
 ﻿using DMS.Abstraction;
-using DMS.Abstraction.DocumentAccessHistory;
+using DMS.Abstraction.DocumentAccessHistories;
 using DMS.Abstraction.Documents;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
