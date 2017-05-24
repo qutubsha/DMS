@@ -12,8 +12,14 @@ import { LoginModule } from './login/login.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuard } from './shared/auth.guard';
+
+import { DocumentModule } from './document/document.module';
+
+
+
 import { PathFinder } from './path-finder';
 import { RegistrationModule } from './login/registration.module';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -27,7 +33,11 @@ import { RegistrationModule } from './login/registration.module';
         AppRoutingModule,
         LoginModule,
         DashboardModule,
+
+        DocumentModule,
+
         RegistrationModule
+
     ],
     providers: [
         AuthGuard,
