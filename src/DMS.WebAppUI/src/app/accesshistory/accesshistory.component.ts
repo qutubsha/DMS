@@ -1,7 +1,7 @@
 ﻿import { Component, Input, OnInit, ViewChild, trigger, transition, style, animate, state } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 //import { DataTable } from '../angular2-datatable/datatable';
-import { IDocument, Document } from './document';
+import { IAccessHistory, AccessHistory } from './accesshistory';
 //import { DataTablesModule } from 'angular-datatables';
 
 //import { GlobalVariable, IDictionary } from '../shared/global';
@@ -9,21 +9,21 @@ import { IDocument, Document } from './document';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 @Component({
-    templateUrl: './document.component.html',
+    templateUrl: './accesshistory.component.html',
 })
 
-export class DocumentComponent {
+export class AccessHistoryComponent {
 
     /// Variables declaration
     private errorMessage: string;
-    private data: IDocument[]; // data is the default name for Angular 2 datatable used in equipment listing
-    private filteredData: IDocument[];
+    private data: IAccessHistory[]; // data is the default name for Angular 2 datatable used in equipment listing
+    private filteredData: IAccessHistory[];
     private equipmentListFilter = '';
  //   private rowsOnPage = GlobalVariable.rowsOnPage;
     private activePage = 1;
-    private sortBy = 'FileName';
+    private sortBy = 'Action';
     private sortOrder = 'asc';
-    private equipment: IDocument;
+    private equipment: IAccessHistory;
     private FileNameFilter = '';
     private ExtensionFilter = '';
     private CreatedByFilter = '';
@@ -68,45 +68,43 @@ export class DocumentComponent {
         //    });
     }
 
-    filerDocuments()
-    { }
-    //filterDocuments() {
-    //    let FileNameFilter = this.FileNameFilter ? this.FileNameFilter.toLocaleLowerCase() : null;
-    //    let ExtensionFilter = this.ExtensionFilter ? this.ExtensionFilter.toLocaleLowerCase() : null;
-    //    let CreatedByFilter = this.CreatedByFilter ? this.CreatedByFilter.toLocaleLowerCase() : null;
-    //    let IsSharedFilter = this.IsSharedFilter ? this.IsSharedFilter.toLocaleLowerCase() : null;
+    filterDocuments() {
+        let FileNameFilter = this.FileNameFilter ? this.FileNameFilter.toLocaleLowerCase() : null;
+        let ExtensionFilter = this.ExtensionFilter ? this.ExtensionFilter.toLocaleLowerCase() : null;
+        let CreatedByFilter = this.CreatedByFilter ? this.CreatedByFilter.toLocaleLowerCase() : null;
+        let IsSharedFilter = this.IsSharedFilter ? this.IsSharedFilter.toLocaleLowerCase() : null;
 
 
-    //    this.filters = [];
-    //    if (FileNameFilter != null)
-    //        this.filters.push({ key: 'FileName', value: FileNameFilter });
-    //    if (ExtensionFilter != null)
-    //        this.filters.push({ key: 'Extension', value: ExtensionFilter });
-    //    if (CreatedByFilter != null)
-    //        this.filters.push({ key: 'CreatedBy', value: CreatedByFilter});
-    //    if (IsSharedFilter != null)
-    //        this.filters.push({ key: 'IsShared', value: IsSharedFilter });
+        this.filters = [];
+        if (FileNameFilter != null)
+            this.filters.push({ key: 'FileName', value: FileNameFilter });
+        if (ExtensionFilter != null)
+            this.filters.push({ key: 'Extension', value: ExtensionFilter });
+        if (CreatedByFilter != null)
+            this.filters.push({ key: 'CreatedBy', value: CreatedByFilter});
+        if (IsSharedFilter != null)
+            this.filters.push({ key: 'IsShared', value: IsSharedFilter });
 
-    //    this.filteredData = this.data;
+        this.filteredData = this.data;
 
-    //    for (var i = 0; i < this.filters.length; i++) {
-    //        let tempData: IDocument[];
-    //        //if (this.filters[i].key == 'LastCheckoutTime') {
-    //        //    alert(this.filters[i].value);
-    //        //    tempData = this.filteredData.filter((equipment: IEquipment) =>
-    //        //        equipment['LastCheckoutTime'] != null && equipment['LastCheckoutTime'].toString() != '' &&
-    //        //        this._sharedService.parseDateTimeToStringWithFormat(equipment['LastCheckoutTime'].toString()).toString().startsWith(this.filters[i].value.toString()));
-    //        //}
-    //        //else
-    //        {
-    //            tempData = this.filteredData.filter((equipment: IDocument) =>
-    //                equipment[this.filters[i].key] != null && equipment[this.filters[i].key].toString() != '' &&
-    //                equipment[this.filters[i].key].toString().toLocaleLowerCase().indexOf(this.filters[i].value.toString()) != -1);
-    //        }
-    //        this.filteredData = tempData;
-    //    }
+        for (var i = 0; i < this.filters.length; i++) {
+            let tempData: IAccessHistory[];
+            //if (this.filters[i].key == 'LastCheckoutTime') {
+            //    alert(this.filters[i].value);
+            //    tempData = this.filteredData.filter((equipment: IEquipment) =>
+            //        equipment['LastCheckoutTime'] != null && equipment['LastCheckoutTime'].toString() != '' &&
+            //        this._sharedService.parseDateTimeToStringWithFormat(equipment['LastCheckoutTime'].toString()).toString().startsWith(this.filters[i].value.toString()));
+            //}
+            //else
+            {
+                tempData = this.filteredData.filter((equipment: IAccessHistory) =>
+                    equipment[this.filters[i].key] != null && equipment[this.filters[i].key].toString() != '' &&
+                    equipment[this.filters[i].key].toString().toLocaleLowerCase().indexOf(this.filters[i].value.toString()) != -1);
+            }
+            this.filteredData = tempData;
+        }
 
-    //}
+    }
 
 
     // Resets the pagination for filtered data

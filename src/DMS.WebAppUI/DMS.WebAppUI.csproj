@@ -102,6 +102,7 @@
     <Content Include="src\app\app.component.css" />
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\dashboard\dashboard.component.html" />
+    <Content Include="src\app\accesshistory\accesshistory.component.html" />
     <Content Include="src\app\document\document.component.html" />
     <Content Include="src\app\layout\public\public.component.html" />
     <Content Include="src\app\layout\secure\secure.component.html" />
@@ -148,6 +149,9 @@
     <TypeScriptCompile Include="src\app\appSettings.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.module.ts" />
+    <TypeScriptCompile Include="src\app\accesshistory\accesshistory.component.ts" />
+    <TypeScriptCompile Include="src\app\accesshistory\accesshistory.module.ts" />
+    <TypeScriptCompile Include="src\app\accesshistory\accesshistory.ts" />
     <TypeScriptCompile Include="src\app\document\document.component.ts" />
     <TypeScriptCompile Include="src\app\document\document.module.ts">
       <SubType>Code</SubType>

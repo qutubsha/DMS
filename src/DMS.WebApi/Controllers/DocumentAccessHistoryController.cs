@@ -25,7 +25,7 @@ namespace DMS.WebApi.Controllers
             _documentAccessHistoryService = new DocumentAccessHistoryService(repository);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{documentId}")]
         public List<DocumentAccessHistory> Get(int documentId)
         {
             return _documentAccessHistoryService.GetDocumentAccessHistory(documentId).Result;
