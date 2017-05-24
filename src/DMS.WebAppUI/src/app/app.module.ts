@@ -33,11 +33,7 @@ import { RegistrationModule } from './login/registration.module';
         AppRoutingModule,
         LoginModule,
         DashboardModule,
-<<<<<<< .merge_file_a03748
-       
-=======
         AccessHistoryModule,
->>>>>>> .merge_file_a06764
         DocumentModule,
 
         RegistrationModule
