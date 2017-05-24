@@ -11,6 +11,8 @@ import { LoginModule } from './login/login.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuard } from './shared/auth.guard';
+import { DocumentModule } from './document/document.module';
+
 
 @NgModule({
     declarations: [
@@ -24,7 +26,8 @@ import { AuthGuard } from './shared/auth.guard';
         HttpModule,
         AppRoutingModule,
         LoginModule,
-        DashboardModule
+        DashboardModule,
+        DocumentModule
     ],
     providers: [
         AuthGuard,
