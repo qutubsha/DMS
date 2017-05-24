@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using DMS.Abstraction;
 using DMS.Abstraction.Documents;
+using DMS.Abstraction.DocumentAccessHistory;
 
 namespace DMS.Repository
 {
@@ -42,6 +43,14 @@ namespace DMS.Repository
             get
             {
                 return _database.GetCollection<Document>("Documents");
+            }
+        }
+
+        public IMongoCollection<DocumentAccessHistory> AccessHistory
+        {
+            get
+            {
+                return _database.GetCollection<DocumentAccessHistory>("DocumentAccessHistory");
             }
         }
     }
