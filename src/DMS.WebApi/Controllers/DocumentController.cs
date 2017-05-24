@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using DMS.Repository;
 using DMS.Abstraction.Documents;
-
+using DMS.Abstraction;
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DMS.WebApi.Controllers
@@ -40,7 +40,7 @@ namespace DMS.WebApi.Controllers
             //string url = "http://localhost:56833/api/Document/";
 
             //return new string[] { input, encrypted, decrypted , url+encrypted};
-            return _documentService.GetAllDocuments(false, "1").Result;//new string[] { "value1", "value2" };
+            return _documentService.GetAllDocuments(false, 1).Result;//new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
@@ -50,10 +50,11 @@ namespace DMS.WebApi.Controllers
             return "value";
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult AddDocument([FromBody]Document document,[FromBody]byte[] file)
         {
+            // TODO : Check add permission, save document in repository, check date time issue
+            return Execute(() => Ok(_documentService.AddDocument(document, file)));
         }
 
         // PUT api/values/5
@@ -64,8 +65,9 @@ namespace DMS.WebApi.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id,int loginid)
         {
+             await _documentService.DeleteDocument(id, loginid);
         }
     }
 }

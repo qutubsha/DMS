@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace DMS.Abstraction
 {
-    public interface IRole
+    public class Rights : IRights
     {
-        string RoleId { get; set; }
-        string RoleName { get; set; }
-        string Description { get; set; }
+        public int RightId { get; set; }
+        public string RightName { get; set; }
     }
 }

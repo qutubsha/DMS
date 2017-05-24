@@ -14,7 +14,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuard } from './shared/auth.guard';
 
 import { DocumentModule } from './document/document.module';
-
+import { AccessHistoryModule } from './accesshistory/accesshistory.module';
 
 
 import { PathFinder } from './path-finder';
@@ -33,7 +33,11 @@ import { RegistrationModule } from './login/registration.module';
         AppRoutingModule,
         LoginModule,
         DashboardModule,
+<<<<<<< .merge_file_a03748
        
+=======
+        AccessHistoryModule,
+>>>>>>> .merge_file_a06764
         DocumentModule,
 
         RegistrationModule
