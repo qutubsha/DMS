@@ -2,17 +2,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserService } from '../services/user.service';
-import { LoginComponent } from './login.component';
+import { RegistrationComponent } from './registration.component';
 import { SharedModule } from '../shared/shared.module';
 @NgModule({
     imports: [
         SharedModule,
     ],
     declarations: [
-        LoginComponent
+        RegistrationComponent
     ],
     providers: [
         UserService
     ]
 })
-export class LoginModule { }
+export class RegistrationModule { }

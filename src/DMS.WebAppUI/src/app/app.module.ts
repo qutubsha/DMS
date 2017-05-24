@@ -1,3 +1,4 @@
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +12,8 @@ import { LoginModule } from './login/login.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuard } from './shared/auth.guard';
-
+import { PathFinder } from './path-finder';
+import { RegistrationModule } from './login/registration.module';
 @NgModule({
     declarations: [
         AppComponent,
@@ -24,11 +26,13 @@ import { AuthGuard } from './shared/auth.guard';
         HttpModule,
         AppRoutingModule,
         LoginModule,
-        DashboardModule
+        DashboardModule,
+        RegistrationModule
     ],
     providers: [
         AuthGuard,
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        PathFinder
     ],
     bootstrap: [AppComponent]
 })

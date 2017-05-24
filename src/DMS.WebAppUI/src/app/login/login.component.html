@@ -45,13 +45,23 @@
 </style>
 <div class="wrapper">
     <h2 style="margin-left:36% !important;">Document Management System</h2>
-    <form class="form-signin">
+    <form class="form-signin" #form="ngForm" novalidate (ngSubmit)="form.submitted && form.valid && submitForm($event)">
         <h2 class="form-signin-heading">Login</h2>
-        <input type="text" class="form-control" name="username" placeholder="Email Address" required="" autofocus="" />
-        <input type="password" class="form-control" name="password" placeholder="Password" required="" />
+        <!--<input type="text" class="form-control" name="username" placeholder="username" required="" />-->
+        <input type="text" class="form-control" name="UserName"
+               [(ngModel)]="username" placeholder="User Name" required maxlength="255" #UserName="ngModel">
+        <div *ngIf="UserName.errors && !(UserName.valid || (UserName.pristine && !form.submitted))">
+            <small [hidden]="!UserName.errors.required" class="text-danger-left">Please enter User Name.</small>
+        </div>
+        <!--<input type="password" class="form-control" name="password" placeholder="Password" required="" />-->
+        <input class="form-control" required placeholder="Password" type="password" name="Password" [(ngModel)]="password" #Password="ngModel">
+        <div *ngIf="Password.errors && !(Password.valid || (Password.pristine && !form.submitted))">
+            <small [hidden]="!Password.errors.required" class="text-danger-left">Please enter Password.</small>
+        </div>
         <label class="checkbox">
             <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
         </label>
-        <button class="btn btn-lg btn-primary btn-block" (click)="redirectToDashboard();" type="button">Login</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        <button class="btn btn-lg btn-primary btn-block" (click)="redirectToDashboard();" type="button">Sign Up</button>
     </form>
 </div>
