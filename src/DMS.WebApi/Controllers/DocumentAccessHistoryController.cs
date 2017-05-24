@@ -28,6 +28,12 @@ namespace DMS.WebApi.Controllers
         public List<DocumentAccessHistory> Get(int documentId)
         {
             return _documentAccessHistoryService.GetDocumentAccessHistory(documentId).Result;
-        }     
+        }
+
+        [HttpPost]
+        public IActionResult InsertDocumentAccessLog([FromBody]DocumentAccessHistory documentAccesHistory)
+        {
+            return Execute(() => Ok(_documentAccessHistoryService.InsertDocumentAccessLog(documentAccesHistory)));
+        }
     }
 }

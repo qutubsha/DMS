@@ -8,5 +8,7 @@ namespace DMS.Abstraction.DocumentAccessHistory
     public interface IDocumentAccessHistoryService
     {
         Task<List<DocumentAccessHistory>> GetDocumentAccessHistory(int documentId);
+
+        Task InsertDocumentAccessLog(DocumentAccessHistory documentAccessHistory);
     }
 }

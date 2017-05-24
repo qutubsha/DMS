@@ -24,5 +24,15 @@ namespace DMS
         {
             return await _repository.GetDocumentAccessHistory(documentId);
         }
+
+        public async Task InsertDocumentAccessLog(DocumentAccessHistory documentAccessHistory)
+        {
+            // Throws null exception if company value is null
+            if (documentAccessHistory == null)
+                throw new ArgumentNullException(nameof(documentAccessHistory), "Document Access History should not be null");
+
+            // returns new company with DepartmentId
+            await _repository.InsertDocumentAccessLog(documentAccessHistory);
+        }
     }
 }
