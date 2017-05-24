@@ -4,8 +4,9 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Injectable()
 export class PathFinder {
-    userUrl: string = `${AppSettings._PeerlessHRMSUrl}/User`;
-    loginUrl: string = `${AppSettings._PeerlessHRMSUrl}/Login`;
+    userUrl: string = `${AppSettings._DMSUrl}/User`;
+    loginUrl: string = `${AppSettings._DMSUrl}/Login`;
+    documentUrl: string = `${AppSettings._DMSUrl}/Document`;
 
     getJWT() {
         // create authorization header with jwt token

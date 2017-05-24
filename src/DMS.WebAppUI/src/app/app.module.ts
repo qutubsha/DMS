@@ -33,7 +33,7 @@ import { RegistrationModule } from './login/registration.module';
         AppRoutingModule,
         LoginModule,
         DashboardModule,
-
+       
         DocumentModule,
 
         RegistrationModule

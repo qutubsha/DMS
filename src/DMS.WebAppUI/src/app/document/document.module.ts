@@ -2,16 +2,18 @@
 import { RouterModule } from '@angular/router';
 
 import { DocumentComponent } from './document.component';
-//import { DataTablesModule } from 'angular-datatables';
+import { DocumentService } from '../services/document.service';
+import {CommonModule } from '@angular/common';
 
 @NgModule({
     imports: [
-        //DataTablesModule
+        CommonModule
     ],
     declarations: [
         DocumentComponent
     ],
     providers: [
+        DocumentService
     ]
 })
 export class  DocumentModule { }
