@@ -4,7 +4,9 @@ import { IDocument, Document } from './document';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { DocumentService } from '../services/document.service';
-
+//import {DataTable} from '../angular2-datatable/datatable';
+import {DataTable } from "angular2-datatable";
+import { GlobalVariable, IDictionary } from '../shared/global';
 @Component({
     templateUrl: './document.component.html',
 })
@@ -13,28 +15,36 @@ export class DocumentComponent {
 
     /// Variables declaration
     private errorMessage: string;
-    private data: IDocument[]; // data is the default name for Angular 2 datatable used in equipment listing
-    private filteredData: IDocument[];
+    private data: any[] = []; // data is the default name for Angular 2 datatable used in equipment listing
+    private filteredData: any[] = [];
     private activePage = 1;
     private sortBy = 'FileName';
+    private rowsOnPage = GlobalVariable.rowsOnPage;
     private sortOrder = 'asc';
     private docelement: IDocument;
     private FileNameFilter = '';
     private ExtensionFilter = '';
     private CreatedByFilter = '';
-    private IsSharedFilter = '';
+    private CreatedOnFilter = '';
+    private LockedByFilter = '';
+    private DocumentTagFilter = '';
     private notificationTitle: string = '';
     private notificationContent: string = '';
     private filters: IDictionary[];
     busy: Subscription;
+    @ViewChild('mf') mf: DataTable;
     constructor(private router: Router, private _documentservice: DocumentService) {
     }
 
-
     ngOnInit(): void {
+        this.GetAllDocuments();
+    }
+
+    GetAllDocuments() {
         this.busy = this._documentservice.getDocuments()
             .subscribe(data => {
-                // this.data = data;
+                this.data = data;
+                debugger;
                 this.filteredData = data;
             },
             error => {
@@ -44,12 +54,11 @@ export class DocumentComponent {
             });
     }
 
+    // Resets the pagination for filtered data
+    public resetPagination() {
+        this.mf.setPage(1, this.mf.rowsOnPage);
+    }
+
 
 }
 
-
-
-export interface IDictionary {
-    key: string;
-    value: string;
-}

@@ -2,6 +2,9 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EqualValidator } from '../shared/appequal-validator.directive';
+//import { DataTableModule } from '../angular2-datatable/datatable.module';
+import { DataTableModule } from "angular2-datatable";
+
 @NgModule({
     imports: [
         CommonModule
@@ -9,6 +12,7 @@ import { EqualValidator } from '../shared/appequal-validator.directive';
     declarations: [EqualValidator],
     exports: [
         CommonModule,
+        DataTableModule,
         FormsModule
 
     ]
