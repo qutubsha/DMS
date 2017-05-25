@@ -8,7 +8,7 @@ namespace DMS.Abstraction.Documents
 {
     public interface IDocumentService
     {
-        //Task<Document> AddDocument(Document document, byte[] file);
+        Task AddDocument(Document document, byte[] file);
 
         //Task<Document> GetDocument(string loginId, string documentId,int isShared,string versionId = null, string revisionId =null);
 

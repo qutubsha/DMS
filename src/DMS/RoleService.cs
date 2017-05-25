@@ -32,9 +32,9 @@ namespace DMS
         /// </summary>
         /// <param name="loginId"></param>
         /// <returns></returns>
-        public List<Role> GetAllRoles()
+        public async Task<List<Role>> GetAllRoles()
         {
-           return  _roleRepository.GetAllRoles();
+           return await _roleRepository.GetAllRoles();
         }
 
         //public Task<Roles> GetRole(string loginId, string roleId)

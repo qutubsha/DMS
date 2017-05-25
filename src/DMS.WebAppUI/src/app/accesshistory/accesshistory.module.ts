@@ -1,8 +1,8 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { DocumentComponent } from './document.component';
-import { DocumentService } from '../services/document.service';
+import { AccessHistoryComponent } from './accesshistory.component';
+//import { DataTablesModule } from 'angular-datatables';
 import {CommonModule } from '@angular/common';
 
 @NgModule({
@@ -10,10 +10,9 @@ import {CommonModule } from '@angular/common';
         CommonModule
     ],
     declarations: [
-        DocumentComponent
+        AccessHistoryComponent
     ],
     providers: [
-        DocumentService
     ]
 })
-export class  DocumentModule { }
+export class  AccessHistoryModule { }

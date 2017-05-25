@@ -23,10 +23,9 @@ namespace DMS.Repository
         //   //TODO: Implement method
         //}
 
-        public List<Role> GetAllRoles()
+        public async Task<List<Role>> GetAllRoles()
         {
-            var roles = _context.Roles.Find(_ => true).ToList();
-            return roles;
+            return await _context.Roles.Find(_ => true).ToListAsync(); ;
         }
         //public Task<Roles> GetRole(string loginId, string roleId)
         //{

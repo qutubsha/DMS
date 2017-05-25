@@ -23,11 +23,14 @@ namespace DMS
         }
 
 
-        //Task<Document> AddDocument(Document document, byte[] file)
-        //{
-        //    return new Document();
-
-        //}
+        public async Task AddDocument(Document document, byte[] file)
+        {
+            if (document == null)
+            {
+                throw new ArgumentNullException(nameof(document), "Document should not be null");
+            }
+            await _repository.AddDocument(document, file);
+        }
 
         //Task<Document> GetDocument(string loginId, string documentId, string versionId = null, string revisionId = null);
 
