@@ -46,7 +46,13 @@ namespace DMS
             return await _repository.CheckOutDocument(documentId, loginId);
         }
 
-        //Task CheckInDocument(Document document, byte[] file);
+        public async Task<Document> CheckInDocument(int documentId, string why, string what,
+                                        bool isNewRevision, byte[] file, 
+                                        string fileName, string extension, int loginId)
+        {
+            return await _repository.CheckInDocument(documentId, why, what,
+                                        isNewRevision, file, fileName, extension, loginId);
+        }
 
         public async Task<List<Document>> GetAllDocuments(bool isShared, int loginId)
         {

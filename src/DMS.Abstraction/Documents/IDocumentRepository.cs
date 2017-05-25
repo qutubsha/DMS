@@ -17,7 +17,9 @@ namespace DMS.Abstraction.Documents
 
         Task<Document> CheckOutDocument(int documentId, int loginId);
 
-        //Task CheckInDocument(Document document, byte[] file);
+        Task<Document> CheckInDocument(int documentId, string why, string what,
+                                        bool isNewRevision, byte[] file,
+                                        string fileName, string extension, int loginId);
 
         Task<List<Document>> GetAllDocuments(bool IsShared, int loginId);
 
