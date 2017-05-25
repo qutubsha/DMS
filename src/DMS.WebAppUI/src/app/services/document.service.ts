@@ -1,5 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { IDocument, Document} from '../document/document';
+import { IAccessHistory, AccessHistory} from '../accesshistory/accesshistory';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import { PathFinder } from '../path-finder';
@@ -21,6 +22,18 @@ export class DocumentService {
         let options = new RequestOptions({ headers: headers });
         return this._http.get(this._pathfinder.documentUrl, options)
             .map((response: Response) => <IDocument>response.json())
+            .catch(err => this.handleError(err));
+    }
+
+    getAccessHistory(documentId : string): Observable<IAccessHistory[]> {
+        let headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+        headers.append('Access-Control-Allow-Origin', ' *');
+        //let body = JSON.stringify(username);
+        let options = new RequestOptions({ headers: headers });
+        return this._http.get(this._pathfinder.AccessHistoryUrl + "/" + documentId, options)
+            .map((response: Response) => <IAccessHistory>response.json())
             .catch(err => this.handleError(err));
     }
 
