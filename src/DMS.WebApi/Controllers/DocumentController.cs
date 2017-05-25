@@ -25,13 +25,10 @@ namespace DMS.WebApi.Controllers
             _documentService = new DocumentService(repository);
         }
 
-        // GET: api/values
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(int loginId)
         {
-
-            //return new string[] { input, encrypted, decrypted , url+encrypted};
-            return Execute(() => Ok(_documentService.GetAllDocuments(false, 1).Result));//new string[] { "value1", "value2" };
+            return Execute(() => Ok(_documentService.GetAllDocuments(false, loginId).Result));
         }
 
         //[HttpGet("id/durationInHours")]
