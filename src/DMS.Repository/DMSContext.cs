@@ -35,5 +35,37 @@ namespace DMS.Repository
                 return _database.GetCollection<User>("User");
             }
         }
+
+        public IMongoCollection<Role> Roles
+        {
+            get
+            {
+                return _database.GetCollection<Role>("Roles");
+            }
+        }
+
+        public IMongoCollection<Rights> Rights
+        {
+            get
+            {
+                return _database.GetCollection<Rights>("Rights");
+            }
+        }
+
+        public IMongoCollection<DocumentAccessHistory> AccessHistory
+        {
+            get
+            {
+                return _database.GetCollection<DocumentAccessHistory>("DocumentAccessHistory");
+            }
+        }
+
+        public IMongoCollection<Document> Documents
+        {
+            get
+            {
+                return _database.GetCollection<Document>("Documents");
+            }
+        }
     }
 }

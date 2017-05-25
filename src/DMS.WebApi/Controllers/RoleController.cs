@@ -1,25 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using DMS.Repository;
 using Microsoft.Extensions.Logging;
+using DMS.Abstraction;
+
+// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DMS.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : BaseController<ValuesController>
+    public class RoleController : BaseController<RoleController>
     {
-        public ValuesController(ILogger<ValuesController> logger) : base(logger)
-        {
 
+        readonly RoleService _roleService;
+
+        public RoleController(ILogger<RoleController> logger, IOptions<Settings> settings) : base(logger)
+        {
+            var repository = new RoleRepository(settings);
+            _roleService = new RoleService(repository);
         }
 
-        // GET api/values
+        // GET: api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<Role> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _roleService.GetAllRoles().Result;
         }
 
         // GET api/values/5
@@ -45,13 +51,6 @@ namespace DMS.WebApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-        }
-
-        [HttpGet]
-        [Route("/api/anothervalue")]
-        public IActionResult GetAnotherValue()
-        {
-            return Execute(() => Ok("This is a test"));
         }
     }
 }

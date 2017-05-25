@@ -20,7 +20,8 @@
     "DMS.Abstraction": "1.0.0-*",
     "DMS.Repository": "1.0.0-*",
     "NLog.Web.AspNetCore": "4.4.0",
-    "Swashbuckle.AspNetCore": "1.0.0"  },
+    "Swashbuckle.AspNetCore": "1.0.0",
+    "Microsoft.AspNetCore.Cors": "1.0.0"},
 
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final"

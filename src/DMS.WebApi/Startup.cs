@@ -1,4 +1,5 @@
 ﻿using DMS.Abstraction;
+using DMS.Abstraction.Documents;
 using DMS.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using Swashbuckle.AspNetCore.Swagger;
+
 
 namespace DMS.WebApi
 {
@@ -35,6 +37,13 @@ namespace DMS.WebApi
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+            
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
@@ -45,6 +54,7 @@ namespace DMS.WebApi
                 options.Database = Configuration.GetSection("MongoConnection:Database").Value;
             });
             services.AddTransient<ICompanyRepository, CompanyRepository>();
+            services.AddTransient<IDocumentRepository, DocumentRepository>();
 
 
             services.AddTransient<IUserRepository, UserRepository>();
@@ -59,6 +69,8 @@ namespace DMS.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseCors("MyPolicy");
+
             //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             //loggerFactory.AddDebug();
             loggerFactory.AddNLog();

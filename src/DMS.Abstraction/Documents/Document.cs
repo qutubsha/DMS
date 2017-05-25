@@ -1,0 +1,55 @@
+﻿using DMS.Abstraction.Revisions;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace DMS.Abstraction
+{
+    [BsonIgnoreExtraElements]
+    public class Document : IDocument
+    {
+        //public Document()
+        //{
+        //    Versions = new List<IVersion>();
+        //    Revisions = new List<IRevision>();
+        //}
+        //public List<IVersion> Versions { get; set; }
+
+        //public List<IRevision> Revisions { get; set; }
+        public string CreatedBy { get; set; }
+
+       // public string CreatedOn { get; set; }
+
+        public int CurrentRevision { get; set; }
+
+        public int CurrentVersion { get; set; }
+
+        public string DeletedBy { get; set; }
+
+        //public string DeletedOn { get; set; }
+
+        public int DocumentId { get; set; }
+
+        public string Extension { get; set; }
+
+        public string FileName { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public bool IsShared { get; set; }
+
+        public int LockedBy { get; set; }
+
+        public string ModifiedBy { get; set; }
+
+        //public string ModifiedOn { get; set; }
+
+        public byte[] DocumentData { get; set; }
+
+        public string DocumentTags { get; set; }
+    }
+}
+
+
