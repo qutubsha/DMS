@@ -21,7 +21,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">SB Admin</a>
+                <a class="navbar-brand" href="index.html">Document Management System</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -134,7 +134,56 @@
                         <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a routerLink="/document" routerLinkActive="active"><i class="fa fa-fw fa-dashboard"></i> Document</a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#dm"><i class="fa fa-fw fa-file-text-o"></i> Document Mgmt <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="dm" class="collapse">
+                            <li>
+                                <a routerLink="/document" routerLinkActive="active">Document List(All)</a>
+                            </li>
+                            <li>
+                                <a href="#">Personal Documents</a>
+                            </li>
+                            <li>
+                                <a href="#">Shared Documents</a>
+                            </li>
+                            <li>
+                                <a href="#">Shared With Me</a>
+                            </li>
+                            <li>
+                                <a href="#">Shared By Me</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-search"></i> Advance Search</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-user"></i> User Profile</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#admin"><i class="fa fa-fw fa-user-circle-o"></i> Admin <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="admin" class="collapse">
+                            <li>
+                                <a href="#">Document List(All)</a>
+                            </li>
+                            <li>
+                                <a href="#">Personal Documents</a>
+                            </li>
+                            <li>
+                                <a href="#">Shared Documents</a>
+                            </li>
+                            <li>
+                                <a href="#">Shared With Me</a>
+                            </li>
+                            <li>
+                                <a href="#">Shared By Me</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+                    </li>
+                    <!--<li>
+                        <a routerLink="/document" routerLinkActive="active"><i class="fa fa-fw fa-book"></i> Documents</a>
                     </li>
                     <li>
                         <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
@@ -167,7 +216,7 @@
                     </li>
                     <li>
                         <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

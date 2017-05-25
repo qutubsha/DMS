@@ -12,8 +12,13 @@ import { DataTableModule } from "angular2-datatable";
     declarations: [EqualValidator],
     exports: [
         CommonModule,
+
         DataTableModule,
-        FormsModule
+        FormsModule,
+
+        FormsModule,
+        EqualValidator
+
 
     ]
 })

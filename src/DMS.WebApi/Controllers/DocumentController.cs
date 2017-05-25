@@ -60,11 +60,41 @@ namespace DMS.WebApi.Controllers
             return Execute(() => Ok(_documentService.AddDocument(document, file)));
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id, int loginid)
         {
             return Execute(() => Ok(_documentService.DeleteDocument(id, loginid)));
+        }
+
+        [HttpGet("getdocument/{id}")]
+        public IActionResult GetDocumentById(int id, int loginId)
+        {
+            //TODO : Check permission, validate request
+            return Execute(() => Ok(_documentService.GetDocumentById(id, loginId).Result));
+        }
+
+        [HttpPost("versions/add")]
+        public IActionResult CheckInDocument(int documentId, string why, string what,
+                                        bool isNewRevision, [FromBody]byte[] file, string fileName,
+                                        string extension, int loginId)
+        {
+            // TODO : validate request, Check ediit permission, check if lock by user is current user, save document in repository
+            return Execute(() => Ok(_documentService.CheckInDocument(documentId, why, what,
+                                        isNewRevision, file, fileName, extension, loginId)));
+        }
+
+        [HttpPut]
+        public IActionResult CheckoutDocument(int documentId, int loginId)
+        {
+            //TODO : Check permission, validate request
+            return Execute(() => Ok(_documentService.CheckOutDocument(documentId, loginId)));
+        }
+
+        [HttpGet("versions/{id}")]
+        public IActionResult GetVersionDetails(int id, int loginId)
+        {
+            //TODO : Check permission, validate request
+            return Execute(() => Ok(_documentService.GetVersionDetails(id, loginId).Result));
         }
     }
 }

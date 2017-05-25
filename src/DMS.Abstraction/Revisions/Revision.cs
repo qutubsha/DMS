@@ -1,10 +1,13 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace DMS.Abstraction.Revisions
 {
+    [BsonIgnoreExtraElements]
+
     public class Revision : IRevision
     {
         public int DocumentId { get; set; }
