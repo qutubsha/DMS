@@ -1,5 +1,6 @@
 ﻿using DMS.Abstraction;
 using DMS.Abstraction.Documents;
+using DMS.Abstraction.Roles;
 using DMS.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -47,6 +48,7 @@ namespace DMS.WebApi
             });
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<IDocumentRepository, DocumentRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
 
             services.AddSwaggerGen(c =>
             {
