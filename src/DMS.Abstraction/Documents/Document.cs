@@ -40,7 +40,7 @@ namespace DMS.Abstraction
 
         public bool IsShared { get; set; }
 
-        public int LockedBy { get; set; }
+        public int? LockedBy { get; set; }
 
         public string ModifiedBy { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using DMS.Abstraction;
 using DMS.Abstraction.Documents;
+using DMS.Abstraction.Revisions;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
@@ -35,16 +36,48 @@ namespace DMS.Repository
             return await _context.Documents.DeleteOneAsync(filter);
         }
 
-        //Task<Document> CheckOutDocument(string documentId, string loginId);
+        public async Task<Document> CheckOutDocument(int documentId, int loginId)
+        {
+            var filter = Builders<Document>.Filter.Eq("DocumentId", documentId);
+            Document document = await _context.Documents.Find(filter).FirstOrDefaultAsync();
+            if(document != null)
+            {
+                //TODO : check permission if user is allowed to check out document and document is not check out
+
+                // check if document is checked out or not
+                if (document.LockedBy == null || document.LockedBy == -2)
+                {
+                    //Lock document with current user
+                    var update = Builders<Document>.Update.Set(s => s.LockedBy, loginId);
+                    await _context.Documents.UpdateOneAsync(filter, update);
+                }
+                //TODO : else Update user that document is already checked out by other user
+            }
+            return document;
+            //TODO : Handle null document
+        }
 
         //Task CheckInDocument(Document document, byte[] file);
 
         public async Task<List<Document>> GetAllDocuments(bool IsShared, int loginId)
         {
-            //TODO : Get documentson which user has rights
+            //TODO : Get documents on which user has rights
             var filter = Builders<Document>.Filter.Eq("IsShared", IsShared);
             return  await _context.Documents.Find(filter).ToListAsync();
-           // return await _context.Documents.Find(_ => true).ToListAsync();
+        }
+
+        public async Task<Document> GetDocumentById(int documentId, int loginId)
+        {
+            //TODO : Get document if user has rights
+            var filter = Builders<Document>.Filter.Eq("DocumentId", documentId);
+            return await _context.Documents.Find(filter).FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Revision>> GetVersionDetails(int documentId, int loginId)
+        {
+            //TODO : Get documentson which user has rights
+            var filter = Builders<Revision>.Filter.Eq("DocumentId", documentId);
+            return await _context.Revisions.Find(filter).ToListAsync();
         }
     }
 }

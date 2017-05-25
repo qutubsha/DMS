@@ -33,7 +33,7 @@ namespace DMS.Abstraction
 
         bool IsShared { get; set; }
 
-        int LockedBy { get; set; }
+        int? LockedBy { get; set; }
 
         byte[] DocumentData { get; set; }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using DMS.Abstraction;
+using DMS.Abstraction.Revisions;
 
 namespace DMS.Repository
 {
@@ -65,6 +66,14 @@ namespace DMS.Repository
             get
             {
                 return _database.GetCollection<Document>("Documents");
+            }
+        }
+
+        public IMongoCollection<Revision> Revisions
+        {
+            get
+            {
+                return _database.GetCollection<Revision>("Revisions");
             }
         }
     }

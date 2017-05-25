@@ -1,5 +1,7 @@
 ﻿using DMS.Abstraction;
 using DMS.Abstraction.Documents;
+using DMS.Abstraction.Revisions;
+//using DMS.Abstraction.Revisions;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -39,13 +41,31 @@ namespace DMS
             return await _repository.DeleteDocument(documentId, loginId);
         }
 
-        //Task<Document> CheckOutDocument(string documentId, string loginId);
+        public async Task<Document> CheckOutDocument(int documentId, int loginId)
+        {
+            return await _repository.CheckOutDocument(documentId, loginId);
+        }
 
         //Task CheckInDocument(Document document, byte[] file);
 
-        public async Task<List<Document>> GetAllDocuments(bool IsShared, int loginId)
+        public async Task<List<Document>> GetAllDocuments(bool isShared, int loginId)
         {
-            return await _repository.GetAllDocuments(IsShared, loginId);            
+            return await _repository.GetAllDocuments(isShared, loginId);            
         }
+
+        public async Task<Document> GetDocumentById(int documentId, int loginId)
+        {
+            return await _repository.GetDocumentById(documentId, loginId);
+        }
+
+        public async Task<List<Revision>> GetVersionDetails(int documentId, int loginId)
+        {
+            return await _repository.GetVersionDetails(documentId, loginId);
+        }
+
+        //public async Task CheckInDocument(int documentId, int loginId)
+        //{
+        //    return await _repository.GetVersionDetails(documentId, loginId);
+        //}
     }
 }
