@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { IAccessHistory, AccessHistory } from './accesshistory';
 //import { DataTablesModule } from 'angular-datatables';
 import { DocumentService } from '../services/document.service';
-//import { GlobalVariable, IDictionary } from '../shared/global';
+import { GlobalVariable, IDictionary } from '../shared/global';
 //import { IUser, User, IUserRoleRights } from './login';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
@@ -51,9 +51,3 @@ export class AccessHistoryComponent {
 }
  }
 
-
-
-export interface IDictionary {
-    key: string;
-    value: string;
-}
