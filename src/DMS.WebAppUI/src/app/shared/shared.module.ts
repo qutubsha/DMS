@@ -9,7 +9,8 @@ import { EqualValidator } from '../shared/appequal-validator.directive';
     declarations: [EqualValidator],
     exports: [
         CommonModule,
-        FormsModule
+        FormsModule,
+        EqualValidator
 
     ]
 })

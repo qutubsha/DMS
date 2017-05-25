@@ -1,4 +1,3 @@
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +13,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuard } from './shared/auth.guard';
 import { PathFinder } from './path-finder';
 import { RegistrationModule } from './login/registration.module';
+import { UserProfileModule } from './user-profile/user-profile.module';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -27,7 +28,8 @@ import { RegistrationModule } from './login/registration.module';
         AppRoutingModule,
         LoginModule,
         DashboardModule,
-        RegistrationModule
+        RegistrationModule,
+        UserProfileModule
     ],
     providers: [
         AuthGuard,

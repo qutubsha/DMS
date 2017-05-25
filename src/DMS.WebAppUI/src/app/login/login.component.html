@@ -46,7 +46,7 @@
 <div class="wrapper">
     <h2 style="margin-left:36% !important;">Document Management System</h2>
     <form class="form-signin" #form="ngForm" novalidate (ngSubmit)="form.submitted && form.valid && submitForm($event)">
-        <h2 class="form-signin-heading">Login</h2>
+        <!--<h2 class="form-signin-heading">Login</h2>-->
         <!--<input type="text" class="form-control" name="username" placeholder="username" required="" />-->
         <input type="text" class="form-control" name="UserName"
                [(ngModel)]="username" placeholder="User Name" required maxlength="255" #UserName="ngModel">
