@@ -10,17 +10,26 @@
                             <table class="table table-striped " *ngIf="filteredData?.length > 0">
                                 <thead>
                                     <tr>
-                                        <th class="td-width-30">
+                                        <th class="td-width-15">
                                             FileName
                                         </th>
                                         <th class="td-width-15">
                                             Extension
                                         </th>
-                                        <th class="td-width-35">
+                                        <th class="td-width-15">
                                             CreatedBy
                                         </th>
-                                        <th class="td-width-30">
-                                            IsShared
+                                        <th class="td-width-15">
+                                            CreatedOn
+                                        </th>
+                                        <th class="td-width-15">
+                                            lockedBy
+                                        </th>
+                                        <th class="td-width-15">
+                                            documentTags
+                                        </th>
+                                        <th class="td-width-15">
+                                            Operations
                                         </th>
                                     </tr>
                                     <!--<tr class="filters">
@@ -43,7 +52,11 @@
                                         </td>
                                         <td>{{item.extension}}</td>
                                         <td>{{item.createdBy}}</td>
-                                        <td>{{item.isShared}}</td>
+                                        <td>{{item.createdOn}}</td>
+                                        <td>{{item.lockedBy}}</td>
+                                        <td>{{item.documentTags}}</td>
+                                        <td></td>
+                                        
                                     </tr>
                                 </tbody>
                                 <tfoot>
