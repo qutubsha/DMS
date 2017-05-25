@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DMS.Abstraction.Documents
+namespace DMS.Abstraction
 {
     [BsonIgnoreExtraElements]
     public class Document : IDocument

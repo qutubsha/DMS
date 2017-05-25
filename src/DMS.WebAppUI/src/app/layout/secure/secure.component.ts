@@ -1,7 +1,9 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
+import { Routes, RouterModule } from '@angular/router';
+
 
 @Component({
     selector: 'app-secure',
@@ -9,3 +11,4 @@ import { Subscription } from 'rxjs';
 })
 export class SecureComponent {
 }
+

@@ -7,24 +7,28 @@ namespace DMS.Abstraction.Revisions
 {
     public interface IRevision
     {
-        string DocumentId { get; set; }
+         int DocumentId { get; set; }
 
-        string RevisionId { get; set; }
+         int VersionId { get; set; }
 
-        string ModifiedBy { get; set; }
+         int RevisionId { get; set; }
 
-        string ModifiedOn { get; set; }
+         int ModifiedBy { get; set; }
 
-        string CurrentVersion { get; set; }
+         DateTime ModifiedOn { get; set; }
 
-        string CurrentRevision { get; set; }
+         byte[] DocumentData { get; set; }
 
-        byte[] DocumentData { get; set; }
+         string FileName { get; set; }
 
-        string DocumentTags { get; set; }
+         string Extension { get; set; }
 
-        string FileName { get; set; }
+         string Path { get; set; }
 
-        string Extension { get; set; }
+         string What { get; set; }
+
+         string Why { get; set; }
+
+         double size { get; set; }
     }
 }

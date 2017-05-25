@@ -5,8 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using DMS.Abstraction;
-using DMS.Abstraction.Documents;
-using DMS.Abstraction.DocumentAccessHistory;
 
 namespace DMS.Repository
 {
@@ -38,11 +36,19 @@ namespace DMS.Repository
             }
         }
 
-        public IMongoCollection<Document> Documents
+        public IMongoCollection<Role> Roles
         {
             get
             {
-                return _database.GetCollection<Document>("Documents");
+                return _database.GetCollection<Role>("Roles");
+            }
+        }
+
+        public IMongoCollection<Rights> Rights
+        {
+            get
+            {
+                return _database.GetCollection<Rights>("Rights");
             }
         }
 
@@ -51,6 +57,14 @@ namespace DMS.Repository
             get
             {
                 return _database.GetCollection<DocumentAccessHistory>("DocumentAccessHistory");
+            }
+        }
+
+        public IMongoCollection<Document> Documents
+        {
+            get
+            {
+                return _database.GetCollection<Document>("Documents");
             }
         }
     }

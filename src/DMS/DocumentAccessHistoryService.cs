@@ -1,10 +1,10 @@
-﻿using DMS.Abstraction.DocumentAccessHistory;
+﻿using DMS.Abstraction.DocumentAccessHistories;
 using DMS.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using DMS.Abstraction;
 namespace DMS
 {
     public class DocumentAccessHistoryService : IDocumentAccessHistoryService
@@ -23,6 +23,16 @@ namespace DMS
         public async Task<List<DocumentAccessHistory>> GetDocumentAccessHistory(int documentId)
         {
             return await _repository.GetDocumentAccessHistory(documentId);
+        }
+
+        public async Task InsertDocumentAccessLog(DocumentAccessHistory documentAccessHistory)
+        {
+            // Throws null exception if company value is null
+            if (documentAccessHistory == null)
+                throw new ArgumentNullException(nameof(documentAccessHistory), "Document Access History should not be null");
+
+            // returns new company with DepartmentId
+            await _repository.InsertDocumentAccessLog(documentAccessHistory);
         }
     }
 }

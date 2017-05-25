@@ -4,8 +4,10 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Injectable()
 export class PathFinder {
-    userUrl: string = `${AppSettings._PeerlessHRMSUrl}/User`;
-    loginUrl: string = `${AppSettings._PeerlessHRMSUrl}/Login`;
+    userUrl: string = `${AppSettings._DMSUrl}/User`;
+    loginUrl: string = `${AppSettings._DMSUrl}/Login`;
+    documentUrl: string = `${AppSettings._DMSUrl}/Document`;
+    AccessHistoryUrl: string = `${AppSettings._DMSUrl}/DocumentAccessHistory`;
 
     getJWT() {
         // create authorization header with jwt token
@@ -16,5 +18,12 @@ export class PathFinder {
             headers.append('Content-Type', 'application/json; charset=utf-8');
             return new RequestOptions({ headers: headers });
         }
+    }
+
+    getheaderWithoutJWT() {
+        let headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Contnet-Type', 'application/json: charset=utf-8');
+        return new RequestOptions({ headers: headers });
     }
 }

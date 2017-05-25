@@ -1,0 +1,53 @@
+﻿<div class="main_cantent_inner">
+    <h2>Document Access History</h2>
+    <div class="row">
+        <div class="col-lg-12 col_padding">
+            <div class="fields_container">
+                <div class="add_section">
+                    <h3>Document Access History</h3>
+                </div>
+            </div>
+        </div> 
+        <div class="col-lg-12 col_padding">
+            <div class="row">
+                <div class="view_department">
+                    <div class="panel panel-primary filterable ">
+                        <div class="table-responsive">
+                            <table class="table table-striped ">
+                                <thead>
+                                    <tr>
+                                        <th class="td-width-30">
+                                            Action
+                                        </th>
+                                        <th class="td-width-15">
+                                            Performed By
+                                        </th>
+                                        <th class="td-width-35">
+                                            Performed On
+                                        </th>                                        
+                                    </tr>                                    
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of filteredData">
+                                        <td>
+                                            {{item.action}}
+                                        </td>
+                                        <td>{{item.performedBy}}</td>
+                                        <td>{{item.performedOn}}</td>                                     
+                                    </tr>                                 
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4">
+                                            <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25,50]"></mfBootstrapPaginator>-->
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       
+    </div>
+</div>

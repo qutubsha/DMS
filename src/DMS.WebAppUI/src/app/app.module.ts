@@ -11,9 +11,17 @@ import { LoginModule } from './login/login.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuard } from './shared/auth.guard';
+
+import { DocumentModule } from './document/document.module';
+import { AccessHistoryModule } from './accesshistory/accesshistory.module';
+
+
 import { PathFinder } from './path-finder';
 import { RegistrationModule } from './login/registration.module';
+<<<<<<< HEAD
 import { UserProfileModule } from './user-profile/user-profile.module';
+=======
+>>>>>>> 15f35f1f64ba5ff5b4e543ff6cc5f01ee6e0cf7a
 
 @NgModule({
     declarations: [
@@ -28,8 +36,16 @@ import { UserProfileModule } from './user-profile/user-profile.module';
         AppRoutingModule,
         LoginModule,
         DashboardModule,
+<<<<<<< HEAD
         RegistrationModule,
         UserProfileModule
+=======
+        AccessHistoryModule,
+        DocumentModule,
+
+        RegistrationModule
+
+>>>>>>> 15f35f1f64ba5ff5b4e543ff6cc5f01ee6e0cf7a
     ],
     providers: [
         AuthGuard,
