@@ -115,8 +115,6 @@
     <Content Include="src\assets\css\plugins\morris.css" />
     <Content Include="src\assets\css\sb-admin-rtl.css" />
     <Content Include="src\assets\css\sb-admin.css" />
-    <Content Include="src\assets\font-awesome\css\font-awesome.css" />
-    <Content Include="src\assets\font-awesome\css\font-awesome.min.css" />
     <Content Include="src\assets\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="src\assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="src\assets\js\bootstrap.js" />
