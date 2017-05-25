@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DMS.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -28,16 +29,16 @@ namespace DMS.WebApi.Controllers
                 _logger.LogWarning(ex.ToString());
                 return BadRequest(ex.Message);
             }
-            //catch (NotFoundException ex)
-            //{
-            //    Log.Warn(ex.ToString());
-            //    return NotFound();
-            //}
-            //catch (RecordAlreadyExist ex)
-            //{
-            //    Log.Warn(ex.ToString());
-            //    return StatusCode(System.Net.HttpStatusCode.Conflict);
-            //}
+            catch (NotFoundException ex)
+            {
+                _logger.LogWarning(ex.ToString());
+                return NotFound();
+            }
+            catch (RecordAlreadyExist ex)
+            {
+                _logger.LogWarning(ex.ToString());
+                return StatusCode((int)System.Net.HttpStatusCode.Conflict);
+            }
             catch (FluentValidation.ValidationException ex)
             {
                 _logger.LogWarning(ex.ToString());

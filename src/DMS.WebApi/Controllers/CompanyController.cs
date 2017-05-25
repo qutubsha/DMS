@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DMS.WebApi.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CompanyController:BaseController<CompanyController>
     {
         readonly CompanyService _companyService;
@@ -22,7 +22,13 @@ namespace DMS.WebApi.Controllers
             _companyService = new CompanyService(repository);
         }
 
-        [HttpPut]
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Execute(()=>Ok("Get Something"));
+        }
+
+        [HttpPost]
         public IActionResult AddCompany([FromBody]Company company)
         {
             return Execute(() => Ok(_companyService.AddCompany(company)));

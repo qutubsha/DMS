@@ -19,4 +19,11 @@ export class PathFinder {
             return new RequestOptions({ headers: headers });
         }
     }
+
+    getheaderWithoutJWT() {
+        let headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Contnet-Type', 'application/json: charset=utf-8');
+        return new RequestOptions({ headers: headers });
+    }
 }

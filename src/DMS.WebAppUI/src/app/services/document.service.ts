@@ -14,13 +14,14 @@ export class DocumentService {
 
 
     getDocuments(): Observable<IDocument[]> {
-        let headers = new Headers();
-        headers.append('Accept', 'application/json');
-        headers.append('Content-Type', 'application/json; charset=utf-8');
-        headers.append('Access-Control-Allow-Origin', ' *');
-        //let body = JSON.stringify(username);
-        let options = new RequestOptions({ headers: headers });
-        return this._http.get(this._pathfinder.documentUrl, options)
+        //let headers = new Headers();
+        //headers.append('Accept', 'application/json');
+        //headers.append('Content-Type', 'application/json; charset=utf-8');
+        //headers.append('Access-Control-Allow-Origin', ' *');
+        ////let body = JSON.stringify(username);
+        //let options = new RequestOptions({ headers: headers });
+
+        return this._http.get(this._pathfinder.documentUrl, this._pathfinder.getheaderWithoutJWT())
             .map((response: Response) => <IDocument>response.json())
             .catch(err => this.handleError(err));
     }
