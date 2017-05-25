@@ -7,6 +7,7 @@ export class PathFinder {
     userUrl: string = `${AppSettings._DMSUrl}/User`;
     loginUrl: string = `${AppSettings._DMSUrl}/Login`;
     documentUrl: string = `${AppSettings._DMSUrl}/Document`;
+    AccessHistoryUrl: string = `${AppSettings._DMSUrl}/DocumentAccessHistory`;
 
     getJWT() {
         // create authorization header with jwt token

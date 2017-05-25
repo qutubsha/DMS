@@ -20,54 +20,51 @@ namespace DMS.WebApi.Controllers
         readonly DocumentService _documentService;
 
         public DocumentController(ILogger<DocumentController> logger, IOptions<Settings> settings) : base(logger)
-        { 
+        {
             var repository = new DocumentRepository(settings);
             _documentService = new DocumentService(repository);
         }
 
         // GET: api/values
         [HttpGet]
-        public List<Document> Get()
+        public IActionResult Get()
         {
-            //var SCollection = new ServiceCollection();
-            //SCollection.AddDataProtection();
-            //var SerPro = SCollection.BuildServiceProvider();
-            //CipherService cipherService = ActivatorUtilities.CreateInstance<Class.CipherService>(SerPro);
-
-            //string input = "1/10-10-2017";
-            //string encrypted = cipherService.Encrypt(input);
-            //string decrypted = cipherService.Decrypt(encrypted);
-            //string url = "http://localhost:56833/api/Document/";
 
             //return new string[] { input, encrypted, decrypted , url+encrypted};
-            return _documentService.GetAllDocuments(false, 1).Result;//new string[] { "value1", "value2" };
+            return Execute(() => Ok(_documentService.GetAllDocuments(false, 1).Result));//new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //[HttpGet("id/durationInHours")]
+        //public string GetShareDocumentURL(int id, double durationInHours)
+        //{
+        //    //TODO Check permission before sharing document URL
+
+        //    var SCollection = new ServiceCollection();
+        //    SCollection.AddDataProtection();
+        //    var SerPro = SCollection.BuildServiceProvider();
+        //    CipherService cipherService = ActivatorUtilities.CreateInstance<Class.CipherService>(SerPro);
+
+        //    DateTime expiry = DateTime.Now.AddHours(durationInHours);
+
+        //    string input = id + "_" + expiry.ToString();
+        //    string encrypted = cipherService.Encrypt(input);
+        //    string decrypted = cipherService.Decrypt(encrypted);
+        //    string url = Request.Host + "/document/download/" + input;
+        //    return url;
+        //}
 
         [HttpPost]
-        public IActionResult AddDocument([FromBody]Document document,[FromBody]byte[] file)
+        public IActionResult AddDocument([FromBody]Document document, [FromBody]byte[] file)
         {
             // TODO : Check add permission, save document in repository, check date time issue
             return Execute(() => Ok(_documentService.AddDocument(document, file)));
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public async Task Delete(int id,int loginid)
+        public IActionResult Delete(int id, int loginid)
         {
-             await _documentService.DeleteDocument(id, loginid);
+            return Execute(() => Ok(_documentService.DeleteDocument(id, loginid)));
         }
     }
 }

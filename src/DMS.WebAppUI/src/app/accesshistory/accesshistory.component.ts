@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 //import { DataTable } from '../angular2-datatable/datatable';
 import { IAccessHistory, AccessHistory } from './accesshistory';
 //import { DataTablesModule } from 'angular-datatables';
-
+import { DocumentService } from '../services/document.service';
 //import { GlobalVariable, IDictionary } from '../shared/global';
 //import { IUser, User, IUserRoleRights } from './login';
 import 'rxjs/Rx';
@@ -18,100 +18,38 @@ export class AccessHistoryComponent {
     private errorMessage: string;
     private data: IAccessHistory[]; // data is the default name for Angular 2 datatable used in equipment listing
     private filteredData: IAccessHistory[];
-    private equipmentListFilter = '';
- //   private rowsOnPage = GlobalVariable.rowsOnPage;
     private activePage = 1;
     private sortBy = 'Action';
     private sortOrder = 'asc';
-    private equipment: IAccessHistory;
-    private FileNameFilter = '';
-    private ExtensionFilter = '';
-    private CreatedByFilter = '';
-    private IsSharedFilter = '';
-    private closeOpenEquipmentUrl: string = 'assets/images/sort_close.png';
     private notificationTitle: string = '';
     private notificationContent: string = '';
     private filters: IDictionary[];
     //private currentUser: IUser;
-    //busy: Subscription;
+    busy: Subscription;
     //@ViewChild('mf') mf: DataTable; // used for resetting datatable paging Index after filtering data
-    private SearchEquipment: boolean = false;
 
     // default constructor of the Equipment class, initiate Equipment service here
-    constructor(private router: Router) {
+    constructor(private router: Router,private _documentservice :DocumentService) {
     }
 
     // onInit method for the Equipment class, initialize Equipment data used for binding UI form fields, 
     // call getEquipments service for binding list Equipment 
     ngOnInit(): void {
-        
+        this.getAccessHistory();
     }
 
-    // gets Equipments from Web API and binds to Equipment list 
-    getCheckedOutEquipments() {
-
-        //this.busy = this._equipmentService.getCheckedOutEquipments()
-        //    .subscribe(data => {
-        //        // this.data = data;
-        //        this.data = data;
-        //        for (var i = 0; i < this.data.length; i++) {
-        //            if (this.data[i].LastCheckoutTime != null && this.data[i].LastCheckoutTime != undefined && this.data[i].LastCheckoutTime != "") {
-        //                this.data[i].LastCheckoutTime = this._sharedService.parseDateTimeToStringWithFormat(this.data[i].LastCheckoutTime);
-        //            }
-        //        }
-        //        this.filteredData = this.data;
-        //    },
-        //    error => {
-        //        this.errorMessage = <any>error;
-        //        this.notificationTitle = this.errorMessage;
-        //        this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
-        //    });
-    }
-
-    filterDocuments() {
-        let FileNameFilter = this.FileNameFilter ? this.FileNameFilter.toLocaleLowerCase() : null;
-        let ExtensionFilter = this.ExtensionFilter ? this.ExtensionFilter.toLocaleLowerCase() : null;
-        let CreatedByFilter = this.CreatedByFilter ? this.CreatedByFilter.toLocaleLowerCase() : null;
-        let IsSharedFilter = this.IsSharedFilter ? this.IsSharedFilter.toLocaleLowerCase() : null;
-
-
-        this.filters = [];
-        if (FileNameFilter != null)
-            this.filters.push({ key: 'FileName', value: FileNameFilter });
-        if (ExtensionFilter != null)
-            this.filters.push({ key: 'Extension', value: ExtensionFilter });
-        if (CreatedByFilter != null)
-            this.filters.push({ key: 'CreatedBy', value: CreatedByFilter});
-        if (IsSharedFilter != null)
-            this.filters.push({ key: 'IsShared', value: IsSharedFilter });
-
-        this.filteredData = this.data;
-
-        for (var i = 0; i < this.filters.length; i++) {
-            let tempData: IAccessHistory[];
-            //if (this.filters[i].key == 'LastCheckoutTime') {
-            //    alert(this.filters[i].value);
-            //    tempData = this.filteredData.filter((equipment: IEquipment) =>
-            //        equipment['LastCheckoutTime'] != null && equipment['LastCheckoutTime'].toString() != '' &&
-            //        this._sharedService.parseDateTimeToStringWithFormat(equipment['LastCheckoutTime'].toString()).toString().startsWith(this.filters[i].value.toString()));
-            //}
-            //else
-            {
-                tempData = this.filteredData.filter((equipment: IAccessHistory) =>
-                    equipment[this.filters[i].key] != null && equipment[this.filters[i].key].toString() != '' &&
-                    equipment[this.filters[i].key].toString().toLocaleLowerCase().indexOf(this.filters[i].value.toString()) != -1);
-            }
-            this.filteredData = tempData;
-        }
-
-    }
-
-
-    // Resets the pagination for filtered data
-    public resetPagination() {
-      //  this.mf.setPage(1, this.mf.rowsOnPage);
-    }
+    getAccessHistory()
+    {
+    this.busy = this._documentservice.getAccessHistory("1")
+        .subscribe(data => {
+            this.filteredData = data;
+        },
+        error => {
+            this.errorMessage = <any>error;
+            this.notificationTitle = this.errorMessage;
+        });
 }
+ }
 
 
 
