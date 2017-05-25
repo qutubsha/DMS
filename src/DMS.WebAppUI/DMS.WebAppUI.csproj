@@ -167,7 +167,7 @@
     <TypeScriptCompile Include="src\app\login\registration.module.ts" />
     <TypeScriptCompile Include="src\app\path-finder.ts" />
     <TypeScriptCompile Include="src\app\roles\roles.component.ts" />
-    <TypeScriptCompile Include="src\app\services\document.service.ts" />
+<TypeScriptCompile Include="src\app\services\document.service.ts" />
     <TypeScriptCompile Include="src\app\services\user.service.ts" />
     <TypeScriptCompile Include="src\app\shared\auth.guard.ts" />
     <TypeScriptCompile Include="src\app\shared\global.ts" />
