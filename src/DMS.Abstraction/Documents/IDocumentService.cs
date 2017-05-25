@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using DMS.Abstraction.Revisions;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,14 @@ namespace DMS.Abstraction.Documents
 
         Task<DeleteResult> DeleteDocument(int documentId, int loginId);
 
-        //Task<Document> CheckOutDocument(string documentId, string loginId);
+        Task<Document> CheckOutDocument(int documentId, int loginId);
 
         //Task CheckInDocument(Document document, byte[] file);
 
         Task<List<Document>> GetAllDocuments(bool IsShared, int loginId);
+
+        Task<List<Revision>> GetVersionDetails(int IsShared, int loginId);
+
+        Task<Document> GetDocumentById(int documentId, int loginId);
     }
 }
