@@ -22,15 +22,15 @@ namespace DMS.Abstraction
          bool IsDeleted { get; set; }
 
          string CreatedBy { get; set; }
-         DateTime CreatedOn { get; set; }
+         DateTime? CreatedOn { get; set; }
 
          string ModifiedBy { get; set; }
-         DateTime ModifiedOn { get; set; }
+         DateTime? ModifiedOn { get; set; }
 
          string DeletedBy { get; set; }
-         DateTime DeletedOn { get; set; }
+         DateTime? DeletedOn { get; set; }
 
-         DateTime LastLoginAttempt { get; set; }
+         DateTime? LastLoginAttempt { get; set; }
 
         string[] Picture { get; set; }
 

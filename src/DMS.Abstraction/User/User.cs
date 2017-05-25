@@ -10,11 +10,11 @@ namespace DMS.Abstraction
 
         public User()
         {
-            Roles = new List<IRole>();
+            Roles = new List<Role>();
         }
 
 
-        public List<IRole> Roles { get; set; }
+        public List<Role> Roles { get; set; }
 
         public int UserId { get; set; }
 
@@ -30,15 +30,15 @@ namespace DMS.Abstraction
         public bool IsDeleted { get; set; }
 
         public string CreatedBy { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
 
         public string ModifiedBy { get; set; }
-        public DateTime ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
 
         public string DeletedBy { get; set; }
-        public DateTime DeletedOn { get; set; }
+        public DateTime? DeletedOn { get; set; }
 
-        public DateTime LastLoginAttempt { get; set; }
+        public DateTime? LastLoginAttempt { get; set; }
 
         public string[] Picture { get; set; }
 

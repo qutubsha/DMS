@@ -56,9 +56,13 @@ namespace DMS.WebApi
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<IDocumentRepository, DocumentRepository>();
 
+
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserService, UserService>();
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "DMS API", Version = "v1" });
             });
         }
 
@@ -80,7 +84,7 @@ namespace DMS.WebApi
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DMS API V1");
             });
         }
     }
