@@ -26,14 +26,8 @@ export class DocumentService {
             .catch(err => this.handleError(err));
     }
 
-    getAccessHistory(documentId : string): Observable<IAccessHistory[]> {
-        let headers = new Headers();
-        headers.append('Accept', 'application/json');
-        headers.append('Content-Type', 'application/json; charset=utf-8');
-        headers.append('Access-Control-Allow-Origin', ' *');
-        //let body = JSON.stringify(username);
-        let options = new RequestOptions({ headers: headers });
-        return this._http.get(this._pathfinder.AccessHistoryUrl + "/" + documentId, options)
+    getAccessHistory(documentId: string): Observable<IAccessHistory[]> {
+        return this._http.get(this._pathfinder.AccessHistoryUrl + "/" + documentId, this._pathfinder.getheaderWithoutJWT())
             .map((response: Response) => <IAccessHistory>response.json())
             .catch(err => this.handleError(err));
     }

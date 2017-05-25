@@ -3,11 +3,11 @@ import { RouterModule } from '@angular/router';
 
 import { DocumentComponent } from './document.component';
 import { DocumentService } from '../services/document.service';
-import {CommonModule } from '@angular/common';
+import {SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
-        CommonModule
+        SharedModule
     ],
     declarations: [
         DocumentComponent
