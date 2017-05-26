@@ -5,6 +5,7 @@ import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { NotificationsService, SimpleNotificationsComponent, PushNotificationsService } from 'angular2-notifications';
 
 @Component({
     templateUrl: './login.component.html',

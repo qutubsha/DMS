@@ -5,10 +5,13 @@ import { EqualValidator } from '../shared/appequal-validator.directive';
 //import { DataTableModule } from '../angular2-datatable/datatable.module';
 import { DataTableModule } from "angular2-datatable";
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { SimpleNotificationsModule } from 'angular2-notifications';
+
 @NgModule({
     imports: [
         Ng2Bs3ModalModule,
-        CommonModule
+        CommonModule,
+        SimpleNotificationsModule
     ],
     declarations: [EqualValidator],
     exports: [
@@ -16,11 +19,9 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
         Ng2Bs3ModalModule,
         DataTableModule,
         FormsModule,
-
+        SimpleNotificationsModule,
         FormsModule,
         EqualValidator
-
-
     ]
 })
 export class SharedModule { }
