@@ -167,17 +167,15 @@
     <TypeScriptCompile Include="src\app\login\registration.module.ts" />
     <TypeScriptCompile Include="src\app\path-finder.ts" />
     <TypeScriptCompile Include="src\app\roles\roles.component.ts" />
+    <TypeScriptCompile Include="src\app\roles\roles.module.ts" />
+    <TypeScriptCompile Include="src\app\roles\roles.ts" />
     <TypeScriptCompile Include="src\app\services\document.service.ts" />
+    <TypeScriptCompile Include="src\app\services\roles.service.ts" />
     <TypeScriptCompile Include="src\app\services\user.service.ts" />
-    <TypeScriptCompile Include="src\app\shared\appequal-validator.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\auth.guard.ts" />
-    <TypeScriptCompile Include="src\app\shared\compare-validator.directive.spec.ts" />
-    <TypeScriptCompile Include="src\app\shared\compare-validator.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\global.ts" />
-    <TypeScriptCompile Include="src\app\shared\linq.ts" />
-    <TypeScriptCompile Include="src\app\shared\multiselect-dropdown.ts" />
-    <TypeScriptCompile Include="src\app\shared\multiselect-list.ts" />
     <TypeScriptCompile Include="src\app\shared\shared.module.ts" />
+    <TypeScriptCompile Include="src\app\shared\shared.service.ts" />
     <TypeScriptCompile Include="src\app\user-profile\user-profile.component.ts" />
     <TypeScriptCompile Include="src\app\user-profile\user-profile.module.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
@@ -239,9 +237,7 @@
   <ItemGroup>
     <Content Include="npm-debug.log" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\app\angular2-datatable\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

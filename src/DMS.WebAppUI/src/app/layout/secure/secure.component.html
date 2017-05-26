@@ -131,7 +131,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a routerLink="/dashboard" routerLinkActive="active"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#dm"><i class="fa fa-fw fa-file-text-o"></i> Document Mgmt <i class="fa fa-fw fa-caret-down"></i></a>
@@ -163,19 +163,16 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#admin"><i class="fa fa-fw fa-user-circle-o"></i> Admin <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="admin" class="collapse">
                             <li>
-                                <a href="#">Document List(All)</a>
+                                <a href="#">Configuration Settings</a>
                             </li>
                             <li>
-                                <a href="#">Personal Documents</a>
+                                <a routerLink="/roles" routerLinkActive="active">Roles</a>
                             </li>
                             <li>
-                                <a href="#">Shared Documents</a>
+                                <a href="#">Rights</a>
                             </li>
                             <li>
-                                <a href="#">Shared With Me</a>
-                            </li>
-                            <li>
-                                <a href="#">Shared By Me</a>
+                                <a href="#">Manage Users</a>
                             </li>
                         </ul>
                     </li>
@@ -223,10 +220,8 @@
         </nav>
         <div id="page-wrapper">
             <div class="container-fluid">
-
-
                 <router-outlet></router-outlet>
-
+                <simple-notifications [options]="notificationOptions"></simple-notifications>
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->

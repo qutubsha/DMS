@@ -5,7 +5,9 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DMS.Repository
@@ -21,13 +23,18 @@ namespace DMS.Repository
 
         public async Task AddDocument(Document document, byte[] file)
         {
+            //TODO Check permission, validate request, save file, add transaction, set identity and use it
+            string basePath = Path.GetTempPath();
             await _context.Documents.InsertOneAsync(document);
+            string filePath = CreateDocumentPath(basePath, document.DocumentId, document.CurrentVersion,
+                            document.CurrentRevision, document.Extension);
+            //TODO : check if filepath is null
+            Revision revision = CreateRevision(document.DocumentId, document.FileName, document.Extension, 
+                    document.CreatedBy, 1, 1, "Created", "Created", filePath);
+           
+            // TODO : Save file on this path 
+            await _context.Revisions.InsertOneAsync(revision);
         }
-
-        //Task<Document> GetDocument(string loginId, string documentId, string versionId = null, string revisionId = null)
-        //{
-
-        //}
 
         public async Task<Document> DeleteDocument(int documentId, int loginId)
         {
@@ -78,40 +85,41 @@ namespace DMS.Repository
             Document document = await _context.Documents.Find(filter).FirstOrDefaultAsync();
             if (document != null)
             {
+                string basePath = Path.GetTempPath();
                 //TODO : check permission if user is allowed to check in document and document is check out by same user or not
-                
+
                 // check if document is checked out or not
                 if (document.LockedBy == loginId)
                 {
-                    //Enter revision detailin revision table
-                    Revision revision = new Revision();
-                    revision.DocumentId = documentId;
-                    revision.FileName = fileName;
-                    revision.Extension = extension;
-                    revision.ModifiedBy = loginId;
-                    //revision.ModifiedOn = passdate
+                    //Enter revision detail in revision table
+                    int revisionId = 0;
+                    int versionId = 0;
+
                     if (isNewRevision)
                     {
-                        revision.RevisionId = document.CurrentRevision + 1;
-                        revision.VersionId = document.CurrentVersion;
+                        revisionId = document.CurrentRevision + 1;
+                        versionId = document.CurrentVersion;
                     }
                     else
                     {
-                        revision.VersionId = document.CurrentVersion + 1;
-                        revision.RevisionId = 1;
+                        versionId = document.CurrentVersion + 1;
+                        revisionId = 1;
                     }
-                    //revision.Path = "";
-                    revision.What = what;
-                    revision.Why = why;
-                    //revision.size
 
+                    string filePath = CreateDocumentPath(basePath, document.DocumentId, versionId,
+                                    revisionId, document.Extension);
+                    //TODO : check if filepath is null
+                    Revision revision = CreateRevision(documentId, fileName, extension, loginId, 
+                        revisionId, versionId, what, why, filePath);
+                 
                     await _context.Revisions.InsertOneAsync(revision);
 
+                    // TODO : Save file on this path 
                     //Update document table accordingly
                     var update = Builders<Document>.Update.Set(s => s.FileName, fileName)
                                                       .Set(s => s.Extension, extension)
-                                                      .Set(s => s.CurrentRevision, revision.RevisionId)
-                                                      .Set(s => s.CurrentVersion, revision.VersionId)
+                                                      .Set(s => s.CurrentRevision, revisionId)
+                                                      .Set(s => s.CurrentVersion, versionId)
                                                       .Set(s => s.LockedBy, null);
                    
                     await _context.Documents.UpdateOneAsync(filter, update);
@@ -139,6 +147,56 @@ namespace DMS.Repository
             //TODO : Get documentson which user has rights
             var filter = Builders<Revision>.Filter.Eq("DocumentId", documentId);
             return await _context.Revisions.Find(filter).ToListAsync();
+        }
+
+        public async Task<Document> TagDocument(int documentId, int loginId, string tags)
+        {
+            // TODO : Check permission 
+            var filter = Builders<Document>.Filter.Eq("DocumentId", documentId);
+            Document document = await _context.Documents.Find(filter).FirstOrDefaultAsync();
+
+            if (document != null)
+            {
+                var update = Builders<Document>.Update.Set(s => s.DocumentTags, tags);
+                await _context.Documents.UpdateOneAsync(filter, update);
+            }
+            return document;
+        }
+
+        private Revision CreateRevision(int documentId, string fileName, string extension, int loginId, int revisionId, 
+                            int versionId, string what, string why, string path)
+        {
+            Revision revision = new Revision();
+            revision.DocumentId = documentId;
+            revision.FileName = fileName;
+            revision.Extension = extension;
+            revision.ModifiedBy = loginId;
+            revision.VersionId = versionId;
+            revision.RevisionId = revisionId;
+            revision.ModifiedOn = DateTime.Now;
+            revision.Path = path;
+            revision.What = what;
+            revision.Why = why;
+            //revision.size
+
+            return revision;
+        }
+
+        private string CreateDocumentPath (string basePath, int documentd, int versionId, 
+                int revisionId, string extension)
+        {
+            string path = null;
+            if (Directory.Exists(basePath))
+            {
+                path = Path.Combine(basePath, documentd.ToString(), versionId.ToString());
+                
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                path += Path.DirectorySeparatorChar + revisionId.ToString() + "." + extension;
+            }
+            return path;
         }
     }
 }

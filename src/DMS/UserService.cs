@@ -29,6 +29,11 @@ using DMS.Validator;
             return await _repository.ValidateLoginAttempt(userId);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task<User> AddUser(User user)
         {
             // Throws null exception if user value is null
@@ -39,6 +44,23 @@ using DMS.Validator;
 
             // returns new user
             return await _repository.AddUser(user);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="oldPwd"></param>
+        /// <param name="newPwd"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdatePassword(string userName, string oldPwd, string newPwd)
+        {  
+            // Throws null exception if user value is null
+            if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException(nameof(userName), "User Name should not be empty");
+            if (string.IsNullOrEmpty(oldPwd)) throw new ArgumentNullException(nameof(oldPwd), "Password should not be empty");
+            if (string.IsNullOrEmpty(newPwd)) throw new ArgumentNullException(nameof(newPwd), "New Password should not be empty");
+
+            return await _repository.UpdatePassword(userName, oldPwd, newPwd);
         }
     }
 }

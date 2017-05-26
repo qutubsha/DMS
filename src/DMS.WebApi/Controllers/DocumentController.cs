@@ -22,7 +22,8 @@ namespace DMS.WebApi.Controllers
         public DocumentController(ILogger<DocumentController> logger, IOptions<Settings> settings) : base(logger)
         {
             var repository = new DocumentRepository(settings);
-            _documentService = new DocumentService(repository);
+            var accessrepository = new DocumentAccessHistoryRepository(settings);
+            _documentService = new DocumentService(repository, accessrepository);
         }
 
         [HttpGet]
@@ -85,6 +86,13 @@ namespace DMS.WebApi.Controllers
         {
             //TODO : Check permission, validate request
             return Execute(() => Ok(_documentService.CheckOutDocument(documentId, loginId)));
+        }
+
+        [HttpPut("TagDocument/{id}")]
+        public IActionResult TagDocument(int id, int loginId,string tags)
+        {
+            //TODO : Check permission, validate request
+            return Execute(() => Ok(_documentService.TagDocument(id, loginId,tags)));
         }
 
         [HttpGet("versions/{id}")]

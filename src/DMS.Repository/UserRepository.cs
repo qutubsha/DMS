@@ -70,11 +70,45 @@ namespace DMS.Repository
         public async Task<User> AddUser(User user)
         {
             if (null != user)
-                await _context.Users.InsertOneAsync(user);
+            {
+                //var filter =         
+                var filter = Builders<User>.Filter.Eq("UserName", user.UserName);
+                var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
+                if (null == objUser)
+                {
+                    await _context.Users.InsertOneAsync(user);
+                }
+                else
+                    user = null;
+            }
             else
                 user = null;
 
             return user;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="oldPwd"></param>
+        /// <param name="newPwd"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdatePassword(string userName, string oldPwd, string newPwd)
+        {
+            if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(oldPwd) && !string.IsNullOrEmpty(newPwd))
+            {
+                var filter = Builders<User>.Filter.Eq("UserName", userName) & Builders<User>.Filter.Eq("Password", oldPwd);
+                var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
+                if (null != objUser)
+                {
+                    var update = Builders<User>.Update.Set("Password", newPwd);
+                    await _context.Users.UpdateOneAsync(filter, update);
+                    return true;
+                }
+                else { return false; }
+            }
+            else { return false; }
         }
     }
 }

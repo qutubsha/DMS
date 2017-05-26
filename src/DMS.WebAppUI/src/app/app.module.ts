@@ -11,12 +11,13 @@ import { LoginModule } from './login/login.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuard } from './shared/auth.guard';
-
 import { DocumentModule } from './document/document.module';
 import { AccessHistoryModule } from './accesshistory/accesshistory.module';
 import { PathFinder } from './path-finder';
 import { RegistrationModule } from './login/registration.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
+import { RolesModule } from './roles/roles.module';
+import { SimpleNotificationsModule, PushNotificationsModule } from 'angular2-notifications';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,10 @@ import { UserProfileModule } from './user-profile/user-profile.module';
         UserProfileModule,
         AccessHistoryModule,
         DocumentModule,
-        RegistrationModule
+        RegistrationModule,
+        RolesModule,
+        SimpleNotificationsModule,
+        PushNotificationsModule
     ],
     providers: [
         AuthGuard,

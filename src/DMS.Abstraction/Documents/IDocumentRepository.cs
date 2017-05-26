@@ -26,5 +26,7 @@ namespace DMS.Abstraction.Documents
         Task<List<Revision>> GetVersionDetails(int IsShared, int loginId);
 
         Task<Document> GetDocumentById(int documentId, int loginId);
+
+        Task<Document> TagDocument(int documentId, int loginId, string tags);
     }
 }
