@@ -45,8 +45,9 @@ namespace DMS.Repository
         public async Task<User> Login(string userName, string password)
         {
             //User objUser = new User();
-            var filter = Builders<User>.Filter.And("[{UserName:" + userName + "},{Password:" + password + "}]");
-             var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
+           
+            var filter = Builders<User>.Filter.And("[{UserName:" + userName + "},{Password:" + password + "}]");           
+            var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
             if (objUser == null)
             {
                 filter = Builders<User>.Filter.Eq("UserName", userName);
@@ -65,6 +66,14 @@ namespace DMS.Repository
             return objUser;
         }
 
+        public async Task<User> AddUser(User user)
+        {
+            if (null != user)
+                await _context.Users.InsertOneAsync(user);
+            else
+                user = null;
 
+            return user;
+        }
     }
 }

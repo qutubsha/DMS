@@ -52,6 +52,12 @@ namespace DMS.WebApi.Controllers
             return Json(new { User = objUser, IsSuccess = true, Message=Message });
         }
 
+        [HttpPost]
+        public IActionResult AddUser([FromBody]User user)
+        {
+            return Execute(() => Ok(_userService.AddUser(user)));
+        }
+
 
     }
 }
