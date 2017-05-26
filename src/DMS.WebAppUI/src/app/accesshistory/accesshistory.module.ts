@@ -3,11 +3,11 @@ import { RouterModule } from '@angular/router';
 
 import { AccessHistoryComponent } from './accesshistory.component';
 //import { DataTablesModule } from 'angular-datatables';
-import {CommonModule } from '@angular/common';
+import {SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
-        CommonModule
+        SharedModule
     ],
     declarations: [
         AccessHistoryComponent

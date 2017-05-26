@@ -10,6 +10,8 @@ using DMS.Validator;
 {
     public class UserService : IUserService
     {
+        private static UserValidator UserValidator { get; } = new UserValidator();
+
         private IUserRepository _repository;
 
         public UserService(IUserRepository repository)
@@ -25,6 +27,18 @@ using DMS.Validator;
         public async Task<bool> ValidateLoginAttempt(int userId)
         {
             return await _repository.ValidateLoginAttempt(userId);
+        }
+
+        public async Task<User> AddUser(User user)
+        {
+            // Throws null exception if user value is null
+            if (user == null) throw new ArgumentNullException(nameof(user), "User should not be null");
+
+            // Validate user before saving it to database
+            UserValidator.IsValid(user);
+
+            // returns new user
+            return await _repository.AddUser(user);
         }
     }
 }

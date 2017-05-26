@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace DMS.Abstraction
 {
+    [BsonIgnoreExtraElements]
     public class User : IUser
     {
 
@@ -13,7 +16,7 @@ namespace DMS.Abstraction
             Roles = new List<Role>();
         }
 
-
+      
         public List<Role> Roles { get; set; }
 
         public int UserId { get; set; }

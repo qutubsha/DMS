@@ -1,10 +1,11 @@
-﻿
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IUser, User} from './login';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+
 @Component({
     templateUrl: './login.component.html',
 })
@@ -12,9 +13,12 @@ export class LoginComponent {
     private user: IUser;
     private username: string;
     private password: string;
+    private forgotname: string;
     private notificationTitle: string = '';
     private notificationContent: string = '';
     private errorMessage: string;
+    private isusernameClicked: boolean = false;
+    private isusernameValid: boolean = false;
     busy: Subscription;
     constructor(
         private router: Router,
@@ -33,7 +37,7 @@ export class LoginComponent {
             data => {
                 if (data != null) {
                     this.user = data;
-                    localStorage.setItem('currentUser', JSON.stringify(this.user));
+                    //localStorage.setItem('currentUser', JSON.stringify(this.user));
                     this.router.navigate(['/dashboard']);
                 }
                 else {
@@ -53,5 +57,13 @@ export class LoginComponent {
             }
         );
 
+    }
+
+
+    CancelClick() {
+        this.isusernameClicked = false;
+        this.isusernameValid = false;
+        this.forgotname = '';
+        document.getElementById('btndisputeModal').click();
     }
 }
