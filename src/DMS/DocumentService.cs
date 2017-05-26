@@ -36,7 +36,7 @@ namespace DMS
 
         //Task<Document> GetDocument(string loginId, string documentId, string versionId = null, string revisionId = null);
 
-        public async Task<DeleteResult> DeleteDocument(int documentId, int loginId)
+        public async Task<Document> DeleteDocument(int documentId, int loginId)
         {
             return await _repository.DeleteDocument(documentId, loginId);
         }
