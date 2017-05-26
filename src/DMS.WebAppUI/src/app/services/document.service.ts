@@ -32,6 +32,12 @@ export class DocumentService {
             .catch(err => this.handleError(err));
     }
 
+    CheckinCheckOutDocument(documentId: number, loginId: number) {
+        return this._http.put(this._pathfinder.documentUrl + "?documentId=" + documentId + "&loginId=" + loginId, this._pathfinder.getheaderWithoutJWT())
+            .map((response: Response) => <IAccessHistory>response.json())
+            .catch(err => this.handleError(err));
+    }
+
     //Error Handling
     private handleError(error: Response) {
         return Observable.throw(error.json().Message || 'Server error');
