@@ -13,9 +13,9 @@ namespace DMS.Abstraction
 
         string Extension { get; set; }
 
-        string CreatedBy { get; set; }
+        int CreatedBy { get; set; }
 
-        //string CreatedOn { get; set; }
+        //DateTime CreatedOn { get; set; }
 
         string ModifiedBy { get; set; }
 
@@ -23,9 +23,9 @@ namespace DMS.Abstraction
 
         bool IsDeleted { get; set; }
 
-        string DeletedBy { get; set; }
+        int? DeletedBy { get; set; }
 
-        //string DeletedOn { get; set; }
+        DateTime DeletedOn { get; set; }
 
         int CurrentVersion { get; set; }
 
@@ -33,7 +33,7 @@ namespace DMS.Abstraction
 
         bool IsShared { get; set; }
 
-        int LockedBy { get; set; }
+        int? LockedBy { get; set; }
 
         byte[] DocumentData { get; set; }
 

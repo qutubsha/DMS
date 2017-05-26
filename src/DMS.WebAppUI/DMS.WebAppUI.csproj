@@ -25,7 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -99,15 +99,18 @@
     <Content Include=".gitignore" />
     <Content Include="karma.conf.js" />
     <Content Include="protractor.conf.js" />
+    <Content Include="src\app\accesshistory\accesshistory.component.html" />
     <Content Include="src\app\app.component.css" />
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\dashboard\dashboard.component.html" />
-    <Content Include="src\app\accesshistory\accesshistory.component.html" />
     <Content Include="src\app\document\document.component.html" />
     <Content Include="src\app\layout\public\public.component.html" />
     <Content Include="src\app\layout\secure\secure.component.html" />
     <Content Include="src\app\login\login.component.html" />
     <Content Include="src\app\login\registration.component.html" />
+    <Content Include="src\app\roles\roles.component.html" />
+    <Content Include="src\app\user-profile\user-profile.component.html" />
+    <Content Include="src\app\user-profile\user-profile.component-1.html" />
     <Content Include="src\assets\css\bootstrap-rtl.css" />
     <Content Include="src\assets\css\bootstrap-rtl.min.css" />
     <Content Include="src\assets\css\bootstrap.css" />
@@ -115,8 +118,6 @@
     <Content Include="src\assets\css\plugins\morris.css" />
     <Content Include="src\assets\css\sb-admin-rtl.css" />
     <Content Include="src\assets\css\sb-admin.css" />
-    <Content Include="src\assets\font-awesome\css\font-awesome.css" />
-    <Content Include="src\assets\font-awesome\css\font-awesome.min.css" />
     <Content Include="src\assets\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="src\assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="src\assets\js\bootstrap.js" />
@@ -142,6 +143,9 @@
   <ItemGroup>
     <TypeScriptCompile Include="e2e\app.e2e-spec.ts" />
     <TypeScriptCompile Include="e2e\app.po.ts" />
+    <TypeScriptCompile Include="src\app\accesshistory\accesshistory.component.ts" />
+    <TypeScriptCompile Include="src\app\accesshistory\accesshistory.module.ts" />
+    <TypeScriptCompile Include="src\app\accesshistory\accesshistory.ts" />
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
@@ -149,13 +153,8 @@
     <TypeScriptCompile Include="src\app\appSettings.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.module.ts" />
-    <TypeScriptCompile Include="src\app\accesshistory\accesshistory.component.ts" />
-    <TypeScriptCompile Include="src\app\accesshistory\accesshistory.module.ts" />
-    <TypeScriptCompile Include="src\app\accesshistory\accesshistory.ts" />
     <TypeScriptCompile Include="src\app\document\document.component.ts" />
-    <TypeScriptCompile Include="src\app\document\document.module.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\document\document.module.ts" />
     <TypeScriptCompile Include="src\app\document\document.ts" />
     <TypeScriptCompile Include="src\app\layout\public\public.component.ts" />
     <TypeScriptCompile Include="src\app\layout\public\public.routes.ts" />
@@ -167,9 +166,14 @@
     <TypeScriptCompile Include="src\app\login\registration.component.ts" />
     <TypeScriptCompile Include="src\app\login\registration.module.ts" />
     <TypeScriptCompile Include="src\app\path-finder.ts" />
-    <TypeScriptCompile Include="src\app\services\document.service.ts" />
+    <TypeScriptCompile Include="src\app\roles\roles.component.ts" />
+<TypeScriptCompile Include="src\app\services\document.service.ts" />
     <TypeScriptCompile Include="src\app\services\user.service.ts" />
     <TypeScriptCompile Include="src\app\shared\auth.guard.ts" />
+    <TypeScriptCompile Include="src\app\shared\global.ts" />
+    <TypeScriptCompile Include="src\app\shared\shared.module.ts" />
+    <TypeScriptCompile Include="src\app\user-profile\user-profile.component.ts" />
+    <TypeScriptCompile Include="src\app\user-profile\user-profile.module.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />
     <TypeScriptCompile Include="src\main.ts" />
@@ -229,6 +233,7 @@
   <ItemGroup>
     <Content Include="npm-debug.log" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

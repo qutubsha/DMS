@@ -53,5 +53,11 @@ namespace DMS.WebApi.Controllers
         }
 
 
+        [HttpPost]
+        public IActionResult AddUser([FromBody]User user)
+        {
+            return Execute(() => Ok(_userService.AddUser(user)));
+        }
+    
     }
 }

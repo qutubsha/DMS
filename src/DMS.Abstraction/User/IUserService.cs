@@ -10,5 +10,7 @@ namespace DMS.Abstraction
         Task<bool> ValidateLoginAttempt(int userId);
 
         Task<User> Login(string userName, string password);
+
+        Task<User> AddUser(User user);
     }
 }

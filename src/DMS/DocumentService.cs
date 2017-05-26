@@ -1,5 +1,7 @@
 ﻿using DMS.Abstraction;
 using DMS.Abstraction.Documents;
+using DMS.Abstraction.Revisions;
+//using DMS.Abstraction.Revisions;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -34,18 +36,42 @@ namespace DMS
 
         //Task<Document> GetDocument(string loginId, string documentId, string versionId = null, string revisionId = null);
 
-        public async Task<DeleteResult> DeleteDocument(int documentId, int loginId)
+        public async Task<Document> DeleteDocument(int documentId, int loginId)
         {
             return await _repository.DeleteDocument(documentId, loginId);
         }
 
-        //Task<Document> CheckOutDocument(string documentId, string loginId);
-
-        //Task CheckInDocument(Document document, byte[] file);
-
-        public async Task<List<Document>> GetAllDocuments(bool IsShared, int loginId)
+        public async Task<Document> CheckOutDocument(int documentId, int loginId)
         {
-            return await _repository.GetAllDocuments(IsShared, loginId);            
+            return await _repository.CheckOutDocument(documentId, loginId);
         }
+
+        public async Task<Document> CheckInDocument(int documentId, string why, string what,
+                                        bool isNewRevision, byte[] file, 
+                                        string fileName, string extension, int loginId)
+        {
+            return await _repository.CheckInDocument(documentId, why, what,
+                                        isNewRevision, file, fileName, extension, loginId);
+        }
+
+        public async Task<List<Document>> GetAllDocuments(bool isShared, int loginId)
+        {
+            return await _repository.GetAllDocuments(isShared, loginId);            
+        }
+
+        public async Task<Document> GetDocumentById(int documentId, int loginId)
+        {
+            return await _repository.GetDocumentById(documentId, loginId);
+        }
+
+        public async Task<List<Revision>> GetVersionDetails(int documentId, int loginId)
+        {
+            return await _repository.GetVersionDetails(documentId, loginId);
+        }
+
+        //public async Task CheckInDocument(int documentId, int loginId)
+        //{
+        //    return await _repository.GetVersionDetails(documentId, loginId);
+        //}
     }
 }

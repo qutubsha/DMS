@@ -7,53 +7,102 @@
                 <div class="view_department">
                     <div class="panel panel-primary filterable ">
                         <div class="table-responsive">
-                            <table class="table table-striped " *ngIf="filteredData?.length > 0">
+                            <table class="table table-striped " [mfData]="filteredData" #mf="mfDataTable"
+                                   [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder" [mfActivePage]="activePage" >
+
                                 <thead>
                                     <tr>
-                                        <th class="td-width-30">
-                                            FileName
+                                        <th class="td-width-15">
+                                            <mfDefaultSorter by="fileName">File Name</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
-                                            Extension
+                                            <mfDefaultSorter by="extension">Extension</mfDefaultSorter>
                                         </th>
-                                        <th class="td-width-35">
-                                            CreatedBy
+                                        <th class="td-width-15">
+                                            <mfDefaultSorter by="createdBy">Created By</mfDefaultSorter>
                                         </th>
-                                        <th class="td-width-30">
-                                            IsShared
+                                        <th class="td-width-15">
+                                            <mfDefaultSorter by="createdOn">Created On</mfDefaultSorter>
+                                        </th>
+                                        <th class="td-width-15">
+                                            <mfDefaultSorter by="lockedBy">Locked By</mfDefaultSorter>
+                                        </th>
+                                        <th class="td-width-15">
+                                            <mfDefaultSorter by="documentTags">Document Tag(s)</mfDefaultSorter>
+                                        </th>
+                                        <th class="td-width-15">
+                                            Operations
                                         </th>
                                     </tr>
-                                    <!--<tr class="filters">
+                                    <tr class="filters">
                                         <th><input type="text" class="form-control" [(ngModel)]="FileNameFilter" (ngModelChange)="filterDocuments()"></th>
                                         <th><input type="text" class="form-control" [(ngModel)]="ExtensionFilter" (ngModelChange)="filterDocuments()"></th>
                                         <th><input type="text" class="form-control" [(ngModel)]="CreatedByFilter" (ngModelChange)="filterDocuments()"></th>
-                                        <th><input type="text" class="form-control" [(ngModel)]="IsSharedFilter" (ngModelChange)="filterDocuments()"></th>
-                                    </tr>-->
+                                        <th><input type="text" class="form-control" [(ngModel)]="CreatedOnFilter" (ngModelChange)="filterDocuments()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="LockedByFilter" (ngModelChange)="filterDocuments()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="DocumentTagFilter" (ngModelChange)="filterDocuments()"></th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <!--<tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>-->
-                                    <tr *ngFor="let item of filteredData">
+                                    <tr *ngFor="let item of  mf.data">
                                         <td>
                                             {{item.fileName}}
                                         </td>
                                         <td>{{item.extension}}</td>
                                         <td>{{item.createdBy}}</td>
-                                        <td>{{item.isShared}}</td>
+                                        <td>{{item.createdOn}}</td>
+                                        <td>{{item.lockedBy}}</td>
+                                        <td>{{item.documentTags}}</td>
+                                        <td>
+                                            <a (click)="DownloadDoc();" style="cursor:pointer">
+                                                <span class="glyphicon glyphicon-download"></span>
+                                            </a>
+                                            <a (click)="DeleteDoc();" style="cursor:pointer">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </a>
+                                            <a (click)="DownloadLoc();" style="cursor:pointer">
+                                                <span class="glyphicon glyphicon-lock"></span>
+                                            </a>
+                                        </td>
+
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="4">
-                                            <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25,50]"></mfBootstrapPaginator>-->
+                                        <td colspan="7">
+                                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25,50]"></mfBootstrapPaginator>
                                         </td>
                                     </tr>
                                 </tfoot>
                             </table>
+                            <!--<table class="table table-striped viewdepartment_table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+                                <thead>
+                                    <tr>
+                                        <th class="td-width-30"><mfDefaultSorter by="extension">extension</mfDefaultSorter>
+                                   
+                                        </th>
+
+                                    </tr>
+                                   
+                                </thead>
+                                <tbody>
+                                                                       
+                                    <tr *ngFor="let item of mf.data">
+                                        <td>{{item.extension}}</td>
+                                       
+                                    </tr>
+                                    
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4">
+                                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25,50]"></mfBootstrapPaginator>
+                                        </td>
+                                    </tr>
+
+                                </tfoot>
+                            </table>-->
                         </div>
                     </div>
                 </div>

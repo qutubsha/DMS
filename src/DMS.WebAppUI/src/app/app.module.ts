@@ -1,4 +1,3 @@
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -15,10 +14,9 @@ import { AuthGuard } from './shared/auth.guard';
 
 import { DocumentModule } from './document/document.module';
 import { AccessHistoryModule } from './accesshistory/accesshistory.module';
-
-
 import { PathFinder } from './path-finder';
 import { RegistrationModule } from './login/registration.module';
+import { UserProfileModule } from './user-profile/user-profile.module';
 
 @NgModule({
     declarations: [
@@ -33,11 +31,11 @@ import { RegistrationModule } from './login/registration.module';
         AppRoutingModule,
         LoginModule,
         DashboardModule,
+        RegistrationModule,
+        UserProfileModule,
         AccessHistoryModule,
         DocumentModule,
-
         RegistrationModule
-
     ],
     providers: [
         AuthGuard,
