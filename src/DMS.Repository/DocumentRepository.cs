@@ -140,5 +140,19 @@ namespace DMS.Repository
             var filter = Builders<Revision>.Filter.Eq("DocumentId", documentId);
             return await _context.Revisions.Find(filter).ToListAsync();
         }
+
+        public async Task<Document> TagDocument(int documentId, int loginId, string tags)
+        {
+            // TODO : Check permission 
+            var filter = Builders<Document>.Filter.Eq("DocumentId", documentId);
+            Document document = await _context.Documents.Find(filter).FirstOrDefaultAsync();
+
+            if (document != null)
+            {
+                var update = Builders<Document>.Update.Set(s => s.DocumentTags, tags);
+                await _context.Documents.UpdateOneAsync(filter, update);
+            }
+            return document;
+        }
     }
 }

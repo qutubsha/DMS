@@ -87,6 +87,13 @@ namespace DMS.WebApi.Controllers
             return Execute(() => Ok(_documentService.CheckOutDocument(documentId, loginId)));
         }
 
+        [HttpPut("TagDocument/{id}")]
+        public IActionResult TagDocument(int id, int loginId,string tags)
+        {
+            //TODO : Check permission, validate request
+            return Execute(() => Ok(_documentService.TagDocument(id, loginId,tags)));
+        }
+
         [HttpGet("versions/{id}")]
         public IActionResult GetVersionDetails(int id, int loginId)
         {

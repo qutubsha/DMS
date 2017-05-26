@@ -69,9 +69,9 @@ namespace DMS
             return await _repository.GetVersionDetails(documentId, loginId);
         }
 
-        //public async Task CheckInDocument(int documentId, int loginId)
-        //{
-        //    return await _repository.GetVersionDetails(documentId, loginId);
-        //}
+        public async Task<Document> TagDocument(int documentId, int loginId, string tags)
+        {
+            return await _repository.TagDocument(documentId, loginId, tags);
+        }
     }
 }
