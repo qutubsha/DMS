@@ -7,10 +7,10 @@ namespace DMS.Abstraction.Roles
 {
     public interface IRoleRepository
     {
-        Task<List<Role>> GetAllRoles();
+        List<IRole> GetRoles();
 
-        //Task<Roles> AddRole(Roles role);
+        IRole AddRole(Role role);
 
-        //Task<Roles> GetRole(string loginId, string roleId);
+        IRole UpdateRole(Role role);
     }
 }

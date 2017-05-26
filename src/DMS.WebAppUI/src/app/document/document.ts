@@ -1,5 +1,5 @@
 ﻿
-/* Defines the Equipment entity */
+/* Defines the IDocument entity */
 export interface IDocument {
     CreatedBy: string;
     CreatedOn: string;

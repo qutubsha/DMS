@@ -9,10 +9,9 @@ using DMS.Abstraction;
 
 namespace DMS.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/role")]
     public class RoleController : BaseController<RoleController>
     {
-
         readonly RoleService _roleService;
 
         public RoleController(ILogger<RoleController> logger, IOptions<Settings> settings) : base(logger)
@@ -21,36 +20,22 @@ namespace DMS.WebApi.Controllers
             _roleService = new RoleService(repository);
         }
 
-        // GET: api/values
         [HttpGet]
-        public List<Role> Get()
+        public IActionResult GetRoles()
         {
-            return _roleService.GetAllRoles().Result;
+            return Execute(() => Ok(_roleService.GetRoles()));
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult AddRole([FromBody] Role role)
         {
+            return Execute(() => Ok(_roleService.AddRole(role)));
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public IActionResult UpdateRole([FromBody] Role role)
         {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return Execute(() => Ok(_roleService.UpdateRole(role)));
         }
     }
 }

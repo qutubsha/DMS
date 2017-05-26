@@ -26,7 +26,7 @@ export class DocumentService {
             .catch(err => this.handleError(err));
     }
 
-    getAccessHistory(documentId: string): Observable<IAccessHistory[]> {
+    getAccessHistory(documentId: number): Observable<IAccessHistory[]> {
         return this._http.get(this._pathfinder.AccessHistoryUrl + "/" + documentId, this._pathfinder.getheaderWithoutJWT())
             .map((response: Response) => <IAccessHistory>response.json())
             .catch(err => this.handleError(err));
