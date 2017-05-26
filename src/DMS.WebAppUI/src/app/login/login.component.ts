@@ -20,6 +20,7 @@ export class LoginComponent {
     private isusernameClicked: boolean = false;
     private isusernameValid: boolean = false;
     busy: Subscription;
+    private currentUser: string;
     constructor(
         private router: Router,
         private _userService: UserService
@@ -31,14 +32,22 @@ export class LoginComponent {
 
 
     submitForm(event: Event): void {
-        debugger
+       
         let user: User = new User(0, this.username, this.password, '', '', true)
         this.busy = this._userService.getLoginUser(user).subscribe(
             data => {
                 if (data != null) {
-                    this.user = data;
-                    //localStorage.setItem('currentUser', JSON.stringify(this.user));
-                    this.router.navigate(['/dashboard']);
+                    debugger
+                    if (data.isSuccess) {
+                        alert(data.isSuccess)
+                        this.user = data.user;
+                       
+                        localStorage.setItem('currentUser', JSON.stringify(this.user));
+                        this.router.navigate(['/dashboard']);
+                    }
+                    else {
+                        alert(data.message);
+                    }
                 }
                 else {
                     this.notificationTitle = 'Invalid Login Attempt.';
