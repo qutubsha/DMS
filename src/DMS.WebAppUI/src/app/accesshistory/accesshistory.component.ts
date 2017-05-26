@@ -15,7 +15,7 @@ export class AccessHistoryComponent {
 
     /// Variables declaration
     private errorMessage: string;
-    private data: any[] = []; // data is the default name for Angular 2 datatable used in equipment listing
+    private data: any[] = []; // data is the default name for Angular 2 datatable used in AccessHistory listing
     private filteredData: any[] = [];
     private activePage = 1;
     private sortBy = 'Action';
@@ -31,20 +31,21 @@ export class AccessHistoryComponent {
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
 
-    // default constructor of the Equipment class, initiate Equipment service here
+    // default constructor of the AccessHistory class, initiate Document service here
     constructor(private router: Router,private _documentservice :DocumentService) {
     }
 
-    // onInit method for the Equipment class, initialize Equipment data used for binding UI form fields, 
-    // call getEquipments service for binding list Equipment 
+    // onInit method for the AccessHistory class, initialize AccessHistory data used for binding UI form fields, 
+    // call getAccessHistorys service for binding list AccessHistory 
     ngOnInit(): void {
         this.getAccessHistory();
     }
 
     getAccessHistory()
     {
-    this.busy = this._documentservice.getAccessHistory("1")
+    this.busy = this._documentservice.getAccessHistory(1)
         .subscribe(data => {
+            this.data = data;
             this.filteredData = data;
         },
         error => {

@@ -91,6 +91,18 @@ export class DocumentComponent {
 
     }
 
+    LockDoc(docid: number) {
+        debugger;
+        this.busy = this._documentservice.CheckinCheckOutDocument(docid, 1)
+            .subscribe(data => {
+
+            },
+            error => {
+                this.errorMessage = <any>error;
+                this.notificationTitle = this.errorMessage;
+                //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            });
+    }
 
     // Resets the pagination for filtered data
     public resetPagination() {

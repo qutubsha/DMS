@@ -20,15 +20,15 @@ namespace DMS.WebApi.Controllers
             _userService = services;
         }
 
-        [HttpGet("User/{UserName}/{Password}")]
-        public async Task<IActionResult> Login(string UserName, string Password)
+        [HttpGet]
+        public async Task<IActionResult> Login(User user)
         {
             User objUser = new User();
 
             bool isSuccess = true;
             string Message=string.Empty;
 
-            objUser = await _userService.Login(UserName, Password);
+            objUser = await _userService.Login(user.UserName, user.Password);
             if (objUser != null)
             {
                 isSuccess = await _userService.ValidateLoginAttempt(objUser.UserId);
