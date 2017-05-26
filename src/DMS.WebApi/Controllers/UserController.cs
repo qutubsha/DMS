@@ -52,36 +52,12 @@ namespace DMS.WebApi.Controllers
             return Json(new { User = objUser, IsSuccess = true, Message=Message });
         }
 
-<<<<<<< HEAD
+
         [HttpPost]
         public IActionResult AddUser([FromBody]User user)
         {
             return Execute(() => Ok(_userService.AddUser(user)));
-=======
-        [HttpGet("User/SampleUser")]
-        public async Task<IActionResult> SampleUser()
-        {
-            User objUser = new Abstraction.User();
-
-            objUser.UserId = 1;
-            objUser.UserName = "admin";
-            objUser.Password = "123";
-            objUser.Picture = null;
-
-            List<Rights> rightList = new List<Rights>();
-
-            rightList.Add(new Rights {RightName="Add",RightId=1 });
-            rightList.Add(new Rights { RightName = "Edit", RightId = 2 });
-            rightList.Add(new Rights { RightName = "Delete", RightId = 3 });
-
-            objUser.Roles.Add(new Role { CreatedOn = DateTime.Now, IsActive = true, RoleId = 1, RoleName = "User", UpdatedOn = DateTime.Now,Rights= rightList });
-
-            //objUser = await _userService.Login(objUser);
-
-            return Json(true);
->>>>>>> 192377b2a726cce987e6aa99418a0669b430996b
         }
-
-
+    
     }
 }
