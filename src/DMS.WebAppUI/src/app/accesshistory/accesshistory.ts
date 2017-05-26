@@ -1,5 +1,5 @@
 ﻿
-/* Defines the Equipment entity */
+/* Defines the IAccessHistory entity */
 export interface IAccessHistory {
     HistoryId: number,
     DocumentId: number;
