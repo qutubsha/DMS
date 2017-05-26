@@ -13,7 +13,7 @@ namespace DMS.Abstraction.Documents
 
         //Task<Document> GetDocument(string loginId, string documentId,int isShared,string versionId = null, string revisionId =null);
 
-        Task<DeleteResult> DeleteDocument(int documentId, int loginId);
+        Task<Document> DeleteDocument(int documentId, int loginId);
 
         Task<Document> CheckOutDocument(int documentId, int loginId);
 

@@ -99,6 +99,7 @@
     <Content Include=".gitignore" />
     <Content Include="karma.conf.js" />
     <Content Include="protractor.conf.js" />
+    <Content Include="src\app\accesshistory\accesshistory.component.html" />
     <Content Include="src\app\app.component.css" />
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\dashboard\dashboard.component.html" />
@@ -107,6 +108,7 @@
     <Content Include="src\app\layout\secure\secure.component.html" />
     <Content Include="src\app\login\login.component.html" />
     <Content Include="src\app\login\registration.component.html" />
+    <Content Include="src\app\roles\roles.component.html" />
     <Content Include="src\app\user-profile\user-profile.component.html" />
     <Content Include="src\app\user-profile\user-profile.component-1.html" />
     <Content Include="src\assets\css\bootstrap-rtl.css" />
@@ -141,12 +143,9 @@
   <ItemGroup>
     <TypeScriptCompile Include="e2e\app.e2e-spec.ts" />
     <TypeScriptCompile Include="e2e\app.po.ts" />
-    <TypeScriptCompile Include="src\app\angular2-datatable\bootstrap-paginator.ts" />
-    <TypeScriptCompile Include="src\app\angular2-datatable\datatable.module.ts" />
-    <TypeScriptCompile Include="src\app\angular2-datatable\datatable.spec.ts" />
-    <TypeScriptCompile Include="src\app\angular2-datatable\datatable.ts" />
-    <TypeScriptCompile Include="src\app\angular2-datatable\default-sorter.ts" />
-    <TypeScriptCompile Include="src\app\angular2-datatable\paginator.ts" />
+    <TypeScriptCompile Include="src\app\accesshistory\accesshistory.component.ts" />
+    <TypeScriptCompile Include="src\app\accesshistory\accesshistory.module.ts" />
+    <TypeScriptCompile Include="src\app\accesshistory\accesshistory.ts" />
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
@@ -167,7 +166,8 @@
     <TypeScriptCompile Include="src\app\login\registration.component.ts" />
     <TypeScriptCompile Include="src\app\login\registration.module.ts" />
     <TypeScriptCompile Include="src\app\path-finder.ts" />
-    <TypeScriptCompile Include="src\app\services\document.service.ts" />
+    <TypeScriptCompile Include="src\app\roles\roles.component.ts" />
+<TypeScriptCompile Include="src\app\services\document.service.ts" />
     <TypeScriptCompile Include="src\app\services\user.service.ts" />
     <TypeScriptCompile Include="src\app\shared\auth.guard.ts" />
     <TypeScriptCompile Include="src\app\shared\global.ts" />
@@ -232,9 +232,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="npm-debug.log" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="src\app\angular2-datatable\tsconfig.json" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

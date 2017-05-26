@@ -29,11 +29,23 @@ namespace DMS.Repository
 
         //}
 
-        public async Task<DeleteResult> DeleteDocument(int documentId, int loginId)
+        public async Task<Document> DeleteDocument(int documentId, int loginId)
         {
-            //TODO : Check if user is allowed to delete document
             var filter = Builders<Document>.Filter.Eq("DocumentId", documentId);
-            return await _context.Documents.DeleteOneAsync(filter);
+            Document document = await _context.Documents.Find(filter).FirstOrDefaultAsync();
+            if (document != null)
+            {
+                //TODO : check permission if user is allowed to delete document
+
+                //Set is deleted flag in database
+                var update = Builders<Document>.Update.Set(s => s.IsDeleted, true)
+                                                       .Set(s => s.DeletedBy, loginId)
+                                                       .Set(s => s.DeletedOn, DateTime.Now);
+                await _context.Documents.UpdateOneAsync(filter, update);
+            }
+            return document;
+            //var filter = Builders<Document>.Filter.Eq("DocumentId", documentId);
+            //return await _context.Documents.DeleteOneAsync(filter);
         }
 
         public async Task<Document> CheckOutDocument(int documentId, int loginId)
@@ -110,7 +122,7 @@ namespace DMS.Repository
 
         public async Task<List<Document>> GetAllDocuments(bool IsShared, int loginId)
         {
-            //TODO : Get documents on which user has rights
+            //TODO : Get documents on which user has rights and  are not deleted
             var filter = Builders<Document>.Filter.Eq("IsShared", IsShared);
             return  await _context.Documents.Find(filter).ToListAsync();
         }

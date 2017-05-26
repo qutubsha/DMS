@@ -1,13 +1,12 @@
 ﻿import { Component, Input, OnInit, ViewChild, trigger, transition, style, animate, state } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-//import { DataTable } from '../angular2-datatable/datatable';
 import { IAccessHistory, AccessHistory } from './accesshistory';
-//import { DataTablesModule } from 'angular-datatables';
-import { DocumentService } from '../services/document.service';
-import { GlobalVariable, IDictionary } from '../shared/global';
-//import { IUser, User, IUserRoleRights } from './login';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
+import { DocumentService } from '../services/document.service';
+import {DataTable } from "angular2-datatable";
+import { GlobalVariable, IDictionary } from '../shared/global';
+
 @Component({
     templateUrl: './accesshistory.component.html',
 })
@@ -16,17 +15,21 @@ export class AccessHistoryComponent {
 
     /// Variables declaration
     private errorMessage: string;
-    private data: IAccessHistory[]; // data is the default name for Angular 2 datatable used in equipment listing
-    private filteredData: IAccessHistory[];
+    private data: any[] = []; // data is the default name for Angular 2 datatable used in equipment listing
+    private filteredData: any[] = [];
     private activePage = 1;
     private sortBy = 'Action';
+    private rowsOnPage = GlobalVariable.rowsOnPage;
     private sortOrder = 'asc';
     private notificationTitle: string = '';
     private notificationContent: string = '';
+    private ActionFilter = '';
+    private PerformedByFilter = '';
+    private PerformedOnFilter = '';
     private filters: IDictionary[];
     //private currentUser: IUser;
     busy: Subscription;
-    //@ViewChild('mf') mf: DataTable; // used for resetting datatable paging Index after filtering data
+    @ViewChild('mf') mf: DataTable;
 
     // default constructor of the Equipment class, initiate Equipment service here
     constructor(private router: Router,private _documentservice :DocumentService) {
@@ -48,6 +51,9 @@ export class AccessHistoryComponent {
             this.errorMessage = <any>error;
             this.notificationTitle = this.errorMessage;
         });
-}
+    }
+    public resetPagination() {
+        this.mf.setPage(1, this.mf.rowsOnPage);
+    }
  }
 

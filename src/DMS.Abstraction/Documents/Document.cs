@@ -18,7 +18,7 @@ namespace DMS.Abstraction
         //public List<IVersion> Versions { get; set; }
 
         //public List<IRevision> Revisions { get; set; }
-        public string CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
 
        // public string CreatedOn { get; set; }
 
@@ -26,9 +26,9 @@ namespace DMS.Abstraction
 
         public int CurrentVersion { get; set; }
 
-        public string DeletedBy { get; set; }
+        public int? DeletedBy { get; set; }
 
-        //public string DeletedOn { get; set; }
+        public DateTime DeletedOn { get; set; }
 
         public int DocumentId { get; set; }
 
