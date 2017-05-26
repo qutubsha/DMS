@@ -25,13 +25,10 @@ namespace DMS.WebApi.Controllers
             _documentService = new DocumentService(repository);
         }
 
-        // GET: api/values
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(int loginId)
         {
-
-            //return new string[] { input, encrypted, decrypted , url+encrypted};
-            return Execute(() => Ok(_documentService.GetAllDocuments(false, 1).Result));//new string[] { "value1", "value2" };
+            return Execute(() => Ok(_documentService.GetAllDocuments(false, loginId).Result));
         }
 
         //[HttpGet("id/durationInHours")]
@@ -73,13 +70,15 @@ namespace DMS.WebApi.Controllers
             return Execute(() => Ok(_documentService.GetDocumentById(id, loginId).Result));
         }
 
-        //[HttpPost]
-        //public IActionResult CheckInDocument([FromBody]int documentId, [FromBody] string why, [FromBody] string what
-        //                                , [FromBody]bool isNewRevision, [FromBody]byte[] file)
-        //{
-        //    // TODO : Check add permission, check if lock by user is current user, save document in repository
-        //    return Execute(() => Ok(_documentService.AddDocument(document, file)));
-        //}
+        [HttpPost("versions/add")]
+        public IActionResult CheckInDocument(int documentId, string why, string what,
+                                        bool isNewRevision, [FromBody]byte[] file, string fileName,
+                                        string extension, int loginId)
+        {
+            // TODO : validate request, Check ediit permission, check if lock by user is current user, save document in repository
+            return Execute(() => Ok(_documentService.CheckInDocument(documentId, why, what,
+                                        isNewRevision, file, fileName, extension, loginId)));
+        }
 
         [HttpPut]
         public IActionResult CheckoutDocument(int documentId, int loginId)

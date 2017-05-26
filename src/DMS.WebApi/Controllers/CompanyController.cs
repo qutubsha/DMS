@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 namespace DMS.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class CompanyController:BaseController<CompanyController>
+    public class CompanyController : BaseController<CompanyController>
     {
         readonly CompanyService _companyService;
 
         public CompanyController(ILogger<CompanyController> logger, IOptions<Settings> settings) : base(logger)
         {
-            
+
             var repository = new CompanyRepository(settings);
             _companyService = new CompanyService(repository);
         }
@@ -25,7 +25,7 @@ namespace DMS.WebApi.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Execute(()=>Ok("Get Something"));
+            return Execute(() => Ok("Get Something"));
         }
 
         [HttpPost]

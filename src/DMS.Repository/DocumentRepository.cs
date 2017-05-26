@@ -57,7 +57,56 @@ namespace DMS.Repository
             //TODO : Handle null document
         }
 
-        //Task CheckInDocument(Document document, byte[] file);
+        public async Task<Document> CheckInDocument(int documentId, string why, string what,
+                                        bool isNewRevision, byte[] file,
+                                        string fileName, string extension, int loginId)
+        {
+            // TODO : Check edit permission, check if lock by user is current user, save document in repository
+            var filter = Builders<Document>.Filter.Eq("DocumentId", documentId);
+            Document document = await _context.Documents.Find(filter).FirstOrDefaultAsync();
+            if (document != null)
+            {
+                //TODO : check permission if user is allowed to check in document and document is check out by same user or not
+                
+                // check if document is checked out or not
+                if (document.LockedBy == loginId)
+                {
+                    //Enter revision detailin revision table
+                    Revision revision = new Revision();
+                    revision.DocumentId = documentId;
+                    revision.FileName = fileName;
+                    revision.Extension = extension;
+                    revision.ModifiedBy = loginId;
+                    //revision.ModifiedOn = passdate
+                    if (isNewRevision)
+                    {
+                        revision.RevisionId = document.CurrentRevision + 1;
+                        revision.VersionId = document.CurrentVersion;
+                    }
+                    else
+                    {
+                        revision.VersionId = document.CurrentVersion + 1;
+                        revision.RevisionId = 1;
+                    }
+                    //revision.Path = "";
+                    revision.What = what;
+                    revision.Why = why;
+                    //revision.size
+
+                    await _context.Revisions.InsertOneAsync(revision);
+
+                    //Update document table accordingly
+                    var update = Builders<Document>.Update.Set(s => s.FileName, fileName)
+                                                      .Set(s => s.Extension, extension)
+                                                      .Set(s => s.CurrentRevision, revision.RevisionId)
+                                                      .Set(s => s.CurrentVersion, revision.VersionId)
+                                                      .Set(s => s.LockedBy, null);
+                   
+                    await _context.Documents.UpdateOneAsync(filter, update);
+                }
+            }
+            return document;
+        }
 
         public async Task<List<Document>> GetAllDocuments(bool IsShared, int loginId)
         {
