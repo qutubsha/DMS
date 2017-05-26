@@ -190,10 +190,56 @@
                 
                     <div class="form-group ">
                         <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-block login-button" (click)="redirectToDashboard();">Regitration</button>
+                    </div>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <a (click)="modalPwd.open();" class="text-muted custom-cursor" style="text-decoration:underline;color: #fff !important;"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a>
+
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
+    </div>
+    <div class="login-custom-modal">
+        <modal #modalPwd class="modal">
+            <modal-header [show-close]="true" id="modalPwdHeader">
+                <div class="modal-header" style="padding-bottom: 0px !important;">
+                    <h2 class="modal-title popup_header">Reset your password </h2>
+                </div>
+            </modal-header>
+            <modal-body style="padding:0px!important">
+                <div class="fieldset">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6  col-sm-12 col-xs-12">
+                            <label>User Name</label>
+                            <input type="text" class="form-control" name="forgotname"
+                                   [(ngModel)]="forgotname" placeholder="User Name" required maxlength="255">
+                            <small *ngIf="isusernameClicked && !isusernameValid" class="text-danger">Please enter User Name.</small>
+
+                        </div>
+                    </div>
+                </div>
+
+            </modal-body>
+            <modal-footer [show-default-buttons]="false" id="modalPwdFooter">
+                <div class="fieldset" style="margin-left:2% !important;">
+                    <div class="row">
+                        <div class="hidden">
+                            <button id="btndisputeModal" [hidden]="true" type="button" (click)="modalPwd.close();" class="fr-btn">close button</button>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 ">
+                            <button type="button" class="fr-btn" (click)="SendMailOnForgotPassword();">Submit</button>
+                        </div>
+                        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 ">
+                            <button type="button" class="fr-btn hide_addsection" (click)="CancelClick();">Cancel</button>
+                        </div>
+
+                    </div>
+                </div>
+            </modal-footer>
+        </modal>
     </div>
 </body>
 </html>
