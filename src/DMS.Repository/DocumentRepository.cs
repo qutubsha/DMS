@@ -5,7 +5,9 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DMS.Repository
@@ -22,9 +24,15 @@ namespace DMS.Repository
         public async Task AddDocument(Document document, byte[] file)
         {
             //TODO Check permission, validate request, save file, add transaction, set identity and use it
+            string basePath = Path.GetTempPath();
             await _context.Documents.InsertOneAsync(document);
+            string filePath = CreateDocumentPath(basePath, document.DocumentId, document.CurrentVersion,
+                            document.CurrentRevision, document.Extension);
+            //TODO : check if filepath is null
             Revision revision = CreateRevision(document.DocumentId, document.FileName, document.Extension, 
-                    document.CreatedBy, 1, 1, "Created", "Created", "");
+                    document.CreatedBy, 1, 1, "Created", "Created", filePath);
+           
+            // TODO : Save file on this path 
             await _context.Revisions.InsertOneAsync(revision);
         }
 
@@ -77,8 +85,9 @@ namespace DMS.Repository
             Document document = await _context.Documents.Find(filter).FirstOrDefaultAsync();
             if (document != null)
             {
+                string basePath = Path.GetTempPath();
                 //TODO : check permission if user is allowed to check in document and document is check out by same user or not
-                
+
                 // check if document is checked out or not
                 if (document.LockedBy == loginId)
                 {
@@ -97,11 +106,15 @@ namespace DMS.Repository
                         revisionId = 1;
                     }
 
+                    string filePath = CreateDocumentPath(basePath, document.DocumentId, versionId,
+                                    revisionId, document.Extension);
+                    //TODO : check if filepath is null
                     Revision revision = CreateRevision(documentId, fileName, extension, loginId, 
-                        revisionId, versionId, what, why, "");
+                        revisionId, versionId, what, why, filePath);
                  
                     await _context.Revisions.InsertOneAsync(revision);
 
+                    // TODO : Save file on this path 
                     //Update document table accordingly
                     var update = Builders<Document>.Update.Set(s => s.FileName, fileName)
                                                       .Set(s => s.Extension, extension)
@@ -167,6 +180,23 @@ namespace DMS.Repository
             //revision.size
 
             return revision;
+        }
+
+        private string CreateDocumentPath (string basePath, int documentd, int versionId, 
+                int revisionId, string extension)
+        {
+            string path = null;
+            if (Directory.Exists(basePath))
+            {
+                path = Path.Combine(basePath, documentd.ToString(), versionId.ToString());
+                
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                path += Path.DirectorySeparatorChar + revisionId.ToString() + "." + extension;
+            }
+            return path;
         }
     }
 }
