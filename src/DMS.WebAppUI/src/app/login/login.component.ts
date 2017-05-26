@@ -58,4 +58,12 @@ export class LoginComponent {
         );
 
     }
+
+
+    CancelClick() {
+        this.isusernameClicked = false;
+        this.isusernameValid = false;
+        this.forgotname = '';
+        document.getElementById('btndisputeModal').click();
+    }
 }

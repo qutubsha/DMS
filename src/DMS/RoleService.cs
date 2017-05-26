@@ -22,24 +22,24 @@ namespace DMS
             _roleRepository = roleRepository;
         }
 
-        //public Task<Roles> AddRole(Roles role)
-        //{
-        //    //TODO: Implement method
-        //}
-
         /// <summary>
         /// Gets all the roles 
         /// </summary>
         /// <param name="loginId"></param>
         /// <returns></returns>
-        public async Task<List<Role>> GetAllRoles()
+        public List<IRole> GetRoles()
         {
-           return await _roleRepository.GetAllRoles();
+            return _roleRepository.GetRoles();
         }
 
-        //public Task<Roles> GetRole(string loginId, string roleId)
-        //{
-        //    //TODO: Implement method
-        //}
+        public IRole AddRole(Role role)
+        {
+            return _roleRepository.AddRole(role);
+        }
+
+        public IRole UpdateRole(Role role)
+        {
+            return _roleRepository.UpdateRole(role);
+        }
     }
 }
