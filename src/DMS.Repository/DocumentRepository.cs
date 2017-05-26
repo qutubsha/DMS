@@ -21,13 +21,12 @@ namespace DMS.Repository
 
         public async Task AddDocument(Document document, byte[] file)
         {
+            //TODO Check permission, validate request, save file, add transaction, set identity and use it
             await _context.Documents.InsertOneAsync(document);
+            Revision revision = CreateRevision(document.DocumentId, document.FileName, document.Extension, 
+                    document.CreatedBy, 1, 1, "Created", "Created", "");
+            await _context.Revisions.InsertOneAsync(revision);
         }
-
-        //Task<Document> GetDocument(string loginId, string documentId, string versionId = null, string revisionId = null)
-        //{
-
-        //}
 
         public async Task<Document> DeleteDocument(int documentId, int loginId)
         {
@@ -83,35 +82,31 @@ namespace DMS.Repository
                 // check if document is checked out or not
                 if (document.LockedBy == loginId)
                 {
-                    //Enter revision detailin revision table
-                    Revision revision = new Revision();
-                    revision.DocumentId = documentId;
-                    revision.FileName = fileName;
-                    revision.Extension = extension;
-                    revision.ModifiedBy = loginId;
-                    //revision.ModifiedOn = passdate
+                    //Enter revision detail in revision table
+                    int revisionId = 0;
+                    int versionId = 0;
+
                     if (isNewRevision)
                     {
-                        revision.RevisionId = document.CurrentRevision + 1;
-                        revision.VersionId = document.CurrentVersion;
+                        revisionId = document.CurrentRevision + 1;
+                        versionId = document.CurrentVersion;
                     }
                     else
                     {
-                        revision.VersionId = document.CurrentVersion + 1;
-                        revision.RevisionId = 1;
+                        versionId = document.CurrentVersion + 1;
+                        revisionId = 1;
                     }
-                    //revision.Path = "";
-                    revision.What = what;
-                    revision.Why = why;
-                    //revision.size
 
+                    Revision revision = CreateRevision(documentId, fileName, extension, loginId, 
+                        revisionId, versionId, what, why, "");
+                 
                     await _context.Revisions.InsertOneAsync(revision);
 
                     //Update document table accordingly
                     var update = Builders<Document>.Update.Set(s => s.FileName, fileName)
                                                       .Set(s => s.Extension, extension)
-                                                      .Set(s => s.CurrentRevision, revision.RevisionId)
-                                                      .Set(s => s.CurrentVersion, revision.VersionId)
+                                                      .Set(s => s.CurrentRevision, revisionId)
+                                                      .Set(s => s.CurrentVersion, versionId)
                                                       .Set(s => s.LockedBy, null);
                    
                     await _context.Documents.UpdateOneAsync(filter, update);
@@ -153,6 +148,25 @@ namespace DMS.Repository
                 await _context.Documents.UpdateOneAsync(filter, update);
             }
             return document;
+        }
+
+        private Revision CreateRevision(int documentId, string fileName, string extension, int loginId, int revisionId, 
+                            int versionId, string what, string why, string path)
+        {
+            Revision revision = new Revision();
+            revision.DocumentId = documentId;
+            revision.FileName = fileName;
+            revision.Extension = extension;
+            revision.ModifiedBy = loginId;
+            revision.VersionId = versionId;
+            revision.RevisionId = revisionId;
+            revision.ModifiedOn = DateTime.Now;
+            revision.Path = path;
+            revision.What = what;
+            revision.Why = why;
+            //revision.size
+
+            return revision;
         }
     }
 }
