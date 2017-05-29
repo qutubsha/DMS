@@ -41,5 +41,10 @@ namespace DMS
         {
             return _roleRepository.UpdateRole(role);
         }
+
+        public List<IRights> GetRights()
+        {
+            return _roleRepository.GetRights();
+        }
     }
 }
