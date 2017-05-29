@@ -88,10 +88,38 @@ namespace DMS.Repository
             repositoryRole.IsActive = role.IsActive;
             repositoryRole.UpdatedOn = DateTime.Now;
 
+            //If rights are passed for the specific role
+            if (role.Rights != null && role.Rights.Count > 0)
+            {
+                repositoryRole.Rights = new List<Rights>();
+                foreach (var sngleRight in role.Rights)
+                {
+                    repositoryRole.Rights.Add(sngleRight);
+                }
+            }
+
+
             var filter = Builders<Role>.Filter.Eq(s => s.RoleId, role.RoleId);
             _context.Roles.ReplaceOne(filter, repositoryRole);
 
             return repositoryRole;
+        }
+
+        public List<IRights> GetRights()
+        {
+            var lstRepositoryRight = _context.Rights.AsQueryable().ToList();
+            var lstAbstractRight = new List<IRights>();
+            if (lstRepositoryRight == null || lstRepositoryRight.Count <= 0) { throw new NullReferenceException(nameof(lstRepositoryRight)); }
+            foreach (Rights right in lstRepositoryRight)
+            {
+                var localRole = new Rights()
+                {
+                    RightId = right.RightId,
+                    RightName = right.RightName
+                };
+                lstAbstractRight.Add(localRole);
+            }
+            return lstAbstractRight;
         }
     }
 }
