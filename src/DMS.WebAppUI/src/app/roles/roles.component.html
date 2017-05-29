@@ -24,7 +24,9 @@
                                     <tr class="filters">
                                         <th><input type="text" class="form-control" [(ngModel)]="RoleNameFilter" (ngModelChange)="filterRoles()"></th>
                                         <th><input type="text" class="form-control" [(ngModel)]="IsActiveFilter" (ngModelChange)="filterRoles()"></th>
-                                        <th></th>
+                                        <th>
+                                        <!--<datepicker [(ngModel)]="createdOn"></datepicker>-->
+                                        </th>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let item of  mf.data">
