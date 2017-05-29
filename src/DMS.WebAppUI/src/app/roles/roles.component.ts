@@ -7,7 +7,7 @@ import { DataTable } from "angular2-datatable";
 import { SharedService } from '../shared/shared.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalVariable, IDictionary } from '../shared/global';
-import {DatepickerModule} from 'ng2-bootstrap';
+//import {DatepickerModule} from 'ng2-bootstrap';
 
 @Component({
     templateUrl: './roles.component.html',
