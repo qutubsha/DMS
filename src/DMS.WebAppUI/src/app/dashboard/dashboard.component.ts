@@ -3,6 +3,8 @@ import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
+import { IUser, User } from '../login/login';
+
 @Component({
     templateUrl: './dashboard.component.html',
 })
@@ -11,7 +13,11 @@ export class DashboardComponent implements OnInit {
     constructor(private router: Router) {
     }
 
+    private currentUser: IUser;
     ngOnInit(): void {
-        
+        debugger
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+
     }
 }

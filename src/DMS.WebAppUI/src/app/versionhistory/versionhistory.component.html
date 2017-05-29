@@ -1,0 +1,72 @@
+﻿<div class="main_cantent_inner">
+    <h2>Document Version History</h2>
+    <div class="row">
+        <div class="col-lg-12 col_padding">
+            <div class="row">
+                <div class="view_department">
+                    <div class="panel panel-primary filterable ">
+                        <div class="table-responsive">
+                            <table class="table table-striped " [mfData]="data" #mf="mfDataTable"
+                                   [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder" [mfActivePage]="activePage">
+
+                                <thead>
+                                    <tr>
+                                        <th class="td-width-30">
+                                            <mfDefaultSorter by="version">Version</mfDefaultSorter>
+                                        </th>
+                                        <th class="td-width-30">
+                                            <mfDefaultSorter by="revision">Revision</mfDefaultSorter>
+                                        </th>
+                                        <th class="td-width-30">
+                                            <mfDefaultSorter by="fileName">File Name</mfDefaultSorter>
+                                        </th>
+                                        <th class="td-width-15">
+                                            <mfDefaultSorter by="extension">Extension</mfDefaultSorter>
+
+                                        </th>
+                                        <th class="td-width-35">
+                                            <mfDefaultSorter by="what">What</mfDefaultSorter>
+
+                                        </th>
+                                        <th class="td-width-35">
+                                            <mfDefaultSorter by="why">Why</mfDefaultSorter>
+
+                                        </th>
+                                    </tr>
+                                    <tr class="filters">
+                                        <th><input type="text" class="form-control" [(ngModel)]="versionFilter" (ngModelChange)="filterVersion()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="revisionFilter" (ngModelChange)="filterHistory()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="fileNameFilter" (ngModelChange)="filterHistory()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="extensionFilter" (ngModelChange)="filterHistory()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="whatFilter" (ngModelChange)="filterHistory()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="whyFilter" (ngModelChange)="filterHistory()"></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of  mf.data">
+                                        <td>
+                                            {{item.version}}
+                                        </td>
+                                        <td>{{item.revision}}</td>
+                                        <td>{{item.fileName}}</td>
+                                        <td>{{item.extension}}</td>
+                                        <td>{{item.what}}</td>
+                                        <td>{{item.why}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4">
+                                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25,50]"></mfBootstrapPaginator>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

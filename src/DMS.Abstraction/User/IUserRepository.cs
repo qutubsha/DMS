@@ -18,5 +18,14 @@ namespace DMS.Abstraction
         /// <returns></returns>
         Task<User> AddUser(User user);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="oldPwd"></param>
+        /// <param name="newPwd"></param>
+        /// <returns></returns>
+        Task<bool> UpdatePassword(string userName, string oldPwd, string newPwd);
+
     }
 }

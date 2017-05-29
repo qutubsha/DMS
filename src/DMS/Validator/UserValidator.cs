@@ -16,8 +16,9 @@ namespace DMS.Validator
         {
             RuleFor(p => p.Email).NotEmpty();
             RuleFor(p => p.UserName).NotEmpty();
-            RuleFor(p => p.UserName).Length(1, 30);
+            RuleFor(p => p.UserName).Length(1, 5);
             RuleFor(p => p.Password).NotEmpty();
+            RuleFor(p => p.Password).Length(1, 8);
         }
         
         /// <summary>

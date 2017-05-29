@@ -1,6 +1,6 @@
 ﻿import { Component, Input, OnInit, ViewChild, trigger, transition, style, animate, state } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IAccessHistory, AccessHistory } from './accesshistory';
+import { IVersionHistory, VersionHistory } from './versionhistory';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { DocumentService } from '../services/document.service';
@@ -8,10 +8,10 @@ import {DataTable } from "angular2-datatable";
 import { GlobalVariable, IDictionary } from '../shared/global';
 
 @Component({
-    templateUrl: './accesshistory.component.html',
+    templateUrl: './versionhistory.component.html',
 })
 
-export class AccessHistoryComponent {
+export class VersionHistoryComponent {
 
     /// Variables declaration
     private errorMessage: string;
@@ -23,9 +23,12 @@ export class AccessHistoryComponent {
     private sortOrder = 'asc';
     private notificationTitle: string = '';
     private notificationContent: string = '';
-    private ActionFilter = '';
-    private PerformedByFilter = '';
-    private PerformedOnFilter = '';
+    private versionFilter = '';
+    private revisionFilter = '';
+    private fileNameFilter = '';
+    private extensionFilter = '';
+    private whatFilter = '';
+    private whyFilter = '';
     private filters: IDictionary[];
     //private currentUser: IUser;
     busy: Subscription;
@@ -38,38 +41,12 @@ export class AccessHistoryComponent {
     // onInit method for the AccessHistory class, initialize AccessHistory data used for binding UI form fields, 
     // call getAccessHistorys service for binding list AccessHistory 
     ngOnInit(): void {
-        this.getAccessHistory();
-    }
-    filterHistory() {
-   
-        let ActionFilter = this.ActionFilter ? this.ActionFilter.toLocaleLowerCase() : null;
-        let PerformedByFilter = this.PerformedByFilter ? this.PerformedByFilter.toLocaleLowerCase() : null;
-        let PerformedOnFilter = this.PerformedByFilter ? this.PerformedOnFilter.toLocaleLowerCase() : null;
-      
-        this.filters = [];
-        if (ActionFilter != null)
-            this.filters.push({ key: 'action', value: ActionFilter });
-        if (PerformedByFilter != null)
-            this.filters.push({ key: 'extension', value: PerformedByFilter });
-        if (PerformedOnFilter != null)
-            this.filters.push({ key: 'createdBy', value: PerformedOnFilter });
-        
-        this.filteredData = this.data;
-
-        for (var i = 0; i < this.filters.length; i++) {
-            let tempData: IAccessHistory[];
-
-            tempData = this.filteredData.filter((doc: IAccessHistory) =>
-                doc[this.filters[i].key] != null && doc[this.filters[i].key].toString() != '' &&
-                doc[this.filters[i].key].toString().toLocaleLowerCase().indexOf(this.filters[i].value.toString()) != -1);
-            this.filteredData = tempData;
-           
-        }
+        this.getVersionHistory();
     }
 
-    getAccessHistory()
+    getVersionHistory()
     {
-    this.busy = this._documentservice.getAccessHistory(1)
+        this.busy = this._documentservice.getVersionHistory(10)
         .subscribe(data => {
             this.data = data;
             this.filteredData = data;

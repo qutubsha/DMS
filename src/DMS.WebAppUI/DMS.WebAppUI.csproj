@@ -112,6 +112,7 @@
     <Content Include="src\app\roles\roles.component.html" />
     <Content Include="src\app\user-profile\user-profile.component.html" />
     <Content Include="src\app\user-profile\user-profile.component-1.html" />
+    <Content Include="src\app\versionhistory\versionhistory.component.html" />
     <Content Include="src\assets\css\bootstrap-rtl.css" />
     <Content Include="src\assets\css\bootstrap-rtl.min.css" />
     <Content Include="src\assets\css\bootstrap.css" />
@@ -186,6 +187,9 @@
     <TypeScriptCompile Include="src\app\shared\shared.service.ts" />
     <TypeScriptCompile Include="src\app\user-profile\user-profile.component.ts" />
     <TypeScriptCompile Include="src\app\user-profile\user-profile.module.ts" />
+    <TypeScriptCompile Include="src\app\versionhistory\versionhistory.component.ts" />
+    <TypeScriptCompile Include="src\app\versionhistory\versionhistory.module.ts" />
+    <TypeScriptCompile Include="src\app\versionhistory\versionhistory.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />
     <TypeScriptCompile Include="src\main.ts" />

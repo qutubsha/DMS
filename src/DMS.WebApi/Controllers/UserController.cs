@@ -20,7 +20,7 @@ namespace DMS.WebApi.Controllers
             _userService = services;
         }
 
-        [HttpGet]
+        [HttpGet("Login/Login")]
         public async Task<IActionResult> Login(User user)
         {
             User objUser = new User();
@@ -53,11 +53,25 @@ namespace DMS.WebApi.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("AddUser")]
         public IActionResult AddUser([FromBody]User user)
         {
             return Execute(() => Ok(_userService.AddUser(user)));
         }
-    
+
+        /// <summary>
+        /// Update password
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="oldPwd"></param>
+        /// <param name="newPwd"></param>
+        /// <returns></returns>
+        [HttpPost("UpdatePassword/{userName}/{oldPwd}/{newPwd}")]
+        public IActionResult UpdatePassword(string userName, string oldPwd, string newPwd)
+        {
+           
+           return Execute(() => Ok(_userService.UpdatePassword(userName, oldPwd, newPwd)));
+        }
+
     }
 }
