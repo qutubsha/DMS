@@ -1,3 +1,54 @@
-﻿<div>
-    
+﻿<div class="main_cantent_inner">
+    <h2>Roles</h2>
+    <div class="row">
+
+        <div class="col-lg-12 col_padding">
+            <div class="row">
+                <div>
+                    <div class="panel panel-primary">
+                        <div class="table-responsive">
+                            <table class="table table-striped " [mfData]="filteredRoles" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+                                  [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder" [mfActivePage]="activePage">
+                                <thead>
+                                    <tr>
+                                        <th class="td-width-15">
+                                            <mfDefaultSorter by="roleName">Name</mfDefaultSorter>
+                                        </th>
+                                        <th class="td-width-15">
+                                            <mfDefaultSorter by="isActive">Active</mfDefaultSorter>
+                                        </th>
+                                        <th class="td-width-15">
+                                            <mfDefaultSorter by="createdOn">Created On</mfDefaultSorter>
+                                        </th>
+                                    </tr>
+                                    <tr class="filters">
+                                        <th><input type="text" class="form-control" [(ngModel)]="RoleNameFilter" (ngModelChange)="filterRoles()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="IsActiveFilter" (ngModelChange)="filterRoles()"></th>
+                                        <th>
+                                        <!--<datepicker [(ngModel)]="createdOn"></datepicker>-->
+                                        </th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of  mf.data">
+                                        <td>{{item.roleName}}</td>
+                                        <td>{{item.isActive}}</td>
+                                        <td>{{item.createdOn | date: 'medium' }}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="7">
+                                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25,50]"></mfBootstrapPaginator>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+

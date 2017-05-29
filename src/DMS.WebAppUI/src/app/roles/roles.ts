@@ -16,3 +16,15 @@ export class Role implements IRole {
         public UpdatedOn: string
     ) { }
 }
+
+export interface IRight {
+    RightId: number;
+    RightName: string;
+}
+
+export class Right implements IRight {
+    constructor(
+        public RightId: number,
+        public RightName: string
+    ) { }
+}

@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { DataTable } from "angular2-datatable";
 import { SharedService } from '../shared/shared.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { GlobalVariable, IDictionary } from '../shared/global';
+//import {DatepickerModule} from 'ng2-bootstrap';
 
 @Component({
     templateUrl: './roles.component.html',
@@ -18,6 +20,15 @@ export class RolesComponent {
     private notificationContent: string = '';
     busy: Subscription;
     private errorMessage: string;
+
+    private filteredRoles: any[] = [];
+    private sortBy: string = 'RoleName';
+    private sortOrder: string = 'asc';
+    private activePage = 1;
+    private rowsOnPage = GlobalVariable.rowsOnPage;
+    private RoleNameFilter = '';
+    private IsActiveFilter = '';
+    private filters: IDictionary[];
 
     constructor(
         private _sharedService: SharedService,
@@ -34,8 +45,8 @@ export class RolesComponent {
         //    this.router.navigate(['/login']);
         //}
         //else {
-           
-            this.pageInit();
+
+        this.pageInit();
         //}
     }
 
@@ -43,11 +54,35 @@ export class RolesComponent {
         this.busy = this._roleService.getRoles()
             .subscribe(data => {
                 this.roles = data;
+                this.filteredRoles = data;
             },
             error => {
                 this.errorMessage = <any>error;
                 this.notificationTitle = 'Error in fetching Roles.';
                 this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
             });
+    }
+
+    filterRoles() {
+        let RoleNameFilter = this.RoleNameFilter ? this.RoleNameFilter.toLocaleLowerCase() : null;
+        let IsActiveFilter = this.IsActiveFilter ? this.IsActiveFilter.toLocaleLowerCase() : null;
+
+        this.filters = [];
+        if (RoleNameFilter != null)
+            this.filters.push({ key: 'roleName', value: RoleNameFilter });
+        if (IsActiveFilter != null)
+            this.filters.push({ key: 'isActive', value: IsActiveFilter });
+
+        this.filteredRoles = this.roles;
+
+        for (var i = 0; i < this.filters.length; i++) {
+            let tempData: IRole[];
+
+            tempData = this.filteredRoles.filter((doc: IRole) =>
+                doc[this.filters[i].key] != null && doc[this.filters[i].key].toString() != '' &&
+                doc[this.filters[i].key].toString().toLocaleLowerCase().indexOf(this.filters[i].value.toString()) != -1);
+            this.filteredRoles = tempData;
+        }
+
     }
 }

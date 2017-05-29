@@ -22,7 +22,8 @@ namespace DMS.WebApi.Controllers
         public DocumentController(ILogger<DocumentController> logger, IOptions<Settings> settings) : base(logger)
         {
             var repository = new DocumentRepository(settings);
-            _documentService = new DocumentService(repository);
+            var accessrepository = new DocumentAccessHistoryRepository(settings);
+            _documentService = new DocumentService(repository, accessrepository);
         }
 
         [HttpGet]

@@ -19,4 +19,14 @@ namespace DMS.Abstraction
 
         public string Action { get; set; }
     }
+    public enum AccessLog
+    {
+        Created,
+        Downloaded,
+        CheckedOut,
+        VersionCreation,
+        RevisionCreation,
+        SharedDownload,
+        Deleted
+    }
 }

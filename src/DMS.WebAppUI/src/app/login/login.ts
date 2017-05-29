@@ -28,3 +28,16 @@ export interface IUserRegistration {
     LastName: string;
     Email: string;
 }
+
+export class UserRegistration implements IUserRegistration {
+    constructor(
+        public UserID: number,
+        public UserName: string,
+        public Password: string,
+        public RepeatPassword: string,
+        public FirstName: string,
+        public LastName: string,
+        public Email: string
+
+    ) { }
+}
