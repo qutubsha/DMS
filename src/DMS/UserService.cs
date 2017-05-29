@@ -19,15 +19,12 @@ using DMS.Validator;
             _repository = repository;
         }
 
-        public async Task<User> Login(string userName, string password)
+        public async Task<User> Login(string eMail, string password)
         {
-            return await _repository.Login(userName, password);
+            return await _repository.Login(eMail, password);
         }
 
-        public async Task<bool> ValidateLoginAttempt(int userId)
-        {
-            return await _repository.ValidateLoginAttempt(userId);
-        }
+       
 
         /// <summary>
         /// 
@@ -53,14 +50,31 @@ using DMS.Validator;
         /// <param name="oldPwd"></param>
         /// <param name="newPwd"></param>
         /// <returns></returns>
-        public async Task<bool> UpdatePassword(string userName, string oldPwd, string newPwd)
+        public async Task<bool> UpdatePassword(string eMail, string oldPwd, string newPwd)
         {  
             // Throws null exception if user value is null
-            if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException(nameof(userName), "User Name should not be empty");
+            if (string.IsNullOrEmpty(eMail)) throw new ArgumentNullException(nameof(eMail), "User email should not be empty");
             if (string.IsNullOrEmpty(oldPwd)) throw new ArgumentNullException(nameof(oldPwd), "Password should not be empty");
             if (string.IsNullOrEmpty(newPwd)) throw new ArgumentNullException(nameof(newPwd), "New Password should not be empty");
 
-            return await _repository.UpdatePassword(userName, oldPwd, newPwd);
+            return await _repository.UpdatePassword(eMail, oldPwd, newPwd);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<User> GetUserDetails(string eMail)
+        {
+            // Throws null exception if user value is null
+            if (string.IsNullOrEmpty(eMail)) throw new ArgumentNullException(nameof(eMail), "User eMail should not be null");
+
+            // Validate user before saving it to database
+           
+
+            // returns new user
+            return await _repository.GetUserDetails(eMail);
+        }
+
     }
 }
