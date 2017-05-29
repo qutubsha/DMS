@@ -1,7 +1,7 @@
 ﻿export interface IUser {
 
     UserID: number;
-    UserName: string;
+    Email: string;
     Password: string;
     FirstName: string;
     LastName: string;
@@ -10,7 +10,7 @@
 export class User implements IUser {
     constructor(
         public UserID: number,
-        public UserName: string,
+        public Email: string,
         public Password: string,
         public FirstName: string,
         public LastName: string,
