@@ -11,5 +11,7 @@ namespace DMS.Abstraction.Roles
 
         IRole AddRole(Role role);
         IRole UpdateRole(Role role);
+
+        List<IRights> GetRights();
     }
 }

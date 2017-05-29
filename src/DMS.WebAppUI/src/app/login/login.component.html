@@ -179,10 +179,16 @@
                                     <small [hidden]="!Email.errors.required" class="text-danger-left">Please enter Email.</small>
                                     <small [hidden]="!Email.errors.pattern" class="text-danger-left">Please enter valid Email.</small>
                                 </div>-->
-                                <input type="text" class="form-control" name="UserName"
+                                <!--<input type="text" class="form-control" name="UserName"
                                        [(ngModel)]="username" placeholder="User Name" required maxlength="255" #UserName="ngModel">
                                 <div *ngIf="UserName.errors && !(UserName.valid || (UserName.pristine && !form.submitted))">
                                     <small [hidden]="!UserName.errors.required" class="text-danger-left">Please enter User Name.</small>
+                                </div>-->
+                                <input type="text" class="form-control" tabindex="1" name="Email" [(ngModel)]="email" #Email="ngModel" placeholder="Enter your Email" required maxlength="200"
+                                       pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+                                <div *ngIf="Email.errors && !(Email.valid || (Email.pristine && !form.submitted))">
+                                    <small [hidden]="!Email.errors.required" class="text-danger-left">Please enter Email.</small>
+                                    <small [hidden]="!Email.errors.pattern" class="text-danger-left">Please enter valid Email.</small>
                                 </div>
                             </div>
                         </div>
@@ -217,8 +223,14 @@
                     </div>
                 
                     <div class="form-group ">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
-                        <button type="button" class="btn btn-primary btn-lg btn-block login-button" (click)="redirectToDashboard();">Regitration</button>
+                        <div class="col-lg-6">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
+                        </div>
+                        <div class="col-lg-6">
+                            <button type="button" class="btn btn-primary btn-lg btn-block login-button" (click)="redirectToDashboard();">Regitration</button>
+                        </div>
+                    
+
                     </div>
                     <div class="cols-sm-10">
                         <div class="input-group">

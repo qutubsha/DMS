@@ -12,7 +12,7 @@ import { NotificationsService, SimpleNotificationsComponent, PushNotificationsSe
 })
 export class LoginComponent {
     private user: IUser;
-    private username: string;
+    private email: string;
     private password: string;
     private forgotname: string;
     private notificationTitle: string = '';
@@ -33,22 +33,22 @@ export class LoginComponent {
 
 
     submitForm(event: Event): void {
-       
-        let user: User = new User(0, this.username, this.password, '', '', true)
+
+        let user: User = new User(0, this.email, this.password, '', '', true)
         this.busy = this._userService.getLoginUser(user).subscribe(
             data => {
                 if (data != null) {
                     debugger
-                    if (data.isSuccess) {
-                        alert(data.isSuccess)
-                        this.user = data.user;
+                    //if (data.isSuccess) {
+                    //    alert(data.isSuccess)
+                    this.user = data.result;
                        
                         localStorage.setItem('currentUser', JSON.stringify(this.user));
                         this.router.navigate(['/dashboard']);
-                    }
-                    else {
-                        alert(data.message);
-                    }
+                    //}
+                    //else {
+                    //    alert(data.message);
+                    //}
                 }
                 else {
                     this.notificationTitle = 'Invalid Login Attempt.';
