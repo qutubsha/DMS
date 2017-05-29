@@ -10,7 +10,7 @@ using DMS.Abstraction;
 
 namespace DMS.WebApi.Controllers
 {
-    [Route("/")]
+    [Route("api/[controller]")]
     public class UserController : BaseController<UserController>
     {
         readonly IUserService _userService;
@@ -20,7 +20,7 @@ namespace DMS.WebApi.Controllers
             _userService = services;
         }
 
-        [HttpGet("Login/Login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(User user)
         {
             User objUser = new User();
