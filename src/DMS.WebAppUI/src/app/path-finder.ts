@@ -5,7 +5,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 @Injectable()
 export class PathFinder {
     userUrl: string = `${AppSettings._DMSUrl}/User`;
-    loginUrl: string = `${AppSettings._DMSUrl}/Login`;
+    loginUrl: string = `${AppSettings._DMSUrl}/User`;
     documentUrl: string = `${AppSettings._DMSUrl}/Document`;
     AccessHistoryUrl: string = `${AppSettings._DMSUrl}/DocumentAccessHistory`;
     VersionHistoryUrl: string = `${AppSettings._DMSUrl}/Document/versions`;

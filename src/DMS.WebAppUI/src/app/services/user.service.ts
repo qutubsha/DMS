@@ -15,19 +15,31 @@ export class UserService {
     // default constructor
     constructor(private _http: Http, private _pathfinder: PathFinder, private router: Router) { }
 
-    getLoginUser(user: any): Observable<IUser> {
-        debugger
+    getLoginUser(user: any): Observable<any> {
         let headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/json; charset=utf-8');
         let body = JSON.stringify(user);
         let options = new RequestOptions({ headers: headers });
-
-        return this._http.post(this._pathfinder.loginUrl + "/login", body, options)
-            .map((response: Response) => <IUser>response.json())
+        // ?UserName = admin & Password=123
+        return this._http.post(this._pathfinder.loginUrl + "/Login" + "?UserName=" + user.UserName +"&Password="+ user.Password, body, options)
+            .map((response: Response) => <any>response.json())
             .catch(err => this.handleError(err));
     }
 
+
+    addUser(saveUser: any) {
+        debugger
+        let headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+        let body = JSON.stringify(saveUser);
+        let options = new RequestOptions({ headers: headers });
+        // ?UserName = admin & Password=123
+        return this._http.post(this._pathfinder.loginUrl, body, options)
+            .map((response: Response) => <any>response.json())
+            .catch(err => this.handleError(err));
+    }
     // Calls web api to check the rights of all the roles assigned to userid passed against the comma seperated list of rights passed
     // Returns only those rights that are permitted from the list of rights passed as input
     // this method will be called on page load of each screen, respective screens rights will be passed as comma seperated along with logged in user id
