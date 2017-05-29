@@ -7,9 +7,9 @@ namespace DMS.Abstraction
 {
     public interface IUserService
     {
-        Task<bool> ValidateLoginAttempt(int userId);
 
-        Task<User> Login(string userName, string password);
+
+        Task<User> Login(string eMail, string password);
 
         /// <summary>
         /// 
@@ -18,6 +18,14 @@ namespace DMS.Abstraction
         /// <returns></returns>
         Task<User> AddUser(User user);
 
-        Task<bool> UpdatePassword(string userName, string oldPwd, string newPwd);
+        Task<bool> UpdatePassword(string eMail, string oldPwd, string newPwd);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eMail"></param>
+        /// <returns></returns>
+        Task<User> GetUserDetails(string eMail);
     }
 }

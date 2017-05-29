@@ -18,10 +18,10 @@ namespace DMS.Repository
             _context = new DMSContext(settings);
         }
 
-        public async Task<bool> ValidateLoginAttempt(int userId)
+        public async Task<bool> ValidateLoginAttempt(string eMail)
         {
             bool isSuccess = true;
-            var filter = Builders<User>.Filter.Eq("UserId", userId);
+            var filter = Builders<User>.Filter.Eq("Email", eMail);
             User objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
             if (objUser != null && objUser.LoginAttemptCount >= 3 && DateTime.Now < objUser.LastLoginAttempt.Value.AddHours(3))
             {
@@ -34,7 +34,7 @@ namespace DMS.Repository
                     objUser.LoginAttemptCount = 0;
                     objUser.LastLoginAttempt = DateTime.Now;
 
-                    var update = Builders<User>.Update.Set(s => s, objUser);
+                    var update = Builders<User>.Update.Set("LoginAttemptCount", 0).Set("LastLoginAttempt", DateTime.Now);
                     await _context.Users.UpdateOneAsync(filter, update);
                 }
             }
@@ -42,30 +42,27 @@ namespace DMS.Repository
             return isSuccess;
         }
 
-        public async Task<User> Login(string userName, string password)
+        public async Task<User> Login(string eMail, string password)
         {
-            //User objUser = new User();
 
-            //var filter =         
-            var filter = Builders<User>.Filter.Eq("UserName", userName) & Builders<User>.Filter.Eq("Password", password);
+            var filter = Builders<User>.Filter.Eq("Email", eMail) & Builders<User>.Filter.Eq("Password", password);
             var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
             if (objUser == null)
             {
-                filter = Builders<User>.Filter.Eq("UserName", userName);
+                filter = Builders<User>.Filter.Eq("Email", eMail);
                 objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
                 if (objUser != null)
                 {
                     objUser.LoginAttemptCount = (objUser.LoginAttemptCount + 1);
                     objUser.LastLoginAttempt = DateTime.Now;
-
                     var update = Builders<User>.Update.Set("LoginAttemptCount", (objUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
                     await _context.Users.UpdateOneAsync(filter, update);
-
-                    objUser = null;
                 }
             }
             return objUser;
         }
+
+
 
         public async Task<User> AddUser(User user)
         {
@@ -94,11 +91,11 @@ namespace DMS.Repository
         /// <param name="oldPwd"></param>
         /// <param name="newPwd"></param>
         /// <returns></returns>
-        public async Task<bool> UpdatePassword(string userName, string oldPwd, string newPwd)
+        public async Task<bool> UpdatePassword(string eMail, string oldPwd, string newPwd)
         {
-            if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(oldPwd) && !string.IsNullOrEmpty(newPwd))
+            if (!string.IsNullOrEmpty(eMail) && !string.IsNullOrEmpty(oldPwd) && !string.IsNullOrEmpty(newPwd))
             {
-                var filter = Builders<User>.Filter.Eq("UserName", userName) & Builders<User>.Filter.Eq("Password", oldPwd);
+                var filter = Builders<User>.Filter.Eq("eMail", eMail) & Builders<User>.Filter.Eq("Password", oldPwd);
                 var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
                 if (null != objUser)
                 {
@@ -109,6 +106,18 @@ namespace DMS.Repository
                 else { return false; }
             }
             else { return false; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eMail"></param>
+        /// <returns></returns>
+        public async Task<User> GetUserDetails(string eMail)
+        {
+            var filter = Builders<User>.Filter.Eq("Email", eMail);
+            var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
+            return objUser;
         }
     }
 }

@@ -23,33 +23,7 @@ namespace DMS.WebApi.Controllers
         [HttpGet("Login/Login")]
         public async Task<IActionResult> Login(User user)
         {
-            User objUser = new User();
-
-            bool isSuccess = true;
-            string Message=string.Empty;
-
-            objUser = await _userService.Login(user.UserName, user.Password);
-            if (objUser != null)
-            {
-                isSuccess = await _userService.ValidateLoginAttempt(objUser.UserId);
-                if (isSuccess)
-                {
-
-                }
-                else
-                {
-                    objUser = new User();
-                    Message = "This user is locked, please try after some time.";
-                }
-            }
-            else
-            {
-                isSuccess = false;
-                Message = "Username or Password is incorrect";
-            }
-
-
-            return Json(new { User = objUser, IsSuccess = true, Message=Message });
+            return Execute(() => Ok(_userService.Login(user.Email, user.Password)));
         }
 
 
@@ -66,11 +40,16 @@ namespace DMS.WebApi.Controllers
         /// <param name="oldPwd"></param>
         /// <param name="newPwd"></param>
         /// <returns></returns>
-        [HttpPost("UpdatePassword/{userName}/{oldPwd}/{newPwd}")]
-        public IActionResult UpdatePassword(string userName, string oldPwd, string newPwd)
+        [HttpPost("UpdatePassword/{eMail}/{oldPwd}/{newPwd}")]
+        public IActionResult UpdatePassword(string eMail, string oldPwd, string newPwd)
         {
            
-           return Execute(() => Ok(_userService.UpdatePassword(userName, oldPwd, newPwd)));
+           return Execute(() => Ok(_userService.UpdatePassword(eMail, oldPwd, newPwd)));
+        }
+        [HttpPost("GetUserDetails/{eMail}")]
+        public IActionResult GetUserDetails(string eMail)
+        {
+            return Execute(() => Ok(_userService.GetUserDetails(eMail)));
         }
 
     }
