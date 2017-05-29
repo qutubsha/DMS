@@ -1,6 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { IDocument, Document} from '../document/document';
 import { IAccessHistory, AccessHistory} from '../accesshistory/accesshistory';
+import { IVersionHistory, VersionHistory} from '../versionhistory/versionhistory';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import { PathFinder } from '../path-finder';
@@ -29,6 +30,12 @@ export class DocumentService {
     getAccessHistory(documentId: number): Observable<IAccessHistory[]> {
         return this._http.get(this._pathfinder.AccessHistoryUrl + "/" + documentId, this._pathfinder.getheaderWithoutJWT())
             .map((response: Response) => <IAccessHistory>response.json())
+            .catch(err => this.handleError(err));
+    }
+
+    getVersionHistory(documentId: number): Observable<IAccessHistory[]> {
+        return this._http.get(this._pathfinder.VersionHistoryUrl + "/" + documentId, this._pathfinder.getheaderWithoutJWT())
+            .map((response: Response) => <IVersionHistory>response.json())
             .catch(err => this.handleError(err));
     }
 

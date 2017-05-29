@@ -1,0 +1,56 @@
+﻿<style>
+    .multi_ul li .multi-search span {
+        width: 100%;
+    }
+</style>
+<div class="main_cantent_inner">
+
+    <h2> Manage Role Rights</h2>
+    <div class="row" [ngBusy]="busy">
+        <div class="col-lg-12 col_padding">
+            <div class="search_shift">
+                <form #formmanagerights="ngForm" novalidate (ngSubmit)="formmanagerights.submitted && formmanagerights.valid && Isvalid(true);">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <label for="temp">Roles</label>
+                            <select class="form-control" name="selectedRoleForSearch" (change)="getrolewiserights(selectedRoleForSearch.value)" [(ngModel)]="selectedRole" required #selectedRoleForSearch="ngModel">
+                                <option value="0" selected="selected">Select</option>
+                                <option *ngFor="let role of RolesForSearch" value={{role.RoleId}}>
+                                    {{role.RoleName}}
+                                </option>
+                            </select>
+                            <small *ngIf="(selectedRoleForSearch.value == 0  && formmanagerights.submitted && searchFormSubmitted)" class="text-danger">Please select Role.</small><br />
+                            <small *ngIf="(formmanagerights.submitted && searchFormSubmitteds)" class="text-danger">Please select Role Rights.</small>
+                        </div>
+                        <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 ">
+                            <div class="row">
+                                <label class="edit-employee-width-label">RoleWise Rights</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+
+                                <ss-multiselect-list name="Rolewiseright" [options]="Rolewiserights" [texts]="multiSelectTexts" [settings]="multiSelectSettings"
+                                                     [(ngModel)]="selectedRolewiserights" #employeeDepartment="ngModel" #value="ngModel" form="formmanagerights"></ss-multiselect-list>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fieldset">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-2 col-sm-6 col-xs-12 ">
+                                <button type="submit" class="fr-btn">{{isEditManageRights ? 'Update' : 'Save'}}</button>
+                            </div>
+                            <div class="col-lg-1 col-md-2 col-sm-6 col-xs-12 ">
+                                <button type="button" class="fr-btn hide_addsection" (click)="cancelFormData()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div [hidden]="true">
+                        <button id="btnrightsModal" [hidden]="true" type="submit" (click)="modal.open();" class="fr-btn">{{isEditShift ? 'Update' : 'Save'}}</button>
+                    </div>
+                    <ai-modal #modal modalTitle="Role Rights" modalContent="Are sure you wish to add/edit role rights?" showCancel="true" (modalClicked)='AddEditRoleRights();'></ai-modal>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
