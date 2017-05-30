@@ -8,7 +8,7 @@ import { UserService } from '../services/user.service';
     templateUrl: './user-profile.component.html',
 })
 export class UserProfileComponent {
-    private userreg: IUserRegistration;
+    private userprofile: IUserRegistration;
     private notificationTitle: string = '';
     private notificationContent: string = '';
     private errorMessage: string;
@@ -19,7 +19,7 @@ export class UserProfileComponent {
     ) { }
 
     ngOnInit(){
-        this.userreg = {
+        this.userprofile = {
             UserID: 0,
             UserName: '',
             Password: '',
@@ -31,7 +31,6 @@ export class UserProfileComponent {
 
     }
     submitForm(event: Event): void {
-        debugger
     }
    
 }

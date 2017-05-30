@@ -1,4 +1,4 @@
-﻿<!--<style>
+﻿<style>
     .multi_ul li .multi-search span {
         width: 100%;
     }
@@ -29,7 +29,7 @@
                             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
 
                                 <ss-multiselect-list name="Rolewiseright" [options]="Rolewiserights" [texts]="multiSelectTexts" [settings]="multiSelectSettings"
-                                                     [(ngModel)]="selectedRolewiserights" #employeeDepartment="ngModel" #value="ngModel" form="formmanagerights"></ss-multiselect-list>
+                                                     [(ngModel)]="selectedRolewiserights" #Rolewiseright="ngModel" #value="ngModel" form="formmanagerights"></ss-multiselect-list>
 
                             </div>
                         </div>
@@ -47,10 +47,10 @@
                     <div [hidden]="true">
                         <button id="btnrightsModal" [hidden]="true" type="submit" (click)="modal.open();" class="fr-btn">{{isEditShift ? 'Update' : 'Save'}}</button>
                     </div>
-                    <ai-modal #modal modalTitle="Role Rights" modalContent="Are sure you wish to add/edit role rights?" showCancel="true" (modalClicked)='AddEditRoleRights();'></ai-modal>
+                    <!--<ai-modal #modal modalTitle="Role Rights" modalContent="Are sure you wish to add/edit role rights?" showCancel="true" (modalClicked)='AddEditRoleRights();'></ai-modal>-->
                 </form>
 
             </div>
         </div>
     </div>
-</div>-->
+</div>

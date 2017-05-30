@@ -125,7 +125,13 @@
 	line-height: 36px;
 }
 
+#modalPwdFooter .modal-footer {
+    border-top: none !important;
+}
 
+#modalPwdHeader button{
+    visibility:hidden !important;
+}
 .theme_color{
 	/*color:#48c7ec;*/	
     color:aliceblue;
@@ -147,6 +153,7 @@
     </style>
 </head>
 <body>
+    <simple-notifications [options]="notificationOptions"></simple-notifications>
     <div class="container">
         <div class="row main-center-header">
             <div class="col-xs-12 logo">
@@ -244,13 +251,13 @@
     </div>
     <div class="login-custom-modal">
         <modal #modalPwd class="modal">
-            <modal-header [show-close]="true" id="modalPwdHeader">
-                <div class="modal-header" style="padding-bottom: 0px !important;">
-                    <h2 class="modal-title popup_header">Reset your password </h2>
+            <modal-header [show-close]="true" id="modalPwdHeader" >
+                <div class="modal-header" style="padding-bottom: 0px !important;background-color:#2e6da4;color:white;">
+                    <h3 class="modal-title popup_header">Reset your password </h3>
                 </div>
             </modal-header>
             <modal-body style="padding:0px!important">
-                <div class="fieldset">
+                <!--<div class="fieldset">
                     <div class="row">
                         <div class="col-lg-6 col-md-6  col-sm-12 col-xs-12">
                             <label>User Name</label>
@@ -258,6 +265,20 @@
                                    [(ngModel)]="forgotname" placeholder="User Name" required maxlength="255">
                             <small *ngIf="isusernameClicked && !isusernameValid" class="text-danger">Please enter User Name.</small>
 
+                        </div>
+                    </div>
+                </div>-->
+                <div class="form-group">
+                    <label for="email" class="cols-sm-2 control-label">Email</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                            <input type="text" class="form-control" tabindex="1" name="Email" [(ngModel)]="email" #Email="ngModel" placeholder="Enter your Email" required maxlength="200"
+                                   pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+                            <div *ngIf="Email.errors && !(Email.valid || (Email.pristine && !form.submitted))">
+                                <small [hidden]="!Email.errors.required" class="text-danger-left">Please enter Email.</small>
+                                <small [hidden]="!Email.errors.pattern" class="text-danger-left">Please enter valid Email.</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -269,11 +290,11 @@
                         <div class="hidden">
                             <button id="btndisputeModal" [hidden]="true" type="button" (click)="modalPwd.close();" class="fr-btn">close button</button>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 ">
-                            <button type="button" class="fr-btn" (click)="SendMailOnForgotPassword();">Submit</button>
+                        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 ">
+                            <button type="button" class="btn btn-primary btn-lg btn-block login-button" (click)="SendMailOnForgotPassword();">Submit</button>
                         </div>
                         <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 ">
-                            <button type="button" class="fr-btn hide_addsection" (click)="CancelClick();">Cancel</button>
+                            <button type="button" class="btn btn-primary btn-lg btn-block login-button" (click)="CancelClick();">Cancel</button>
                         </div>
 
                     </div>

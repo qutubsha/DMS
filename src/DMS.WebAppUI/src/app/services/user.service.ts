@@ -29,13 +29,14 @@ export class UserService {
 
     addUser(saveUser: any) {
         debugger
+        ///AddUser
         let headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/json; charset=utf-8');
         let body = JSON.stringify(saveUser);
         let options = new RequestOptions({ headers: headers });
         // ?UserName = admin & Password=123
-        return this._http.post(this._pathfinder.loginUrl, body, options)
+        return this._http.post(this._pathfinder.loginUrl + "/AddUser", body, options)
             .map((response: Response) => <any>response.json())
             .catch(err => this.handleError(err));
     }
