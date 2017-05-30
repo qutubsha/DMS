@@ -51,6 +51,10 @@ namespace DMS.WebApi.Controllers
         {
             return Execute(() => Ok(_userService.GetUserDetails(eMail)));
         }
-
+        [HttpPost("UpdateUserDetails")]
+        public IActionResult UpdateUserDetails([FromBody]User user)
+        {
+            return Execute(() => Ok(_userService.UpdateUserDetails(user)));
+        }
     }
 }
