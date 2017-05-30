@@ -18,6 +18,7 @@ import { RegistrationModule } from './login/registration.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
 import { RolesModule } from './roles/roles.module';
 import { SimpleNotificationsModule, PushNotificationsModule } from 'angular2-notifications';
+import { BusyModule, BusyConfig } from 'angular2-busy';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import { SimpleNotificationsModule, PushNotificationsModule } from 'angular2-not
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         PathFinder
     ],
+    exports: [BusyModule],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
