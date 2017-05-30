@@ -21,8 +21,7 @@ export class UserService {
         headers.append('Content-Type', 'application/json; charset=utf-8');
         let body = JSON.stringify(user);
         let options = new RequestOptions({ headers: headers });
-        // ?UserName = admin & Password=123
-        return this._http.post(this._pathfinder.loginUrl + "/Login" + "?UserName=" + user.UserName +"&Password="+ user.Password, body, options)
+        return this._http.post(this._pathfinder.loginUrl + "/Login" + "?Password=" + user.Password+"&Email=" + user.Email, body, options)
             .map((response: Response) => <any>response.json())
             .catch(err => this.handleError(err));
     }

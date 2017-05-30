@@ -37,5 +37,11 @@ namespace DMS.WebApi.Controllers
         {
             return Execute(() => Ok(_roleService.UpdateRole(role)));
         }
+
+        [HttpGet("GetRights")]
+        public IActionResult GetRights()
+        {
+            return Execute(() => Ok(_roleService.GetRights()));
+        }
     }
 }
