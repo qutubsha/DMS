@@ -1,14 +1,14 @@
 ﻿import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IUserRegistration, UserRegistration } from '../login/login';
+import { UpdatePassword, IUpdatePassword } from '../login/login';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
 @Component({
-    templateUrl: './user-profile.component.html',
+    templateUrl: './change-password.component.html',
 })
-export class UserProfileComponent {
-    private userprofile: IUserRegistration;
+export class ChangePasswordComponent {
+    private passupdate: IUpdatePassword;
     private notificationTitle: string = '';
     private notificationContent: string = '';
     private errorMessage: string;
@@ -19,20 +19,18 @@ export class UserProfileComponent {
     ) { }
 
     ngOnInit(){
-        this.userprofile = {
-            UserID: 0,
-            UserName: '',
-            Password: '',
+        this.passupdate = {
+            oldPwd:'',
+            newPwd:'',
             RepeatPassword: '',
-            FirstName: '',
-            LastName: '',
-            Email: '',
+            eMail:''
         };
 
     }
     submitForm(event: Event): void {
-        let saveUser: UserRegistration = new UserRegistration(this.userprofile.UserID, '', this.userprofile.Password, '', this.userprofile.FirstName, this.userprofile.LastName, this.userprofile.Email);
-        this.busy = this._userService.addUser(saveUser).subscribe(
+        debugger
+        let upUser: UpdatePassword = new UpdatePassword(this.passupdate.oldPwd, this.passupdate.newPwd, this.passupdate.RepeatPassword, this.passupdate.eMail);
+        this.busy = this._userService.updateUser(upUser).subscribe(
             data => {
                 debugger
                 this.router.navigate(['/dashboard']);

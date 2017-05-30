@@ -41,3 +41,22 @@ export class UserRegistration implements IUserRegistration {
 
     ) { }
 }
+
+export class UpdatePassword implements IUpdatePassword {
+    constructor(
+       
+        public oldPwd: string,
+        public newPwd: string,
+        public RepeatPassword: string,
+        public eMail: string
+
+    ) { }
+}
+
+export interface IUpdatePassword {
+  
+    oldPwd: string;
+    RepeatPassword: string;
+    newPwd: string;
+    eMail: string;
+}

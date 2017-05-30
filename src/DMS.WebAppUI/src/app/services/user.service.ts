@@ -40,6 +40,18 @@ export class UserService {
             .map((response: Response) => <any>response.json())
             .catch(err => this.handleError(err));
     }
+    // Passess data to WebAPI and updates existing  User by User Id
+    updateUser(upUser: any) {
+        let headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+        let body = JSON.stringify(upUser);
+        let options = new RequestOptions({ headers: headers });
+        // ?UserName = admin & Password=123
+        return this._http.put(this._pathfinder.loginUrl + "/UpdatePassword" + "/" + upUser.eMail +"/"+ upUser.oldPwd +"/"+ upUser.newPwd , body, options)
+            .map((response: Response) => <any>response.json())
+            .catch(err => this.handleError(err));
+    }
     // Calls web api to check the rights of all the roles assigned to userid passed against the comma seperated list of rights passed
     // Returns only those rights that are permitted from the list of rights passed as input
     // this method will be called on page load of each screen, respective screens rights will be passed as comma seperated along with logged in user id
