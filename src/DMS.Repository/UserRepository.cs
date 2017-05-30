@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DMS.Abstraction;
+﻿using DMS.Abstraction;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
 using MongoDB.Driver;
+using System;
+using System.Threading.Tasks;
 
 namespace DMS.Repository
 {
@@ -62,8 +59,6 @@ namespace DMS.Repository
             return objUser;
         }
 
-
-
         public async Task<User> AddUser(User user)
         {
             if (null != user)
@@ -95,7 +90,7 @@ namespace DMS.Repository
         {
             if (!string.IsNullOrEmpty(eMail) && !string.IsNullOrEmpty(oldPwd) && !string.IsNullOrEmpty(newPwd))
             {
-                var filter = Builders<User>.Filter.Eq("eMail", eMail) & Builders<User>.Filter.Eq("Password", oldPwd);
+                var filter = Builders<User>.Filter.Eq("Email", eMail) & Builders<User>.Filter.Eq("Password", oldPwd);
                 var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
                 if (null != objUser)
                 {
@@ -118,6 +113,26 @@ namespace DMS.Repository
             var filter = Builders<User>.Filter.Eq("Email", eMail);
             var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
             return objUser;
+        }
+
+        public async Task<User> UpdateUserDetails(User user)
+        {
+            if (null != user)
+            {
+                if (!string.IsNullOrEmpty(user.FirstName) && !string.IsNullOrEmpty(user.LastName))
+                {
+                    var filter = Builders<User>.Filter.Eq("Email", user.Email);
+                    var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
+                    if (null != objUser)
+                    {
+                        var update = Builders<User>.Update.Set("FirstName", user.FirstName).Set("LastName", user.LastName);
+                        await _context.Users.UpdateOneAsync(filter, update);
+                        return objUser;
+                    }
+                    return null;
+                }
+            }
+            return null;
         }
     }
 }
