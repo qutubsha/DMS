@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 
+
 namespace DMS.Repository
 {
     public class UserRepository : IUserRepository
@@ -69,7 +70,7 @@ namespace DMS.Repository
             if (null != user)
             {
                 //var filter =         
-                var filter = Builders<User>.Filter.Eq("UserName", user.UserName);
+                var filter = Builders<User>.Filter.Eq("Email", user.Email);
                 var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
                 if (null == objUser)
                 {

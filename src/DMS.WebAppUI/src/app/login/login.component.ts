@@ -4,11 +4,13 @@ import { IUser, User} from './login';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
+import { SharedService } from '../shared/shared.service';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { NotificationsService, SimpleNotificationsComponent, PushNotificationsService } from 'angular2-notifications';
-
+import { GlobalVariable } from '../shared/global';
 @Component({
     templateUrl: './login.component.html',
+    providers: [UserService, SharedService, NotificationsService]
 })
 export class LoginComponent {
     private user: IUser;
@@ -20,11 +22,13 @@ export class LoginComponent {
     private errorMessage: string;
     private isusernameClicked: boolean = false;
     private isusernameValid: boolean = false;
+    public notificationOptions = GlobalVariable.notificationOptions;
     busy: Subscription;
     private currentUser: string;
     constructor(
         private router: Router,
-        private _userService: UserService
+        private _userService: UserService,
+        private _sharedService:SharedService
     ) { }
 
     redirectToDashboard() {
@@ -33,11 +37,12 @@ export class LoginComponent {
 
 
     submitForm(event: Event): void {
-
+        debugger
         let user: User = new User(0, this.email, this.password, '', '', true)
         this.busy = this._userService.getLoginUser(user).subscribe(
             data => {
-                if (data != null) {
+                debugger
+                if (data.result != null) {
                     debugger
                     //if (data.isSuccess) {
                     //    alert(data.isSuccess)
@@ -51,20 +56,17 @@ export class LoginComponent {
                     //}
                 }
                 else {
+                    debugger
                     this.notificationTitle = 'Invalid Login Attempt.';
-                    //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                    this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
                 }
             },
             error => {
                 this.errorMessage = <any>error;
                 this.notificationTitle = this.errorMessage;
-               // this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+               this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
             },
-            () => {
-                //this.getLoginRoleRightsDetails(this.user.UserID);
-                this.notificationTitle = 'Logged In successfully.';
-                //this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
-            }
+            
         );
 
     }
