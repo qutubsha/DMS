@@ -47,7 +47,6 @@ export class LoginComponent {
                     //if (data.isSuccess) {
                     //    alert(data.isSuccess)
                     this.user = data.result;
-                       
                         localStorage.setItem('currentUser', JSON.stringify(this.user));
                         this.router.navigate(['/dashboard']);
                     //}

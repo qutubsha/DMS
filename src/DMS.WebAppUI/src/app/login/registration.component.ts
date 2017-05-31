@@ -27,13 +27,13 @@ export class RegistrationComponent {
 
     ngOnInit(){
         this.userreg = {
-            UserID: 0,
-            UserName: '',
-            Password: '',
+            userid: 0,
+            username: '',
+            password: '',
             RepeatPassword:'',
-            FirstName: '',
-            LastName: '',
-            Email: '',
+            firstName: '',
+            lastName: '',
+            email: '',
         };
 
     }
@@ -45,7 +45,7 @@ export class RegistrationComponent {
 
     submitForm(event: Event): void {
         debugger
-        let saveUser: UserRegistration = new UserRegistration(this.userreg.UserID,'', this.userreg.Password, this.userreg.RepeatPassword, '', '', this.userreg.Email);
+        let saveUser: UserRegistration = new UserRegistration(this.userreg.userid, '', this.userreg.password, this.userreg.RepeatPassword, '', '', this.userreg.email);
         this.busy = this._userService.addUser(saveUser).subscribe(
             data => {
                 debugger

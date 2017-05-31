@@ -1,43 +1,43 @@
 ﻿export interface IUser {
 
-    UserID: number;
-    Email: string;
-    Password: string;
-    FirstName: string;
-    LastName: string;
-    IsActive: boolean;
+    userid: number;
+    email: string;
+    password: string;
+    firstname: string;
+    lastname: string;
+    isactive: boolean;
 }
 export class User implements IUser {
     constructor(
-        public UserID: number,
-        public Email: string,
-        public Password: string,
-        public FirstName: string,
-        public LastName: string,
-        public IsActive: boolean
+        public userid: number,
+        public email: string,
+        public password: string,
+        public firstname: string,
+        public lastname: string,
+        public isactive: boolean
 
     ) { }
 }
 
 export interface IUserRegistration {
-    UserID: number;
-    UserName: string;
-    Password: string;
+    userid: number;
+    username: string;
+    password: string;
     RepeatPassword: string;
-    FirstName: string;
-    LastName: string;
-    Email: string;
+    firstName: string;
+    lastName: string;
+    email: string;
 }
 
 export class UserRegistration implements IUserRegistration {
     constructor(
-        public UserID: number,
-        public UserName: string,
-        public Password: string,
+        public userid: number,
+        public username: string,
+        public password: string,
         public RepeatPassword: string,
-        public FirstName: string,
-        public LastName: string,
-        public Email: string
+        public firstName: string,
+        public lastName: string,
+        public email: string
 
     ) { }
 }
@@ -60,3 +60,37 @@ export interface IUpdatePassword {
     newPwd: string;
     eMail: string;
 }
+
+export interface IUser {
+
+    userid: number;
+    email: string;
+    password: string;
+    firstname: string;
+    lastname: string;
+    isactive: boolean;
+}
+
+
+      
+
+    
+
+    
+
+        //public int LoginAttemptCount { get; set; }
+        //public bool IsActive { get; set; }
+        //public bool IsDeleted { get; set; }
+
+        //public string CreatedBy { get; set; }
+        //public DateTime ? CreatedOn { get; set; }
+
+        //public string ModifiedBy { get; set; }
+        //public DateTime ? ModifiedOn { get; set; }
+
+        //public string DeletedBy { get; set; }
+        //public DateTime ? DeletedOn { get; set; }
+
+        //public DateTime ? LastLoginAttempt { get; set; }
+
+        //public string[] Picture { get; set; }
