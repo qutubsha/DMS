@@ -46,7 +46,7 @@ namespace DMS.WebApi.Controllers
            
            return Execute(() => Ok(_userService.UpdatePassword(eMail, oldPwd, newPwd)));
         }
-        [HttpPost("GetUserDetails/{eMail}")]
+        [HttpGet("GetUserDetails/{eMail}")]
         public IActionResult GetUserDetails(string eMail)
         {
             return Execute(() => Ok(_userService.GetUserDetails(eMail)));
