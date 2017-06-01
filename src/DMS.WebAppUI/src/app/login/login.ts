@@ -1,43 +1,43 @@
-﻿export interface IUser {
+﻿
+export interface IUser {
 
-    userid: number;
-    email: string;
-    password: string;
-    firstname: string;
-    lastname: string;
-    isactive: boolean;
+    UserID: number;
+    Email: string;
+    Password: string;
+    FirstName: string;
+    LastName: string;
+    IsActive: boolean;
 }
 export class User implements IUser {
     constructor(
-        public userid: number,
-        public email: string,
-        public password: string,
-        public firstname: string,
-        public lastname: string,
-        public isactive: boolean
+        public UserID: number,
+        public Email: string,
+        public Password: string,
+        public FirstName: string,
+        public LastName: string,
+        public IsActive: boolean
 
     ) { }
 }
 
 export interface IUserRegistration {
-    userid: number;
-    username: string;
-    password: string;
+    UserID: number;
+    UserName: string;
+    Password: string;
     RepeatPassword: string;
-    firstName: string;
-    lastName: string;
-    email: string;
+    FirstName: string;
+    LastName: string;
+    Email: string;
 }
-
 export class UserRegistration implements IUserRegistration {
     constructor(
-        public userid: number,
-        public username: string,
-        public password: string,
+        public UserID: number,
+        public UserName: string,
+        public Password: string,
         public RepeatPassword: string,
-        public firstName: string,
-        public lastName: string,
-        public email: string
+        public FirstName: string,
+        public LastName: string,
+        public Email: string
 
     ) { }
 }
@@ -61,15 +61,15 @@ export interface IUpdatePassword {
     eMail: string;
 }
 
-export interface IUser {
+//export interface IUser {
 
-    userid: number;
-    email: string;
-    password: string;
-    firstname: string;
-    lastname: string;
-    isactive: boolean;
-}
+//    userid: number;
+//    email: string;
+//    password: string;
+//    firstname: string;
+//    lastname: string;
+//    isactive: boolean;
+//}
 
 
       

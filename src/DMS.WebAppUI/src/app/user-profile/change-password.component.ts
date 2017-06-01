@@ -33,7 +33,7 @@ export class ChangePasswordComponent {
             eMail:''
         };
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        this.passupdate.eMail = this.currentUser.email;
+        this.passupdate.eMail = this.currentUser.Email;
     }
     redirectToDashbord() {
         this.router.navigate(['/dashboard']);
@@ -44,7 +44,7 @@ export class ChangePasswordComponent {
         this.busy = this._userService.updatepassword(upUser).subscribe(
             data => {
                 debugger
-                if (data.result != false) {
+                if (data.Result != false) {
                     debugger
                     this.router.navigate(['/dashboard']);
                     return true;

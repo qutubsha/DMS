@@ -47,15 +47,16 @@ namespace DMS.Repository
             var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
             if (objUser == null)
             {
-                filter = Builders<User>.Filter.Eq("Email", eMail);
-                objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
-                if (objUser != null)
-                {
-                    objUser.LoginAttemptCount = (objUser.LoginAttemptCount + 1);
-                    objUser.LastLoginAttempt = DateTime.Now;
-                    var update = Builders<User>.Update.Set("LoginAttemptCount", (objUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
-                    await _context.Users.UpdateOneAsync(filter, update);
-                }
+                //filter = Builders<User>.Filter.Eq("Email", eMail);
+                //objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
+                //if (objUser != null)
+                //{
+                //    objUser.LoginAttemptCount = (objUser.LoginAttemptCount + 1);
+                //    objUser.LastLoginAttempt = DateTime.Now;
+                //    var update = Builders<User>.Update.Set("LoginAttemptCount", (objUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
+                //    await _context.Users.UpdateOneAsync(filter, update);
+                //}
+                return null;
             }
             return objUser;
         }

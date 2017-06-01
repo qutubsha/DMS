@@ -21,7 +21,7 @@ export class UserService {
         headers.append('Content-Type', 'application/json; charset=utf-8');
         let body = JSON.stringify(user);
         let options = new RequestOptions({ headers: headers });
-        return this._http.post(this._pathfinder.loginUrl + "/Login" + "?Password=" + user.password+"&Email=" + user.email, body, options)
+        return this._http.post(this._pathfinder.loginUrl + "/Login" + "?Password=" + user.Password+"&Email=" + user.Email, body, options)
             .map((response: Response) => <any>response.json())
             .catch(err => this.handleError(err));
     }
@@ -67,14 +67,14 @@ export class UserService {
     }
 
     // Calls Get User Web API to fetch the user by the ID
-    getUserById(email: string): Observable<any> {
+    getUserById(Email: string): Observable<any> {
         debugger
         let headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/json; charset=utf-8');
         //let body = JSON.stringify(username);
         let options = new RequestOptions({ headers: headers });
-        return this._http.get(this._pathfinder.loginUrl + "/GetUserDetails/" + email, options)
+        return this._http.get(this._pathfinder.loginUrl + "/GetUserDetails/" + Email, options)
             .map((response: Response) => <IUser>response.json())
             .catch(err => this.handleError(err));
 

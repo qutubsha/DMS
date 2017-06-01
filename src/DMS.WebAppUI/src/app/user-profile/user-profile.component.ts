@@ -21,17 +21,17 @@ export class UserProfileComponent {
 
     ngOnInit(){
         this.userprofile = {
-            userid: 0,
-            username: '',
-            password: '',
+            UserID: 0,
+            UserName: '',
+            Password: '',
             RepeatPassword: '',
-            firstName: '',
-            lastName: '',
-            email: '',
+            FirstName: '',
+            LastName: '',
+            Email: '',
         };
         debugger
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        this.editUserProfile(this.currentUser.email);
+        this.editUserProfile(this.currentUser.Email);
     }
 
     redirectToDashbord() {
@@ -39,14 +39,14 @@ export class UserProfileComponent {
         this.router.navigate(['/dashboard']);
     }
 
-    editUserProfile(email: any) {
+    editUserProfile(Email: any) {
         debugger
-        if (email != null && email != 0) {
-            this.busy = this._userService.getUserById(email)
+        if (Email != null && Email != 0) {
+            this.busy = this._userService.getUserById(Email)
                 .subscribe(data => {
                     debugger
-                    if (data.result != null) {
-                        this.userprofile = data.result;
+                    if (data.Result != null) {
+                        this.userprofile = data.Result;
                     }
                 }, error => {
                     this.errorMessage = <any>error;
@@ -57,7 +57,7 @@ export class UserProfileComponent {
     }
     submitForm(event: Event): void {
         debugger
-        let upUserpro: UserRegistration = new UserRegistration(this.userprofile.userid, '', this.userprofile.password, '', this.userprofile.firstName, this.userprofile.lastName, this.userprofile.email);
+        let upUserpro: UserRegistration = new UserRegistration(this.userprofile.UserID, '', this.userprofile.Password, '', this.userprofile.FirstName, this.userprofile.LastName, this.userprofile.Email);
         this.busy = this._userService.updateuser(upUserpro).subscribe(
             data => {
                 debugger
