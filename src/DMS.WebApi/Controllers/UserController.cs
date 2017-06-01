@@ -40,7 +40,7 @@ namespace DMS.WebApi.Controllers
         /// <param name="oldPwd"></param>
         /// <param name="newPwd"></param>
         /// <returns></returns>
-        [HttpPost("UpdatePassword/{eMail}/{oldPwd}/{newPwd}")]
+        [HttpPut("UpdatePassword/{eMail}/{oldPwd}/{newPwd}")]
         public IActionResult UpdatePassword(string eMail, string oldPwd, string newPwd)
         {
            
@@ -51,7 +51,7 @@ namespace DMS.WebApi.Controllers
         {
             return Execute(() => Ok(_userService.GetUserDetails(eMail)));
         }
-        [HttpPost("UpdateUserDetails")]
+        [HttpPut("UpdateUserDetails")]
         public IActionResult UpdateUserDetails([FromBody]User user)
         {
             return Execute(() => Ok(_userService.UpdateUserDetails(user)));
