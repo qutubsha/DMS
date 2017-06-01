@@ -1,38 +1,79 @@
 ﻿<div class="main_cantent_inner">
-    <h2>Roles</h2>
     <div class="row">
 
         <div class="col-lg-12 col_padding">
+
+            <div class="row form-group panel panel-default">
+                <div class="panel-heading"> {{isEditMode? 'Update':'Add'}} Role</div>
+                <div class="panel-body">
+                    <form #roleForm="ngForm" *ngIf="showForm" name="roleForm" (ngSubmit)="AddOrUpdateRole()">
+
+                        <div class="col-md-2"><label>Role Name:</label></div>
+                        <div class="col-md-3">
+                            <input type="text" required [(ngModel)]="singleRole.RoleName" #RoleName="ngModel" class="form-control" name="RoleName" />
+                        </div>
+                        <div class="col-md-2">
+                            <span *ngIf="RoleName.errors && (RoleName.dirty || RoleName.touched)"
+                                  class="alert alert-danger">
+                                <span [hidden]="!RoleName.errors.required">
+                                    Required
+                                </span>
+                            </span>
+                        </div>
+                        <div class="col-md-2"><label>Is Active:</label></div>
+                        <div class="col-md-1"> <input type="checkbox" [(ngModel)]="singleRole.IsActive" name="isActive" /> </div>
+                        <div class="col-md-2">
+                            <input type="submit" class="btn btn-primary" value="{{isEditMode? 'Update':'Add'}}" />
+                            <!--<template [ngIf]="isEditMode">-->
+                            <input type="button" class="btn btn-primary" value="Cancel" (click)="cancelForm()" />
+                            <!--</template>-->
+
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div class="row">
                 <div>
-                    <div class="panel panel-primary">
-                        <div class="table-responsive">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"> Roles</div>
+                        <div class="table-responsive panel-body">
                             <table class="table table-striped " [mfData]="filteredRoles" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
-                                  [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder" [mfActivePage]="activePage">
+                                   [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder" [mfActivePage]="activePage">
                                 <thead>
                                     <tr>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="roleName">Name</mfDefaultSorter>
+                                            <mfDefaultSorter by="RoleName">Name</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="isActive">Active</mfDefaultSorter>
+                                            <mfDefaultSorter by="IsActive">Active</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="createdOn">Created On</mfDefaultSorter>
+                                            <mfDefaultSorter by="CreatedOn">Created On</mfDefaultSorter>
                                         </th>
+                                        <th></th>
                                     </tr>
                                     <tr class="filters">
                                         <th><input type="text" class="form-control" [(ngModel)]="RoleNameFilter" (ngModelChange)="filterRoles()"></th>
-                                        <th><input type="text" class="form-control" [(ngModel)]="IsActiveFilter" (ngModelChange)="filterRoles()"></th>
+                                        <th><input type="checkbox" [(ngModel)]="IsActiveFilter" (ngModelChange)="filterRoles()"></th>
                                         <th>
-                                        <!--<datepicker [(ngModel)]="createdOn"></datepicker>-->
+                                            <!--<datepicker [(ngModel)]="createdOn"></datepicker>-->
+                                        </th>
+                                        <th>
+                                            <a (click)="resetFilters();" style="cursor:pointer" *ngIf="filters && filters.length>0">
+                                                Reset Filter(s)
+                                            </a>
                                         </th>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let item of  mf.data">
-                                        <td>{{item.roleName}}</td>
-                                        <td>{{item.isActive}}</td>
-                                        <td>{{item.createdOn | date: 'medium' }}</td>
+                                        <td>{{item.RoleName}}</td>
+                                        <td>{{item.IsActive}}</td>
+                                        <td>{{item.CreatedOn | date: 'medium' }}</td>
+                                        <td>
+                                            <a (click)="EditRole(item);" style="cursor:pointer">
+                                                <span class="glyphicon glyphicon-edit"></span>
+                                            </a>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
