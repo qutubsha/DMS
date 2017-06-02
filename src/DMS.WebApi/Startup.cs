@@ -1,5 +1,6 @@
 ﻿using DMS.Abstraction;
 using DMS.Abstraction.Documents;
+using DMS.Abstraction.EmailTemplate;
 using DMS.Abstraction.Roles;
 using DMS.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -63,6 +64,9 @@ namespace DMS.WebApi
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
+
+            services.AddTransient<IEmailTemplateService, EmailTemplateService>();
+            services.AddTransient<IEmailTemplateRepository, EmailTemplateRepository>();
 
             services.AddSwaggerGen(c =>
             {
