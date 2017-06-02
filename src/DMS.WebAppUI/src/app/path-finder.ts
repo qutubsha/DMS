@@ -25,7 +25,7 @@ export class PathFinder {
     getheaderWithoutJWT() {
         let headers = new Headers();
         headers.append('Accept', 'application/json');
-        headers.append('Contnet-Type', 'application/json: charset=utf-8');
+        headers.append('Content-Type', 'application/json: charset=utf-8');
         return new RequestOptions({ headers: headers });
     }
 }

@@ -3,147 +3,151 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-   
+
     <title>Admin</title>
     <style>
         #playground-container {
-    height: 500px;
-    overflow: hidden !important;
-    -webkit-overflow-scrolling: touch;
-}
-body, html{
-     height: 100%;
- 	background-repeat: no-repeat;
- 	background:url(https://i.ytimg.com/vi/4kfXjatgeEU/maxresdefault.jpg);
- 	font-family: 'Oxygen', sans-serif;
-	    background-size: cover;
-}
+            height: 500px;
+            overflow: hidden !important;
+            -webkit-overflow-scrolling: touch;
+        }
 
-.main{
- 	margin:50px 15px;
-}
+        body, html {
+            height: 100%;
+            background-repeat: no-repeat;
+            background: url(https://i.ytimg.com/vi/4kfXjatgeEU/maxresdefault.jpg);
+            font-family: 'Oxygen', sans-serif;
+            background-size: cover;
+        }
 
-h1.title { 
-	font-size: 50px;
-	font-family: 'Passion One', cursive; 
-	font-weight: 400; 
-}
+        .main {
+            margin: 50px 15px;
+        }
 
-hr{
-	width: 10%;
-	color: #fff;
-}
+        h1.title {
+            font-size: 50px;
+            font-family: 'Passion One', cursive;
+            font-weight: 400;
+        }
 
-.form-group{
-	margin-bottom: 15px;
-}
+        hr {
+            width: 10%;
+            color: #fff;
+        }
 
-label{
-	margin-bottom: 15px;
-}
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-input,
-input::-webkit-input-placeholder {
-    font-size: 11px;
-    padding-top: 3px;
-}
+        label {
+            margin-bottom: 15px;
+        }
 
-.main-login{
- 	background-color: #fff;
-    /* shadows and rounded borders */
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        input,
+        input::-webkit-input-placeholder {
+            font-size: 11px;
+            padding-top: 3px;
+        }
 
-}
-.form-control {
-    height: auto!important;
-padding: 8px 12px !important;
-}
-.input-group {
-    -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
-    -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
-    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
-}
-#button {
-    border: 1px solid #ccc;
-    margin-top: 28px;
-    padding: 6px 12px;
-    color: #666;
-    text-shadow: 0 1px #fff;
-    cursor: pointer;
-    -moz-border-radius: 3px 3px;
-    -webkit-border-radius: 3px 3px;
-    border-radius: 3px 3px;
-    -moz-box-shadow: 0 1px #fff inset, 0 1px #ddd;
-    -webkit-box-shadow: 0 1px #fff inset, 0 1px #ddd;
-    box-shadow: 0 1px #fff inset, 0 1px #ddd;
-    background: #f5f5f5;
-    background: -moz-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f5f5f5), color-stop(100%, #eeeeee));
-    background: -webkit-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-    background: -o-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-    background: -ms-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-    background: linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#eeeeee', GradientType=0);
-}
-.main-center{
- 	margin-top: 30px;
- 	margin: 0 auto;
- 	max-width: 400px;
-    padding: 10px 40px;
-	background:#009edf;
-	    color: #FFF;
-    text-shadow: none;
-	-webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
--moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+        .main-login {
+            background-color: #fff;
+            /* shadows and rounded borders */
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        }
 
-}
-span.input-group-addon i {
-    color: #009edf;
-    font-size: 17px;
-}
+        .form-control {
+            height: auto !important;
+            padding: 8px 12px !important;
+        }
 
-.login-button{
-	margin-top: 5px;
-}
+        .input-group {
+            -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21) !important;
+            -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21) !important;
+            box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21) !important;
+        }
 
-.login-register{
-	font-size: 11px;
-	text-align: center;
-}
+        #button {
+            border: 1px solid #ccc;
+            margin-top: 28px;
+            padding: 6px 12px;
+            color: #666;
+            text-shadow: 0 1px #fff;
+            cursor: pointer;
+            -moz-border-radius: 3px 3px;
+            -webkit-border-radius: 3px 3px;
+            border-radius: 3px 3px;
+            -moz-box-shadow: 0 1px #fff inset, 0 1px #ddd;
+            -webkit-box-shadow: 0 1px #fff inset, 0 1px #ddd;
+            box-shadow: 0 1px #fff inset, 0 1px #ddd;
+            background: #f5f5f5;
+            background: -moz-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f5f5f5), color-stop(100%, #eeeeee));
+            background: -webkit-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+            background: -o-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+            background: -ms-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+            background: linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#eeeeee', GradientType=0);
+        }
 
+        .main-center {
+            margin-top: 30px;
+            margin: 0 auto;
+            max-width: 400px;
+            padding: 10px 40px;
+            background: #009edf;
+            color: #FFF;
+            text-shadow: none;
+            -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+            -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+            box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+        }
+
+        span.input-group-addon i {
+            color: #009edf;
+            font-size: 17px;
+        }
+
+        .login-button {
+            margin-top: 5px;
+        }
+
+        .login-register {
+            font-size: 11px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <simple-notifications [options]="notificationOptions"></simple-notifications>
         <div class="row main">
+           
             <div class="main-login main-center">
                 <!--<h5>Sign up once and watch any of our free demos.</h5>-->
                 <form #formuserreg="ngForm" novalidate (ngSubmit)="formuserreg.submitted && formuserreg.valid && submitForm($event)">
 
-                    <div class="form-group">
-        <label for="username" class="cols-sm-2 control-label">Username</label>
-        <div class="cols-sm-10">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-               <!-- <input type="text" class="form-control" name="username" id="username" placeholder="Enter your Username" />-->
-                <input type="text" class="form-control" tabindex="1" name="UserName" [(ngModel)]="userreg.UserName" pattern="^[A-Za-z0-9]+$" required maxlength="20"
-                        #UserName="ngModel" placeholder="Enter your Username">
-                <div *ngIf="!UserName.pristine && !UserName.errors ">
-                    <small [hidden]="!isUserNameAvailable" class="text-danger-left">Duplicate User Name is not allowed.</small>
-                </div>
-                <div *ngIf="UserName.errors && !(UserName.valid || (UserName.pristine && !formuserreg.submitted))">
-                    <small [hidden]="!UserName.errors.required" class="text-danger-left">Please enter User Name.</small>
-                    <small [hidden]="!UserName.errors.pattern" class="text-danger-left">Please enter valid User Name.</small>
-                </div>
-                     </div>
-                     </div>
-            </div>
+                    <!--<div class="form-group">
+                        <label for="username" class="cols-sm-2 control-label">Username</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" tabindex="1" name="UserName" [(ngModel)]="userreg.UserName" pattern="^[A-Za-z0-9]+$" required maxlength="20"
+                                       #UserName="ngModel" placeholder="Enter your Username">
+                                <div *ngIf="!UserName.pristine && !UserName.errors ">
+                                    <small [hidden]="!isUserNameAvailable" class="text-danger-left">Duplicate User Name is not allowed.</small>
+                                </div>
+                                <div *ngIf="UserName.errors && !(UserName.valid || (UserName.pristine && !formuserreg.submitted))">
+                                    <small [hidden]="!UserName.errors.required" class="text-danger-left">Please enter User Name.</small>
+                                    <small [hidden]="!UserName.errors.pattern" class="text-danger-left">Please enter valid User Name.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
 
                     <div class="form-group">
                         <label for="email" class="cols-sm-2 control-label">Email</label>
@@ -160,7 +164,7 @@ span.input-group-addon i {
                             </div>
                         </div>
                     </div>
-                 
+
                     <div class="form-group">
                         <label for="password" class="cols-sm-2 control-label">Password</label>
                         <div class="cols-sm-10">
@@ -183,7 +187,7 @@ span.input-group-addon i {
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
                                 <!--<input type="password" class="form-control" name="confirm" id="confirm" />-->
-                                <input type="password" class="form-control" tabindex="1" name="RepeatPassword" [(ngModel)]="userreg.RepeatPassword"  placeholder="Confirm your Password" required
+                                <input type="password" class="form-control" tabindex="1" name="RepeatPassword" [(ngModel)]="userreg.RepeatPassword" placeholder="Confirm your Password" required
                                        minlength="8" maxlength="20" validateEqual="Password" #RepeatPassword="ngModel">
                                 <div *ngIf="RepeatPassword.errors && !(RepeatPassword.valid || (RepeatPassword.pristine && !formuserreg.submitted))">
                                     <small [hidden]="!RepeatPassword.errors.required" class="text-danger-right">Please enter Confirm Password (minimum 8 characters).</small>
@@ -193,13 +197,21 @@ span.input-group-addon i {
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group ">
                         <!-- <a href="http://deepak646.blogspot.in" target="_blank" type="button" id="button" class="">Register</a>-->
-                        <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
-
+                        <div class="cols-sm-10">
+                            <div style="position: relative; display: table; border-collapse: separate;">
+                                <div class="col-lg-6">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <button type="button" class="btn btn-primary btn-lg btn-block login-button" (click)="redirectToLogin();">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                </form>
+</form>
             </div>
         </div>
     </div>

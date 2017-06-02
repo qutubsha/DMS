@@ -13,22 +13,22 @@
                                 <thead>
                                     <tr>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="fileName">File Name</mfDefaultSorter>
+                                            <mfDefaultSorter by="FileName">File Name</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="extension">Extension</mfDefaultSorter>
+                                            <mfDefaultSorter by="Extension">Extension</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="createdBy">Created By</mfDefaultSorter>
+                                            <mfDefaultSorter by="CreatedBy">Created By</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="createdOn">Created On</mfDefaultSorter>
+                                            <mfDefaultSorter by="CreatedOn">Created On</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="lockedBy">Locked By</mfDefaultSorter>
+                                            <mfDefaultSorter by="LockedBy">Locked By</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="documentTags">Document Tag(s)</mfDefaultSorter>
+                                            <mfDefaultSorter by="DocumentTags">Document Tag(s)</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
                                             Operations
@@ -47,13 +47,13 @@
                                 <tbody>
                                     <tr *ngFor="let item of  mf.data">
                                         <td>
-                                            {{item.fileName}}
+                                            {{item.FileName}}
                                         </td>
-                                        <td>{{item.extension}}</td>
-                                        <td>{{item.createdBy}}</td>
-                                        <td>{{item.createdOn}}</td>
-                                        <td>{{item.lockedBy}}</td>
-                                        <td>{{item.documentTags}}</td>
+                                        <td>{{item.Extension}}</td>
+                                        <td>{{item.CreatedBy}}</td>
+                                        <td>{{item.CreatedOn}}</td>
+                                        <td>{{item.LockedBy}}</td>
+                                        <td>{{item.DocumentTags}}</td>
                                         <td>
                                             <a (click)="DownloadDoc();" style="cursor:pointer">
                                                 <span class="glyphicon glyphicon-download"></span>

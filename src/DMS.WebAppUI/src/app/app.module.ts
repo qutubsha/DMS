@@ -19,6 +19,7 @@ import { UserProfileModule } from './user-profile/user-profile.module';
 import { RolesModule } from './roles/roles.module';
 import { SimpleNotificationsModule, PushNotificationsModule } from 'angular2-notifications';
 import { BusyModule, BusyConfig } from 'angular2-busy';
+import { ChangePasswordModule } from './user-profile/change-password.module';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import { BusyModule, BusyConfig } from 'angular2-busy';
         RegistrationModule,
         RolesModule,
         SimpleNotificationsModule,
-        PushNotificationsModule
+        PushNotificationsModule,
+        ChangePasswordModule
     ],
     providers: [
         AuthGuard,

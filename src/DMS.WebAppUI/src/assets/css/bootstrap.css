@@ -5946,6 +5946,12 @@ button.close {
   position: relative;
   padding: 15px;
 }
+#modalPwdFooter .modal-footer {
+    border-top: none !important;
+}
+#modalPwdHeader button{
+    visibility:hidden !important;
+}
 .modal-footer {
   padding: 15px;
   text-align: right;

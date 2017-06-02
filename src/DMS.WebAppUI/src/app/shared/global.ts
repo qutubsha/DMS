@@ -71,7 +71,7 @@ export const GlobalVariable = Object.freeze({
         preventLastDuplicates: 'visible',
         rtl: false,
         animate: 'scale',
-        position: ['right', 'top'],
+        position: ['right', 'top:0px'],
     }
 
 });

@@ -110,6 +110,7 @@
     <Content Include="src\app\login\registration.component.html" />
     <Content Include="src\app\roles\rights.component.html" />
     <Content Include="src\app\roles\roles.component.html" />
+    <Content Include="src\app\user-profile\change-password.component.html" />
     <Content Include="src\app\user-profile\user-profile.component.html" />
     <Content Include="src\app\user-profile\user-profile.component-1.html" />
     <Content Include="src\app\versionhistory\versionhistory.component.html" />
@@ -185,6 +186,8 @@
     <TypeScriptCompile Include="src\app\shared\multiselect-list.ts" />
     <TypeScriptCompile Include="src\app\shared\shared.module.ts" />
     <TypeScriptCompile Include="src\app\shared\shared.service.ts" />
+    <TypeScriptCompile Include="src\app\user-profile\change-password.component.ts" />
+    <TypeScriptCompile Include="src\app\user-profile\change-password.module.ts" />
     <TypeScriptCompile Include="src\app\user-profile\user-profile.component.ts" />
     <TypeScriptCompile Include="src\app\user-profile\user-profile.module.ts" />
     <TypeScriptCompile Include="src\app\versionhistory\versionhistory.component.ts" />

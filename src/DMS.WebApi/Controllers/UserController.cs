@@ -40,17 +40,21 @@ namespace DMS.WebApi.Controllers
         /// <param name="oldPwd"></param>
         /// <param name="newPwd"></param>
         /// <returns></returns>
-        [HttpPost("UpdatePassword/{eMail}/{oldPwd}/{newPwd}")]
+        [HttpPut("UpdatePassword/{eMail}/{oldPwd}/{newPwd}")]
         public IActionResult UpdatePassword(string eMail, string oldPwd, string newPwd)
         {
            
            return Execute(() => Ok(_userService.UpdatePassword(eMail, oldPwd, newPwd)));
         }
-        [HttpPost("GetUserDetails/{eMail}")]
+        [HttpGet("GetUserDetails/{eMail}")]
         public IActionResult GetUserDetails(string eMail)
         {
             return Execute(() => Ok(_userService.GetUserDetails(eMail)));
         }
-
+        [HttpPut("UpdateUserDetails")]
+        public IActionResult UpdateUserDetails([FromBody]User user)
+        {
+            return Execute(() => Ok(_userService.UpdateUserDetails(user)));
+        }
     }
 }
