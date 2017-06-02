@@ -10,6 +10,8 @@ import { BusyModule, BusyConfig } from 'angular2-busy';
 import { MultiselectDropdownModule } from './multiselect-dropdown';
 import { MultiselectListModule } from './multiselect-list';
 import { RecaptchaModule } from 'ng2-recaptcha';
+import { CommonModalComponent } from '../modal/modal.component';
+
 @NgModule({
     imports: [
         Ng2Bs3ModalModule,
@@ -17,7 +19,7 @@ import { RecaptchaModule } from 'ng2-recaptcha';
         SimpleNotificationsModule,
         RecaptchaModule.forRoot()
     ],
-    declarations: [EqualValidator],
+    declarations: [EqualValidator, CommonModalComponent],
     exports: [
         CommonModule,
         Ng2Bs3ModalModule,
@@ -29,7 +31,8 @@ import { RecaptchaModule } from 'ng2-recaptcha';
         BusyModule,
         MultiselectDropdownModule,
         MultiselectListModule,
-        RecaptchaModule
+        RecaptchaModule,
+        CommonModalComponent
     ]
 })
 export class SharedModule {

@@ -1,0 +1,13 @@
+﻿ <!-- Modal -->
+<modal animation="true" keyboard="true" backdrop="true" #modal>
+    <modal-header [show-close]="false">
+        <h4 class="modal-title popup_header">{{modalTitle}}</h4>
+    </modal-header>
+    <modal-body>
+        <p>{{modalContent}}</p>
+    </modal-body>
+    <modal-footer>     
+        <button type="button" class="fr-btn modal-button" data-dismiss="modal" autofocus (click)="onClick()">Ok</button>
+        <button type="button" *ngIf="showCancel" class="fr-btn modal-button" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+    </modal-footer>
+</modal>
