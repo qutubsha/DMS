@@ -70,7 +70,7 @@ namespace DMS.Repository
                 {
                     var updateEmailTemplate = Builders<EmailTemplate>.Update.Set("EmailSubject", updateTemplate.EmailSubject).Set("EmailBody", updateTemplate.EmailBody);
                     await _context.EmailTemplate.UpdateOneAsync(filter, updateEmailTemplate);
-                    return updateTemplate;
+                    return  updateTemplate;
                 }
                 else return null;
             }

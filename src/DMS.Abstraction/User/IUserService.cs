@@ -34,5 +34,12 @@ namespace DMS.Abstraction
         /// <param name="user"></param>
         /// <returns></returns>
         Task<User> UpdateUserDetails(User user);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eMail"></param>
+        /// <returns></returns>
+        Task<bool> ForgotPassword(string eMail);
     }
 }

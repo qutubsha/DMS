@@ -9,20 +9,20 @@ namespace DMS
 {
     public class EmailService : IEmailService
     {
-        public async Task SendMail(string recipients, string fromEmail, int templateId, object data)
+        public async Task SendMail(string recipients, string fromEmail, object data)
         {
             //var template = TemplateService.Process(templateId, data);
             //var emailMessage = new MailMessage(fromEmail, recipients, template.Subject, template.Body) { IsBodyHtml = true };
             await Task.Run(() =>
             {
-            //    try
-            //    {
-            //        smtpClient.Send(emailMessage);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Log.Error(ex.Message);
-            //    }
+                //try
+                //{
+                //    smtpClient.Send(emailMessage);
+                //}
+                //catch (Exception ex)
+                //{
+                //    Log.Error(ex.Message);
+                //}
             });
         }
     }

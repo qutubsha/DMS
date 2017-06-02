@@ -93,5 +93,18 @@ using DMS.Validator;
             return await _repository.UpdateUserDetails(user);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eMail"></param>
+        /// <returns></returns>
+        public async Task<bool> ForgotPassword(string eMail)
+        {
+            // Throws null exception if user value is null
+            if (string.IsNullOrEmpty(eMail)) throw new ArgumentNullException(nameof(eMail), "Email should not be null or empty");
+
+            return await _repository.ForgotPassword(eMail);
+        }
+
     }
 }
