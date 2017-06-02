@@ -120,11 +120,35 @@
             font-size: 11px;
             text-align: center;
         }
+          
+
+        .main-center-header {
+            margin-top: 30px;
+            margin: 0 auto;
+            max-width: 580px;
+            /*padding: 10px 40px;*/
+
+            color: #FFF;
+            text-shadow: none;
+
+        }
+
+         .main-center-header .logo h1 {
+	color:#009edf;
+	font-weight: 700;
+	line-height: 36px;
+}
     </style>
 </head>
 <body>
     <div class="container">
         <simple-notifications [options]="notificationOptions"></simple-notifications>
+
+        <div class="row main-center-header">
+            <div class="col-xs-12 logo">
+                <h1 class="logo-text">Document Management System</h1>
+            </div>
+        </div>
         <div class="row main">
            
             <div class="main-login main-center">

@@ -23,7 +23,7 @@ export class SecureComponent {
     ngOnInit(): void {
         debugger
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        console.log(this.currentUser.email)
+        console.log(this.currentUser.Email)
 
     }
     logout(): void {
