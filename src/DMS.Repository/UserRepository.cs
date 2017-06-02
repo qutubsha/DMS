@@ -1,5 +1,6 @@
 ﻿using DMS.Abstraction;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
@@ -43,25 +44,7 @@ namespace DMS.Repository
         public async Task<User> Login(string eMail, string password)
         {
 
-
-            //var filter = Builders<User>.Filter.Eq("Email", eMail) & Builders<User>.Filter.Eq("Password", password);
-            //var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
-            //if (objUser == null)
-            //{
-            //    filter = Builders<User>.Filter.Eq("Email", eMail);
-            //    objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
-            //    if (objUser != null)
-            //    {
-            //        objUser.LoginAttemptCount = (objUser.LoginAttemptCount + 1);
-            //        objUser.LastLoginAttempt = DateTime.Now;
-            //        var update = Builders<User>.Update.Set("LoginAttemptCount", (objUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
-            //        await _context.Users.UpdateOneAsync(filter, update);
-            //    }
-            //}
-            //return objUser;
-            return await LoginUserLocked(eMail, password);
-
-
+           return await AuthenticUserLocked(eMail, password);
         }
 
         public async Task<User> AddUser(User user)
@@ -140,13 +123,13 @@ namespace DMS.Repository
             return null;
         }
 
-        private async Task<User> LoginUserLocked(string eMail, string password)
+        private async Task<User> AuthenticUserLocked(string eMail, string password)
         {
             var filter = Builders<User>.Filter.Eq("Email", eMail);
             User objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
             if (null != objUser)
             {
-                if (objUser.LoginAttemptCount >= 3 && objUser.LastLoginAttempt.Value.AddHours(3) >= DateTime.Now)
+                if (objUser.LoginAttemptCount >= 3 && objUser.LastLoginAttempt.Value.AddHours(3) >= DateTime.Now.Subtract(new TimeSpan(5, 30, 0)))
                 {
                     return null;
                 }
@@ -156,7 +139,21 @@ namespace DMS.Repository
                     User validateUser = await _context.Users.Find(filterValidate).FirstOrDefaultAsync();
                     if (null == validateUser)
                     {
-                        if (objUser.LoginAttemptCount <= 3)
+                        if (objUser.LastLoginAttempt != null)
+                        {
+                            if (objUser.LoginAttemptCount <= 3 && objUser.LastLoginAttempt.Value.AddHours(3) <= DateTime.Now.Subtract(new TimeSpan(5, 30, 0)))
+                            {
+                                var update = Builders<User>.Update.Set("LoginAttemptCount", (objUser.LoginAttemptCount >= 3 ? 1 : (objUser.LoginAttemptCount + 1))).Set("LastLoginAttempt", DateTime.Now);
+                                await _context.Users.UpdateOneAsync(filter, update);
+                                return null;
+                            }
+                            else {
+                                var update = Builders<User>.Update.Set("LoginAttemptCount",(objUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
+                                await _context.Users.UpdateOneAsync(filter, update);
+                                return null;
+                            }
+                        }
+                        else
                         {
                             var update = Builders<User>.Update.Set("LoginAttemptCount", (objUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
                             await _context.Users.UpdateOneAsync(filter, update);
@@ -165,7 +162,7 @@ namespace DMS.Repository
                     }
                     else
                     {
-                        var update = Builders<User>.Update.Set("LoginAttemptCount", (validateUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
+                        var update = Builders<User>.Update.Set("LoginAttemptCount", 0).Set("LastLoginAttempt", BsonNull.Value);
                         await _context.Users.UpdateOneAsync(filter, update);
                     }
 
