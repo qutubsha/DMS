@@ -20,7 +20,7 @@ import { RolesModule } from './roles/roles.module';
 import { SimpleNotificationsModule, PushNotificationsModule } from 'angular2-notifications';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { ChangePasswordModule } from './user-profile/change-password.module';
-
+import { RecaptchaModule } from 'ng2-recaptcha';
 @NgModule({
     declarations: [
         AppComponent,
@@ -42,7 +42,8 @@ import { ChangePasswordModule } from './user-profile/change-password.module';
         RolesModule,
         SimpleNotificationsModule,
         PushNotificationsModule,
-        ChangePasswordModule
+        ChangePasswordModule,
+        RecaptchaModule.forRoot()
     ],
     providers: [
         AuthGuard,

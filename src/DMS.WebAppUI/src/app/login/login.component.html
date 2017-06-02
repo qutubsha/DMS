@@ -3,9 +3,8 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
     <title>Admin</title>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <style>
         #playground-container {
             height: 500px;
@@ -113,7 +112,7 @@
             margin: 0 auto;
             max-width: 580px;
             /*padding: 10px 40px;*/
-            
+
             color: #FFF;
             text-shadow: none;
 
@@ -133,7 +132,7 @@
     visibility:hidden !important;
 }
 .theme_color{
-	/*color:#48c7ec;*/	
+	/*color:#48c7ec;*/
     color:aliceblue;
 }
 
@@ -228,7 +227,9 @@
                             </div>
                         </div>
                     </div>
-                
+                    <!--<recaptcha (resolved)="resolved($event)" siteKey="6LfPxCMUAAAAAK3EeXzbH2EmtvMn7hWpqStrlEOa"></recaptcha>-->
+                   
+                    <!--<div (setVerified)="setVerified($event)" googlerecaptcha [siteKey]="siteKey" [theme]='theme'></div>-->
                     <div class="form-group ">
                         <div class="col-lg-6">
                             <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
@@ -236,7 +237,7 @@
                         <div class="col-lg-6">
                             <button type="button" class="btn btn-primary btn-lg btn-block login-button" (click)="redirectToDashboard();">Regitration</button>
                         </div>
-                    
+
 
                     </div>
                     <div class="col-lg-offset-3 cols-sm-9" style="margin-top:22%">
@@ -272,12 +273,14 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" tabindex="1" name="Email" [(ngModel)]="email" #Email="ngModel" placeholder="Enter your Email" required maxlength="200"
+                            <input type="text" class="form-control" tabindex="1" name="Forgotpass" [(ngModel)]="forgotpass" #Forgotpass="ngModel" placeholder="Enter your Email" required maxlength="200"
                                    pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
-                            <div *ngIf="Email.errors && !(Email.valid || (Email.pristine && !form.submitted))">
+
+                            <small *ngIf="isusernameClicked && !isusernameValid" class="text-danger">Please enter Email.</small>
+                            <!--<div *ngIf="Email.errors && !(Email.valid || (Email.pristine && !form.submitted))">
                                 <small [hidden]="!Email.errors.required" class="text-danger-left">Please enter Email.</small>
                                 <small [hidden]="!Email.errors.pattern" class="text-danger-left">Please enter valid Email.</small>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>

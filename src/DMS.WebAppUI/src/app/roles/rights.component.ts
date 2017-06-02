@@ -19,17 +19,4 @@ export class RightsComponent {
     private selectedRolewiserights: number[] = [];
     busy: Subscription;
 
-    private multiSelectSettings: IMultiSelectSettings = {
-        pullRight: false,
-        enableSearch: true,
-        checkedStyle: 'checkboxes',
-        buttonClasses: 'btn btn-default',
-        selectionLimit: 0,
-        closeOnSelect: false,
-        autoUnselect: false,
-        showCheckAll: false,
-        dynamicTitleMaxItems: 1,
-        maxHeight: '300px',
-        DisableField: false
-    }
 }
