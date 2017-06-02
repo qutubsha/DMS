@@ -43,21 +43,22 @@ namespace DMS.Repository
         public async Task<User> Login(string eMail, string password)
         {
 
-            var filter = Builders<User>.Filter.Eq("Email", eMail) & Builders<User>.Filter.Eq("Password", password);
-            var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
-            if (objUser == null)
-            {
-                filter = Builders<User>.Filter.Eq("Email", eMail);
-                objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
-                if (objUser != null)
-                {
-                    objUser.LoginAttemptCount = (objUser.LoginAttemptCount + 1);
-                    objUser.LastLoginAttempt = DateTime.Now;
-                    var update = Builders<User>.Update.Set("LoginAttemptCount", (objUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
-                    await _context.Users.UpdateOneAsync(filter, update);
-                }
-            }
-            return objUser;
+            //var filter = Builders<User>.Filter.Eq("Email", eMail) & Builders<User>.Filter.Eq("Password", password);
+            //var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
+            //if (objUser == null)
+            //{
+            //    filter = Builders<User>.Filter.Eq("Email", eMail);
+            //    objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
+            //    if (objUser != null)
+            //    {
+            //        objUser.LoginAttemptCount = (objUser.LoginAttemptCount + 1);
+            //        objUser.LastLoginAttempt = DateTime.Now;
+            //        var update = Builders<User>.Update.Set("LoginAttemptCount", (objUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
+            //        await _context.Users.UpdateOneAsync(filter, update);
+            //    }
+            //}
+            //return objUser;
+            return await LoginUserLocked(eMail, password);
         }
 
         public async Task<User> AddUser(User user)
@@ -134,6 +135,41 @@ namespace DMS.Repository
                 }
             }
             return null;
+        }
+
+        private async Task<User> LoginUserLocked(string eMail, string password)
+        {
+            var filter = Builders<User>.Filter.Eq("Email", eMail);
+            User objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
+            if (null != objUser)
+            {
+                if (objUser.LoginAttemptCount >= 3 && objUser.LastLoginAttempt.Value.AddHours(3) >= DateTime.Now)
+                {
+                    return null;
+                }
+                else
+                {
+                    var filterValidate = Builders<User>.Filter.Eq("Email", eMail) & Builders<User>.Filter.Eq("Password", password);
+                    User validateUser = await _context.Users.Find(filterValidate).FirstOrDefaultAsync();
+                    if (null == validateUser)
+                    {
+                        if (objUser.LoginAttemptCount <= 3)
+                        {
+                            var update = Builders<User>.Update.Set("LoginAttemptCount", (objUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
+                            await _context.Users.UpdateOneAsync(filter, update);
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        var update = Builders<User>.Update.Set("LoginAttemptCount", (validateUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
+                        await _context.Users.UpdateOneAsync(filter, update);
+                    }
+
+                }
+            }
+            else return null;
+            return objUser;
         }
     }
 }
