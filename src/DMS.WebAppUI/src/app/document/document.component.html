@@ -1,7 +1,9 @@
 ﻿<div class="main_cantent_inner">
     <h2>Documents</h2>
     <div class="row">
-
+        <a (click)="modal.open();" style="cursor:pointer">
+            Upload Multiple Documents
+        </a>
         <div class="col-lg-12 col_padding">
             <div class="row">
                 <div class="view_department">
@@ -112,3 +114,15 @@
 </div>
 
 
+<modal #modal class="modal">
+    <modal-header [show-close]="true" class="modalheaderCal" id="modalPwdHeader">
+        <div>
+            <h4 class="modal-title popup_header">Uplaod Multiple Files </h4>
+        </div>
+    </modal-header>
+    <modal-body>
+        <input type="file" id="btnUpload" value="Upload" multiple (change)="fileChange($event)" class="upload" />
+        <!--<input type="file" ng2FileSelect [uploader]="uploader" multiple />--><br />
+    </modal-body>
+
+</modal>

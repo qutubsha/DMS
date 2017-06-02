@@ -123,6 +123,10 @@ export class RolesComponent {
                     this.errorMessage = <any>error;
                     this.notificationTitle = 'Error in updating Role.';
                     this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                },
+                () => {
+                    this.notificationTitle = 'Role updated successfully.';
+                    this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
                 });
         }
         else {
@@ -139,6 +143,10 @@ export class RolesComponent {
                     this.errorMessage = <any>error;
                     this.notificationTitle = 'Error in adding Role.';
                     this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                },
+                () => {
+                    this.notificationTitle = 'Role created successfully.';
+                    this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
                 });
         }
 

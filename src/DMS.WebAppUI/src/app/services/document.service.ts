@@ -1,9 +1,9 @@
 ﻿import { Injectable } from '@angular/core';
-import { IDocument, Document} from '../document/document';
-import { IAccessHistory, AccessHistory} from '../accesshistory/accesshistory';
-import { IVersionHistory, VersionHistory} from '../versionhistory/versionhistory';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { IDocument, Document } from '../document/document';
+import { IAccessHistory, AccessHistory } from '../accesshistory/accesshistory';
+import { IVersionHistory, VersionHistory } from '../versionhistory/versionhistory';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import { PathFinder } from '../path-finder';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -43,6 +43,16 @@ export class DocumentService {
         return this._http.put(this._pathfinder.documentUrl + "?documentId=" + documentId + "&loginId=" + loginId, this._pathfinder.getheaderWithoutJWT())
             .map((response: Response) => <IAccessHistory>response.json())
             .catch(err => this.handleError(err));
+    }
+
+    uploadFile(formData): any {
+        let headers = new Headers()
+        //headers.append('Content-Type', 'json');  
+        //headers.append('Accept', 'application/json');  
+        let options = new RequestOptions({ headers: headers });
+        return this._http.post(this._pathfinder.documentUrl + "/UploadFiles", formData, options)
+            .map(res => res.json())
+            .catch(error => Observable.throw(error));
     }
 
     //Error Handling
