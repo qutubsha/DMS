@@ -5,6 +5,7 @@ export interface IRole {
     IsActive: boolean;
     CreatedOn: string;
     UpdatedOn: string;
+    Rights: IRight[];
 }
 
 export class Role implements IRole {
@@ -13,7 +14,8 @@ export class Role implements IRole {
         public RoleName: string,
         public IsActive: boolean,
         public CreatedOn: string,
-        public UpdatedOn: string
+        public UpdatedOn: string,
+        public Rights: IRight[]
     ) { }
 }
 

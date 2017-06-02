@@ -9,6 +9,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { MultiselectDropdownModule } from './multiselect-dropdown';
 import { MultiselectListModule } from './multiselect-list';
+import { CommonModalComponent } from '../modal/modal.component';
 
 @NgModule({
     imports: [
@@ -16,7 +17,7 @@ import { MultiselectListModule } from './multiselect-list';
         CommonModule,
         SimpleNotificationsModule
     ],
-    declarations: [EqualValidator],
+    declarations: [EqualValidator, CommonModalComponent],
     exports: [
         CommonModule,
         Ng2Bs3ModalModule,
@@ -27,7 +28,8 @@ import { MultiselectListModule } from './multiselect-list';
         EqualValidator,
         BusyModule,
         MultiselectDropdownModule,
-        MultiselectListModule
+        MultiselectListModule,
+        CommonModalComponent
     ]
 })
 export class SharedModule { }
