@@ -5,6 +5,7 @@
     "DMS.Abstraction": "1.0.0-*",
     "DMS.Repository": "1.0.0-*",
     "FluentValidation": "6.4.1",
+    "NETCore.MailKit": "1.0.1",
     "NETStandard.Library": "1.6.0"
   },
 
