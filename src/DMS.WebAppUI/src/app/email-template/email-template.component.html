@@ -1,0 +1,56 @@
+﻿<div class="main_cantent_inner">
+    <h2>Email Template</h2>
+    <div class="row" [ngBusy]="busy">
+       
+        <div class="col-lg-12 col_padding">
+            <div class="row">
+                <div>
+                    <div class="panel panel-primary filterable table-responsive">
+                        <table class="table table-dev table-striped viewdepartment_table" [mfData]="emailtemplatedata" #mf="mfDataTable"
+                               [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder" [mfActivePage]="activePage">
+                            <thead>
+                                <tr>
+                                    <th class="fifteen"><mfDefaultSorter by="TemplateName">Template Name</mfDefaultSorter></th>
+                                    <th class="thirty"><mfDefaultSorter by="Subject">Email Subject</mfDefaultSorter></th>
+                                    <th class="fifteen"><mfDefaultSorter by="UpdatedBy">Updated By</mfDefaultSorter></th>
+                                    <th class="ten"><mfDefaultSorter by="UpdatedOn">Updated On</mfDefaultSorter></th>
+                                    <th class="ten"><mfDefaultSorter by="Active">Is Active</mfDefaultSorter></th>
+                                    <th class="ten">Action</th>
+                                </tr>
+                                <tr class="filters">
+                                    <th class="fifteen"><input type="text" class="form-control" [(ngModel)]="TemplateNameFilter" (ngModelChange)="filteremialtemplatedetails($event)"></th>
+                                    <th class="thirty"><input type="text" class="form-control" [(ngModel)]="SubjectFilter" (ngModelChange)="filteremialtemplatedetails($event)"></th>
+                                    <th class="fifteen"><input type="text" class="form-control" [(ngModel)]="UpdatedByFilter" (ngModelChange)="filteremialtemplatedetails($event)"></th>
+                                    <th class="ten"><input type="text" class="form-control" [(ngModel)]="UpdatedOnFilter" (ngModelChange)="filteremialtemplatedetails($event)"></th>
+                                    <th class="ten"><input type="text" class="form-control" [(ngModel)]="IsActiveFilter" (ngModelChange)="filteremialtemplatedetails($event)"></th>
+                                    <th class="ten"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of mf.data">
+                                    <td class="fifteen">{{item.TemplateName}}</td>
+                                    <td class="thirty">{{item.Subject}}</td>
+                                    <td class="fifteen">{{item.UpdatedBy}}</td>
+                                    <td class="ten">{{item.UpdatedOn}}</td>
+                                    <td class="ten">{{item.Active}}</td>
+                                    <td class="ten delete_department">
+                                        <a class="template_btn" *ngIf="EditEmailTemplate">
+                                            <img class="new-cursor" title="Edit" alt="Edit" src="assets/images/edit1.png" (click)="editEmployeetemplate(item.EmailTemplateId)">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8">
+                                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25,50]"></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

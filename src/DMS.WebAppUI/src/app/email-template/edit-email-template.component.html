@@ -1,0 +1,66 @@
+﻿<div class="main_cantent_inner">
+    <h2>Email Template</h2>
+    <div class="row" [ngBusy]="busy">
+        <div class="col-lg-12 col_padding">
+            <div class="add_shift">
+                <div class="fields_container">
+                    <div class="add_section">
+
+                        <a id="add_fields">
+                            Edit Template
+                        </a>
+                    </div>
+                </div>
+               <!-- <ai-modal #modal modalTitle="Reset Email Template" modalContent="Are sure you wish to reset this Email template?" showCancel="true" (modalClicked)='resetTemplate()'></ai-modal>-->
+                <div class="show_addsection">
+                    <form #emtemp="ngForm"  novalidate (ngSubmit)="emtemp.submitted && emtemp.valid && submitForm($event)">
+                            <div class="show_addsectioninner">
+                                <div class="fieldset">
+                                    <div class="row">
+                                        <div class="col-sm-4 col-md-8">
+                                            <label class="twenty_five">Template</label>
+                                            <label class="templatelbl">{{emailtemp.TemplateName}}</label>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" *ngIf="ResetEmailTemplate">
+                                            <a (click)='modal.open();' class="aBack">
+                                                Reset to Default
+                                            </a>
+                                        </div>
+                                      </div>
+                                    <div class="row">
+                                        <div class="col-sm-4 col-md-8">
+                                            <label class="twenty_five ">Subject</label>
+                                            <input type="text" class="form-control"  name="Subject" [(ngModel)]="emailtemp.Subject" required #Subject="ngModel">
+                                            <div *ngIf="Subject.errors && !(Subject.valid || (Subject.pristine && !emtemp.submitted))">
+                                                <small [hidden]="!Subject.errors.required" class="text-danger-leftemail">Please enter Subject.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                                <label  style="width:100% !important;">Body</label>
+                                        </div>
+                                        <div class="col-md-10" style="margin-top: -0.5% !important;">
+                                            <p-editor [(ngModel)]="emailtemp.Body" name="Body" [style]="{'height':'300px'}"></p-editor>
+                                        </div>
+                                   
+                                    </div>
+                                  
+                                </div>
+                            </div>
+                            <div class="fieldset">
+                                <div class="row" *ngIf="UpdateEmailTemplate">
+                                    <div class="col-lg-1 col-md-2 col-sm-6 col-xs-12 ">
+                                        <button type="submit" class="fr-btn">Save</button>
+                                    </div>
+                                    <div class="col-lg-1 col-md-2 col-sm-6 col-xs-12 ">
+                                        <button type="button" class="fr-btn hide_addsection" (click)="cancelFormData()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
