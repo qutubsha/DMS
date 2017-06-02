@@ -31,9 +31,9 @@ namespace DMS
         /// </summary>
         /// <param name="templateName"></param>
         /// <returns></returns>
-        public Task<EmailTemplate> GetEmailTemplateByName(string templateName)
+        public async Task<EmailTemplate> GetEmailTemplateByName(string templateName)
         {
-            return _repository.GetEmailTemplateByName(templateName);
+            return await _repository.GetEmailTemplateByName(templateName);
         }
 
         /// <summary>
@@ -41,9 +41,9 @@ namespace DMS
         /// </summary>
         /// <param name="updateTemplate"></param>
         /// <returns></returns>
-        public Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate)
+        public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate)
         {
-            return _repository.UpdateEmailTemplateByName(updateTemplate);
+            return await _repository.UpdateEmailTemplateByName(updateTemplate);
         }
     }
 }

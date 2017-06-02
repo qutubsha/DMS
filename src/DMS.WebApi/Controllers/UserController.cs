@@ -43,8 +43,8 @@ namespace DMS.WebApi.Controllers
         [HttpPut("UpdatePassword/{eMail}/{oldPwd}/{newPwd}")]
         public IActionResult UpdatePassword(string eMail, string oldPwd, string newPwd)
         {
-           
-           return Execute(() => Ok(_userService.UpdatePassword(eMail, oldPwd, newPwd)));
+
+            return Execute(() => Ok(_userService.UpdatePassword(eMail, oldPwd, newPwd)));
         }
         [HttpGet("GetUserDetails/{eMail}")]
         public IActionResult GetUserDetails(string eMail)
@@ -55,6 +55,17 @@ namespace DMS.WebApi.Controllers
         public IActionResult UpdateUserDetails([FromBody]User user)
         {
             return Execute(() => Ok(_userService.UpdateUserDetails(user)));
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eMail"></param>
+        /// <returns></returns>
+        [HttpGet("ForgotPassword/{eMail}")]
+        public Task<bool> ForgotPassword(string eMail)
+        {
+            return _userService.ForgotPassword(eMail);
         }
     }
 }

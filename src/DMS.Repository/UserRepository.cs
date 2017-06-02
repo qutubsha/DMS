@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 
 
+
 namespace DMS.Repository
 {
     public class UserRepository : IUserRepository
@@ -46,14 +47,13 @@ namespace DMS.Repository
         public async Task<User> Login(string eMail, string password)
         {
 
-           return await AuthenticUserLocked(eMail, password);
+            return await AuthenticUserLocked(eMail, password);
         }
 
         public async Task<User> AddUser(User user)
         {
             if (null != user)
             {
-                //var filter =         
                 var filter = Builders<User>.Filter.Eq("Email", user.Email);
                 var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
                 if (null == objUser)
@@ -78,13 +78,6 @@ namespace DMS.Repository
         /// <returns></returns>
         public async Task<bool> UpdatePassword(string eMail, string oldPwd, string newPwd)
         {
-            //await EmailService.SendMail("Recipient@mailaddress.com", "sender@mailaddress.com", 1,
-            //     new
-            //     {
-            //         ProposedBy = "Kutub Shaikh",
-            //         TemplateName = "templateName",
-            //         DepartmentName = "departmentName"
-            //     });
 
             if (!string.IsNullOrEmpty(eMail) && !string.IsNullOrEmpty(oldPwd) && !string.IsNullOrEmpty(newPwd))
             {
@@ -157,8 +150,9 @@ namespace DMS.Repository
                                 await _context.Users.UpdateOneAsync(filter, update);
                                 return null;
                             }
-                            else {
-                                var update = Builders<User>.Update.Set("LoginAttemptCount",(objUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
+                            else
+                            {
+                                var update = Builders<User>.Update.Set("LoginAttemptCount", (objUser.LoginAttemptCount + 1)).Set("LastLoginAttempt", DateTime.Now);
                                 await _context.Users.UpdateOneAsync(filter, update);
                                 return null;
                             }
@@ -180,6 +174,34 @@ namespace DMS.Repository
             }
             else return null;
             return objUser;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eMail"></param>
+        /// <returns></returns>
+        public async Task<bool> ForgotPassword(string eMail)
+        {
+            if (!string.IsNullOrEmpty(eMail))
+            {
+                var filter = Builders<User>.Filter.Eq("Email", eMail);
+                var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
+                if (null != objUser)
+                {
+                    await EmailService.SendMail(objUser.Email, "sender@email.com",
+                         new
+                         {
+                             FullName = objUser.FirstName + string.Empty + objUser.LastName,
+                             TemplateName = "ForgotPassword",
+                             Email = objUser.Email.Trim(),
+                             Password=objUser.Password.Trim()
+                         });
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
         }
     }
 }

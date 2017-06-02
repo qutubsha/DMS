@@ -48,6 +48,7 @@ namespace DMS.WebApi.Controllers
         [HttpPost]
         public Task<EmailTemplate> UpdateEmailTemplateByName([FromBody]EmailTemplate updateTemplate)
         {
+
             return _emailTemplateService.UpdateEmailTemplateByName(updateTemplate);
         }
 
