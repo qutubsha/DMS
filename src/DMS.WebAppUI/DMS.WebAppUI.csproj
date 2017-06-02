@@ -138,6 +138,7 @@
     <Content Include="src\assets\js\plugins\morris\morris.min.js" />
     <Content Include="src\assets\js\plugins\morris\raphael.min.js" />
     <Content Include="src\favicon.ico" />
+    <Content Include="src\Document.png" />
     <Content Include="src\index.html" />
     <Content Include="src\styles.css" />
   </ItemGroup>

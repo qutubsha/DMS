@@ -94,6 +94,7 @@ export class UserService {
     //}
 
     SendMailOnForgotPassword(username: string): Observable<IUser[]> {
+        debugger
         //return this._http.get(this._pathfinder.userUrl + "/ForgotPassword?username=" + username, this._pathfinder.getJWT())
         //    .map((response: Response) => <IUser[]>response.json())
         //    .catch(err => this.handleError(err));
