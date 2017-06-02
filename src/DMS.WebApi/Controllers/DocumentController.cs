@@ -10,6 +10,9 @@ using Microsoft.Extensions.Options;
 using DMS.Repository;
 using DMS.Abstraction.Documents;
 using DMS.Abstraction;
+using System.Net.Http;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DMS.WebApi.Controllers
@@ -100,6 +103,57 @@ namespace DMS.WebApi.Controllers
         {
             //TODO : Check permission, validate request
             return Execute(() => Ok(_documentService.GetVersionDetails(id, loginId).Result));
+        }
+
+        [HttpPost("UploadFiles")]
+        public HttpResponseMessage UploadJsonFile()
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+
+            var httpRequest = HttpContext.Request;
+            if (httpRequest.Form.Files.Count > 0)
+            {
+                long size = httpRequest.Form.Files.Sum(f => f.Length);
+                foreach (var formFile in httpRequest.Form.Files)
+                {
+                    IFormFile postedFile = httpRequest.Form.Files[formFile.Name];
+
+                    //var filePath = HttpContext.Request.HttpContext.Request MsapPath("~/UploadFile/" + postedFile.FileName);
+                    ////postedFile.SaveAs(filePath);
+                    //var postedFile = httpRequest.Files[file];
+                    //File abc = new File(;
+                    //var filePath = HttpContext.Request.u .MapPath("~/UploadFile/" + postedFile.FileName);
+                    //postedFile.SaveAs(filePath);
+
+
+                    //    System.Console.WriteLine("You received the call!");
+                    //  WriteLog("PostFiles call received!", true);
+                    //We would always copy the attachments to the folder specified above but for now dump it wherver....
+
+
+                    // full path to file in temp location
+                    var filePath = Path.GetTempFileName();
+                    var fileName = Path.GetTempFileName();
+                    var filePath1 = Path.GetFullPath("D:\\DMSUploadFiles") + "\\" + formFile.FileName;
+
+
+                    if (formFile.Length > 0)
+                    {
+                        using (var stream = new FileStream(filePath1, FileMode.Create))
+                        {
+                            formFile.CopyToAsync(stream);
+                            //formFile.CopyToAsync(stream);
+                        }
+                    }
+                    // process uploaded files
+                    // Don't rely on or trust the FileName property without validation.
+                    //Displaying File Name for verification purposes for 
+
+                    // return Ok(new { count = httpRequest.Form.Files.Count, fileName, size, filePath });
+
+                }
+            }
+            return response;
         }
     }
 }

@@ -104,10 +104,13 @@
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\dashboard\dashboard.component.html" />
     <Content Include="src\app\document\document.component.html" />
+    <Content Include="src\app\email-template\edit-email-template.component.html" />
+    <Content Include="src\app\email-template\email-template.component.html" />
     <Content Include="src\app\layout\public\public.component.html" />
     <Content Include="src\app\layout\secure\secure.component.html" />
     <Content Include="src\app\login\login.component.html" />
     <Content Include="src\app\login\registration.component.html" />
+    <Content Include="src\app\modal\modal.component.html" />
     <Content Include="src\app\roles\rights.component.html" />
     <Content Include="src\app\roles\roles.component.html" />
     <Content Include="src\app\user-profile\change-password.component.html" />
@@ -137,6 +140,7 @@
     <Content Include="src\assets\js\plugins\morris\morris.min.js" />
     <Content Include="src\assets\js\plugins\morris\raphael.min.js" />
     <Content Include="src\favicon.ico" />
+    <Content Include="src\Document.png" />
     <Content Include="src\index.html" />
     <Content Include="src\styles.css" />
   </ItemGroup>
@@ -159,6 +163,11 @@
     <TypeScriptCompile Include="src\app\document\document.component.ts" />
     <TypeScriptCompile Include="src\app\document\document.module.ts" />
     <TypeScriptCompile Include="src\app\document\document.ts" />
+    <TypeScriptCompile Include="src\app\email-template\edit-email-template.component.ts" />
+    <TypeScriptCompile Include="src\app\email-template\edit-email-template.module.ts" />
+    <TypeScriptCompile Include="src\app\email-template\email-template.component.ts" />
+    <TypeScriptCompile Include="src\app\email-template\email-template.module.ts" />
+    <TypeScriptCompile Include="src\app\email-template\email-template.ts" />
     <TypeScriptCompile Include="src\app\layout\public\public.component.ts" />
     <TypeScriptCompile Include="src\app\layout\public\public.routes.ts" />
     <TypeScriptCompile Include="src\app\layout\secure\secure.component.ts" />
@@ -168,12 +177,15 @@
     <TypeScriptCompile Include="src\app\login\login.ts" />
     <TypeScriptCompile Include="src\app\login\registration.component.ts" />
     <TypeScriptCompile Include="src\app\login\registration.module.ts" />
+    <TypeScriptCompile Include="src\app\modal\modal.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\modal\modal.component.ts" />
     <TypeScriptCompile Include="src\app\path-finder.ts" />
     <TypeScriptCompile Include="src\app\roles\rights.component.ts" />
     <TypeScriptCompile Include="src\app\roles\roles.component.ts" />
     <TypeScriptCompile Include="src\app\roles\roles.module.ts" />
     <TypeScriptCompile Include="src\app\roles\roles.ts" />
     <TypeScriptCompile Include="src\app\services\document.service.ts" />
+    <TypeScriptCompile Include="src\app\services\email-template.service.ts" />
     <TypeScriptCompile Include="src\app\services\roles.service.ts" />
     <TypeScriptCompile Include="src\app\services\user.service.ts" />
     <TypeScriptCompile Include="src\app\shared\appequal-validator.directive.ts" />
@@ -265,7 +277,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55669</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

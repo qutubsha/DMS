@@ -7,7 +7,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import { AppSettings } from '../appsettings';
 import { PathFinder } from '../path-finder';
-import { IRole, Role } from '../roles/roles';
+import { IRole, Role, IRight, Right } from '../roles/roles';
 
 @Injectable()
 export class RolesService {
@@ -17,7 +17,7 @@ export class RolesService {
 
     getRoles(): Observable<IRole[]> {
         return this._http.get(this._pathfinder.roleUrl, this._pathfinder.getheaderWithoutJWT())
-            .map((response: Response) => <IRole>response.json())
+            .map((response: Response) => <IRole[]>response.json())
             .catch(err => this.handleError(err));
     }
 
@@ -32,6 +32,12 @@ export class RolesService {
         let body = JSON.stringify(role);
         return this._http.put(this._pathfinder.roleUrl, body, this._pathfinder.getheaderWithoutJWT())
             .map(res => res.json().data)
+            .catch(err => this.handleError(err));
+    }
+
+    getRights(): Observable<IRight[]> {
+        return this._http.get(this._pathfinder.roleUrl + '/GetRights', this._pathfinder.getheaderWithoutJWT())
+            .map((response: Response) => <IRight[]>response.json())
             .catch(err => this.handleError(err));
     }
 

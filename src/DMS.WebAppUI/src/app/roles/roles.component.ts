@@ -50,7 +50,7 @@ export class RolesComponent {
         //    this.router.navigate(['/login']);
         //}
         //else {
-        this.singleRole = { RoleId: 0, RoleName: "", IsActive: false, CreatedOn: "", UpdatedOn: "" };
+        this.singleRole = { RoleId: 0, RoleName: "", IsActive: false, CreatedOn: "", UpdatedOn: "", Rights: [] };
         this.pageInit();
         //}
     }
@@ -102,13 +102,13 @@ export class RolesComponent {
     }
 
     EditRole(role: IRole) {
-        this.singleRole = { RoleId: role.RoleId, RoleName: role.RoleName, IsActive: role.IsActive, CreatedOn: role.CreatedOn, UpdatedOn: role.UpdatedOn };
+        this.singleRole = { RoleId: role.RoleId, RoleName: role.RoleName, IsActive: role.IsActive, CreatedOn: role.CreatedOn, UpdatedOn: role.UpdatedOn, Rights: [] };
         this.isEditMode = true;
     }
 
     AddOrUpdateRole() {
         console.log(this.singleRole);
-        let newRole: Role = new Role(this.singleRole.RoleId, this.singleRole.RoleName, this.singleRole.IsActive, this.singleRole.CreatedOn, this.singleRole.UpdatedOn);
+        let newRole: Role = new Role(this.singleRole.RoleId, this.singleRole.RoleName, this.singleRole.IsActive, this.singleRole.CreatedOn, this.singleRole.UpdatedOn, []);
         if (this.isEditMode) {
             this.busy = this._roleService.updateRole(newRole)
                 .subscribe(data => {
@@ -123,6 +123,10 @@ export class RolesComponent {
                     this.errorMessage = <any>error;
                     this.notificationTitle = 'Error in updating Role.';
                     this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                },
+                () => {
+                    this.notificationTitle = 'Role updated successfully.';
+                    this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
                 });
         }
         else {
@@ -139,9 +143,13 @@ export class RolesComponent {
                     this.errorMessage = <any>error;
                     this.notificationTitle = 'Error in adding Role.';
                     this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                },
+                () => {
+                    this.notificationTitle = 'Role created successfully.';
+                    this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
                 });
         }
-       
+
     }
 
 
@@ -154,7 +162,7 @@ export class RolesComponent {
     }
 
     clearData() {
-        this.singleRole = { RoleId: 0, RoleName: "", IsActive: false, CreatedOn: "", UpdatedOn: "" };
+        this.singleRole = { RoleId: 0, RoleName: "", IsActive: false, CreatedOn: "", UpdatedOn: "", Rights: [] };
         this.isEditMode = false;
     }
 

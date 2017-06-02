@@ -7,9 +7,12 @@ import { DocumentService } from '../services/document.service';
 //import {DataTable} from '../angular2-datatable/datatable';
 import {DataTable } from "angular2-datatable";
 import { GlobalVariable, IDictionary } from '../shared/global';
+import { SharedService } from '../shared/shared.service';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     templateUrl: './document.component.html',
+    providers: [SharedService]
 })
 
 export class DocumentComponent {
@@ -34,7 +37,12 @@ export class DocumentComponent {
     private filters: IDictionary[];
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
-    constructor(private router: Router, private _documentservice: DocumentService) {
+    @ViewChild('modal')
+    modal: ModalComponent;
+
+    constructor(
+        private _sharedService: SharedService,
+        private router: Router, private _documentservice: DocumentService) {
     }
 
     ngOnInit(): void {
@@ -116,6 +124,29 @@ export class DocumentComponent {
         this.mf.setPage(1, this.mf.rowsOnPage);
     }
 
+    fileChange(event) {
+        let fileList: FileList = event.target.files;
+        if (fileList.length > 0) {
+            let formData: FormData = new FormData();
+            for (let i = 0; i < fileList.length; i++) {
+                let file: File = fileList[i];
+                formData.append('uploadFile', file, file.name);
+            }
+            this.busy = this._documentservice.uploadFile(formData)
+                .subscribe(data => {
+                    this.modal.close();
+                },
+                error => {
+                    this.errorMessage = <any>error;
+                    this.notificationTitle = this.errorMessage;
+                    //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                },
+                () => {
+                    this.notificationTitle = 'Files uploaded successfully.';
+                    this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
+                });
+        }
+    }
 
 }
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using DMS.Abstraction;
 using DMS.Abstraction.Revisions;
+using DMS.Abstraction.EmailTemplate;
 
 namespace DMS.Repository
 {
@@ -74,6 +75,14 @@ namespace DMS.Repository
             get
             {
                 return _database.GetCollection<Revision>("Revisions");
+            }
+        }
+
+        public IMongoCollection<EmailTemplate> EmailTemplate
+        {
+            get
+            {
+                return _database.GetCollection<EmailTemplate>("EmailTemplate");
             }
         }
     }

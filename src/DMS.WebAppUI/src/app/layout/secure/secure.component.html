@@ -172,6 +172,10 @@
                                 <a routerLink="/rights" routerLinkActive="active">Rights</a>
                             </li>
                             <li>
+                                <a routerLink="/email-template" routerLinkActive="active" class="waves-effect">Email Template</a>
+
+                            </li>
+                            <li>
                                 <a href="#">Manage Users</a>
                             </li>
                         </ul>
@@ -220,8 +224,8 @@
         </nav>
         <div id="page-wrapper">
             <div class="container-fluid">
-                <router-outlet></router-outlet>
                 <simple-notifications [options]="notificationOptions"></simple-notifications>
+                <router-outlet></router-outlet>
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->

@@ -13,10 +13,10 @@ namespace DMS.Repository
         public readonly DMSContext _context = null;
         private readonly IEmailService EmailService;
 
-        public UserRepository(IOptions<Settings> settings, IEmailService emailService)
+        public UserRepository(IOptions<Settings> settings)
         {
             _context = new DMSContext(settings);
-            EmailService = emailService;
+            //EmailService = new EmailService();
         }
 
         public async Task<bool> ValidateLoginAttempt(string eMail)
@@ -78,13 +78,13 @@ namespace DMS.Repository
         /// <returns></returns>
         public async Task<bool> UpdatePassword(string eMail, string oldPwd, string newPwd)
         {
-            await EmailService.SendMail("Recipient@mailaddress.com", "sender@mailaddress.com", 1,
-                 new
-                 {
-                     ProposedBy = "Kutub Shaikh",
-                     TemplateName = "templateName",
-                     DepartmentName = "departmentName"
-                 });
+            //await EmailService.SendMail("Recipient@mailaddress.com", "sender@mailaddress.com", 1,
+            //     new
+            //     {
+            //         ProposedBy = "Kutub Shaikh",
+            //         TemplateName = "templateName",
+            //         DepartmentName = "departmentName"
+            //     });
 
             if (!string.IsNullOrEmpty(eMail) && !string.IsNullOrEmpty(oldPwd) && !string.IsNullOrEmpty(newPwd))
             {
