@@ -108,6 +108,7 @@
     <Content Include="src\app\layout\secure\secure.component.html" />
     <Content Include="src\app\login\login.component.html" />
     <Content Include="src\app\login\registration.component.html" />
+    <Content Include="src\app\modal\modal.component.html" />
     <Content Include="src\app\roles\rights.component.html" />
     <Content Include="src\app\roles\roles.component.html" />
     <Content Include="src\app\user-profile\change-password.component.html" />
@@ -169,6 +170,8 @@
     <TypeScriptCompile Include="src\app\login\login.ts" />
     <TypeScriptCompile Include="src\app\login\registration.component.ts" />
     <TypeScriptCompile Include="src\app\login\registration.module.ts" />
+    <TypeScriptCompile Include="src\app\modal\modal.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\modal\modal.component.ts" />
     <TypeScriptCompile Include="src\app\path-finder.ts" />
     <TypeScriptCompile Include="src\app\roles\rights.component.ts" />
     <TypeScriptCompile Include="src\app\roles\roles.component.ts" />
