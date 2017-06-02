@@ -92,7 +92,6 @@ export class DocumentComponent {
     }
 
     LockDoc(docid: number) {
-        debugger;
         this.busy = this._documentservice.CheckinCheckOutDocument(docid, 1)
             .subscribe(data => {
 
@@ -102,6 +101,14 @@ export class DocumentComponent {
                 this.notificationTitle = this.errorMessage;
                 //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
             });
+    }
+
+    ViewAccessHistory(docid: number) {
+        this.router.navigate(['/docaccesshistory', docid], { skipLocationChange: true });
+    }
+
+    ViewVersionHistory(docid: number) {
+        this.router.navigate(['/docversionhistory', docid], { skipLocationChange: true });
     }
 
     // Resets the pagination for filtered data

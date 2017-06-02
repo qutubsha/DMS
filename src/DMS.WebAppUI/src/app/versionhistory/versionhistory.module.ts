@@ -15,4 +15,4 @@ import {SharedModule } from '../shared/shared.module';
     providers: [
     ]
 })
-export class  AccessHistoryModule { }
+export class  VersionHistoryModule { }

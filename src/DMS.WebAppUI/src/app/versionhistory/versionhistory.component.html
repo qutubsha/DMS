@@ -6,53 +6,53 @@
                 <div class="view_department">
                     <div class="panel panel-primary filterable ">
                         <div class="table-responsive">
-                            <table class="table table-striped " [mfData]="data" #mf="mfDataTable"
+                            <table class="table table-striped " [mfData]="filteredData" #mf="mfDataTable"
                                    [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder" [mfActivePage]="activePage">
 
                                 <thead>
                                     <tr>
                                         <th class="td-width-30">
-                                            <mfDefaultSorter by="version">Version</mfDefaultSorter>
+                                            <mfDefaultSorter by="VersionId">Version</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-30">
-                                            <mfDefaultSorter by="revision">Revision</mfDefaultSorter>
+                                            <mfDefaultSorter by="RevisionId">Revision</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-30">
-                                            <mfDefaultSorter by="fileName">File Name</mfDefaultSorter>
+                                            <mfDefaultSorter by="FileName">File Name</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="extension">Extension</mfDefaultSorter>
+                                            <mfDefaultSorter by="Extension">Extension</mfDefaultSorter>
 
                                         </th>
                                         <th class="td-width-35">
-                                            <mfDefaultSorter by="what">What</mfDefaultSorter>
+                                            <mfDefaultSorter by="What">What</mfDefaultSorter>
 
                                         </th>
                                         <th class="td-width-35">
-                                            <mfDefaultSorter by="why">Why</mfDefaultSorter>
+                                            <mfDefaultSorter by="Why">Why</mfDefaultSorter>
 
                                         </th>
                                     </tr>
                                     <tr class="filters">
-                                        <th><input type="text" class="form-control" [(ngModel)]="versionFilter" (ngModelChange)="filterVersion()"></th>
-                                        <th><input type="text" class="form-control" [(ngModel)]="revisionFilter" (ngModelChange)="filterHistory()"></th>
-                                        <th><input type="text" class="form-control" [(ngModel)]="fileNameFilter" (ngModelChange)="filterHistory()"></th>
-                                        <th><input type="text" class="form-control" [(ngModel)]="extensionFilter" (ngModelChange)="filterHistory()"></th>
-                                        <th><input type="text" class="form-control" [(ngModel)]="whatFilter" (ngModelChange)="filterHistory()"></th>
-                                        <th><input type="text" class="form-control" [(ngModel)]="whyFilter" (ngModelChange)="filterHistory()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="versionFilter" (ngModelChange)="filterVersionHistory()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="revisionFilter" (ngModelChange)="filterVersionHistory()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="fileNameFilter" (ngModelChange)="filterVersionHistory()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="extensionFilter" (ngModelChange)="filterVersionHistory()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="whatFilter" (ngModelChange)="filterVersionHistory()"></th>
+                                        <th><input type="text" class="form-control" [(ngModel)]="whyFilter" (ngModelChange)="filterVersionHistory()"></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let item of  mf.data">
                                         <td>
-                                            {{item.version}}
+                                            {{item.VersionId}}
                                         </td>
-                                        <td>{{item.revision}}</td>
-                                        <td>{{item.fileName}}</td>
-                                        <td>{{item.extension}}</td>
-                                        <td>{{item.what}}</td>
-                                        <td>{{item.why}}</td>
+                                        <td>{{item.RevisionId}}</td>
+                                        <td>{{item.FileName}}</td>
+                                        <td>{{item.Extension}}</td>
+                                        <td>{{item.What}}</td>
+                                        <td>{{item.Why}}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
