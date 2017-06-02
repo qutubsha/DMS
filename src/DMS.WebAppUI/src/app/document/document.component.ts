@@ -66,17 +66,17 @@ export class DocumentComponent {
 
         this.filters = [];
         if (FileNameFilter != null)
-            this.filters.push({ key: 'fileName', value: FileNameFilter });
+            this.filters.push({ key: 'FileName', value: FileNameFilter });
         if (ExtensionFilter != null)
-            this.filters.push({ key: 'extension', value: ExtensionFilter });
+            this.filters.push({ key: 'Extension', value: ExtensionFilter });
         if (CreatedByFilter != null)
-            this.filters.push({ key: 'createdBy', value: CreatedByFilter });
+            this.filters.push({ key: 'CreatedBy', value: CreatedByFilter });
         if (LockedByFilter != null)
-            this.filters.push({ key: 'lockedBy', value: LockedByFilter });
+            this.filters.push({ key: 'LockedBy', value: LockedByFilter });
         if (DocumentTagFilter != null)
-            this.filters.push({ key: 'documentTags', value: DocumentTagFilter });
+            this.filters.push({ key: 'DocumentTags', value: DocumentTagFilter });
         if (CreatedOnFilter != null)
-            this.filters.push({ key: 'createdOn', value: CreatedOnFilter });
+            this.filters.push({ key: 'CreatedOn', value: CreatedOnFilter });
 
         this.filteredData = this.data;
 

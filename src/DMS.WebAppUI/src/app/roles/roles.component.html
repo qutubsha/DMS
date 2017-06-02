@@ -6,30 +6,35 @@
             <div class="row form-group panel panel-default">
                 <div class="panel-heading"> {{isEditMode? 'Update':'Add'}} Role</div>
                 <div class="panel-body">
-                    <form #roleForm="ngForm" *ngIf="showForm" name="roleForm" (ngSubmit)="AddOrUpdateRole()">
+                    <div class="col-md-6">
+                        <form #roleForm="ngForm" *ngIf="showForm" name="roleForm" (ngSubmit)="AddOrUpdateRole()">
 
-                        <div class="col-md-2"><label>Role Name:</label></div>
-                        <div class="col-md-3">
-                            <input type="text" required [(ngModel)]="singleRole.RoleName" #RoleName="ngModel" class="form-control" name="RoleName" />
-                        </div>
-                        <div class="col-md-2">
-                            <span *ngIf="RoleName.errors && (RoleName.dirty || RoleName.touched)"
-                                  class="alert alert-danger">
-                                <span [hidden]="!RoleName.errors.required">
-                                    Required
+                            <div class="form-group" [ngClass]="(RoleName.errors && (RoleName.dirty || RoleName.touched))?'has-error':''">
+                                <label class="control-label">Role Name</label>
+                                <input type="text" required [(ngModel)]="singleRole.RoleName" #RoleName="ngModel" class="form-control" name="RoleName" />
+                                <span class="help-block">
+                                    <span *ngIf="RoleName.errors && (RoleName.dirty || RoleName.touched)">
+                                        <span [hidden]="!RoleName.errors.required">
+                                            Please enter Role Name
+                                        </span>
+                                    </span>
                                 </span>
-                            </span>
-                        </div>
-                        <div class="col-md-2"><label>Is Active:</label></div>
-                        <div class="col-md-1"> <input type="checkbox" [(ngModel)]="singleRole.IsActive" name="isActive" /> </div>
-                        <div class="col-md-2">
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                </div>
+                                <label>
+                                    Is Active
+
+                                    <input type="checkbox" class="checkbox" [(ngModel)]="singleRole.IsActive" name="isActive" />
+                                </label>
+                            </div>
                             <input type="submit" class="btn btn-primary" value="{{isEditMode? 'Update':'Add'}}" />
                             <!--<template [ngIf]="isEditMode">-->
                             <input type="button" class="btn btn-primary" value="Cancel" (click)="cancelForm()" />
                             <!--</template>-->
-
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -52,11 +57,18 @@
                                         </th>
                                         <th></th>
                                     </tr>
-                                    <tr class="filters">
+                                    <tr class="filters form-group">
                                         <th><input type="text" class="form-control" [(ngModel)]="RoleNameFilter" (ngModelChange)="filterRoles()"></th>
-                                        <th><input type="checkbox" [(ngModel)]="IsActiveFilter" (ngModelChange)="filterRoles()"></th>
                                         <th>
-                                            <!--<datepicker [(ngModel)]="createdOn"></datepicker>-->
+                                            <select class="form-control" [(ngModel)]="IsActiveFilter" (ngModelChange)="filterRoles()">
+                                                <option value="">Select</option>
+                                                <option value="true">True</option>
+                                                <option value="false">False</option>
+                                            </select>
+                                            <!--<input type="checkbox" [(ngModel)]="IsActiveFilter" (ngModelChange)="filterRoles()">-->
+                                        </th>
+                                        <th>
+                                            <input [(ngModel)]="CreatedOnFilter" class="form-control" (ngModelChange)="filterRoles()" />
                                         </th>
                                         <th>
                                             <a (click)="resetFilters();" style="cursor:pointer" *ngIf="filters && filters.length>0">
@@ -68,7 +80,7 @@
                                     <tr *ngFor="let item of  mf.data">
                                         <td>{{item.RoleName}}</td>
                                         <td>{{item.IsActive}}</td>
-                                        <td>{{item.CreatedOn | date: 'medium' }}</td>
+                                        <td>{{item.CreatedOn | date: 'shortDate' }}</td>
                                         <td>
                                             <a (click)="EditRole(item);" style="cursor:pointer">
                                                 <span class="glyphicon glyphicon-edit"></span>

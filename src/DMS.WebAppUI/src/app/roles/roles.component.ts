@@ -28,6 +28,7 @@ export class RolesComponent {
     private rowsOnPage = GlobalVariable.rowsOnPage;
     private RoleNameFilter = '';
     private IsActiveFilter = '';
+    private CreatedOnFilter = '';
     private filters: IDictionary[];
 
     private singleRole: IRole;
@@ -57,12 +58,10 @@ export class RolesComponent {
     pageInit() {
         this.busy = this._roleService.getRoles()
             .subscribe(data => {
-                debugger;
                 this.roles = data;
                 this.filteredRoles = data;
             },
             error => {
-                debugger;
                 this.errorMessage = <any>error;
                 this.notificationTitle = 'Error in fetching Roles.';
                 this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
@@ -70,20 +69,17 @@ export class RolesComponent {
     }
 
     filterRoles() {
-        debugger;
         let RoleNameFilter = this.RoleNameFilter ? this.RoleNameFilter.toLocaleLowerCase() : null;
-        //let IsActiveFilter = this.IsActiveFilter ? this.IsActiveFilter.toLocaleLowerCase() : null;
-        let IsActiveFilter: string;
-        if (this.IsActiveFilter.toString()!=="") {
-            IsActiveFilter = this.IsActiveFilter ? "true" : "false";
-        }
+        let CreatedOnDateFilter = this.CreatedOnFilter ? this.CreatedOnFilter.toLocaleLowerCase() : null;
+        let IsActiveFilter = this.IsActiveFilter ? this.IsActiveFilter.toLocaleLowerCase() : null;
 
         this.filters = [];
         if (RoleNameFilter != null)
             this.filters.push({ key: 'RoleName', value: RoleNameFilter });
         if (IsActiveFilter != null)
             this.filters.push({ key: 'IsActive', value: IsActiveFilter });
-
+        if (CreatedOnDateFilter != null)
+            this.filters.push({ key: 'CreatedOn', value: CreatedOnDateFilter });
         this.filteredRoles = this.roles;
 
         for (var i = 0; i < this.filters.length; i++) {
@@ -101,11 +97,12 @@ export class RolesComponent {
         this.filters = [];
         this.RoleNameFilter = '';
         this.IsActiveFilter = '';
+        this.CreatedOnFilter = '';
         this.filteredRoles = this.roles;
     }
 
     EditRole(role: IRole) {
-        this.singleRole = role;
+        this.singleRole = { RoleId: role.RoleId, RoleName: role.RoleName, IsActive: role.IsActive, CreatedOn: role.CreatedOn, UpdatedOn: role.UpdatedOn };
         this.isEditMode = true;
     }
 
@@ -119,6 +116,7 @@ export class RolesComponent {
                         this.clearData();
                         this.showForm = false;
                         setTimeout(() => this.showForm = true, 0);
+                        this.pageInit();  //fetch the roles from server in grid to reflect changes after updating a role.
                     });
                 },
                 error => {
@@ -134,6 +132,7 @@ export class RolesComponent {
                         this.clearData();
                         this.showForm = false;
                         setTimeout(() => this.showForm = true, 0);
+                        this.pageInit();  //fetch the roles from server in grid to reflect changes after adding a role.
                     });
                 },
                 error => {
@@ -141,9 +140,8 @@ export class RolesComponent {
                     this.notificationTitle = 'Error in adding Role.';
                     this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
                 });
-            this.pageInit();  //fetch the roles from server in grid to reflect changes after adding a role.
         }
-
+       
     }
 
 
