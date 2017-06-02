@@ -104,6 +104,8 @@
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\dashboard\dashboard.component.html" />
     <Content Include="src\app\document\document.component.html" />
+    <Content Include="src\app\email-template\edit-email-template.component.html" />
+    <Content Include="src\app\email-template\email-template.component.html" />
     <Content Include="src\app\layout\public\public.component.html" />
     <Content Include="src\app\layout\secure\secure.component.html" />
     <Content Include="src\app\login\login.component.html" />
@@ -161,6 +163,11 @@
     <TypeScriptCompile Include="src\app\document\document.component.ts" />
     <TypeScriptCompile Include="src\app\document\document.module.ts" />
     <TypeScriptCompile Include="src\app\document\document.ts" />
+    <TypeScriptCompile Include="src\app\email-template\edit-email-template.component.ts" />
+    <TypeScriptCompile Include="src\app\email-template\edit-email-template.module.ts" />
+    <TypeScriptCompile Include="src\app\email-template\email-template.component.ts" />
+    <TypeScriptCompile Include="src\app\email-template\email-template.module.ts" />
+    <TypeScriptCompile Include="src\app\email-template\email-template.ts" />
     <TypeScriptCompile Include="src\app\layout\public\public.component.ts" />
     <TypeScriptCompile Include="src\app\layout\public\public.routes.ts" />
     <TypeScriptCompile Include="src\app\layout\secure\secure.component.ts" />
@@ -178,6 +185,7 @@
     <TypeScriptCompile Include="src\app\roles\roles.module.ts" />
     <TypeScriptCompile Include="src\app\roles\roles.ts" />
     <TypeScriptCompile Include="src\app\services\document.service.ts" />
+    <TypeScriptCompile Include="src\app\services\email-template.service.ts" />
     <TypeScriptCompile Include="src\app\services\roles.service.ts" />
     <TypeScriptCompile Include="src\app\services\user.service.ts" />
     <TypeScriptCompile Include="src\app\shared\appequal-validator.directive.ts" />
@@ -269,7 +277,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55669</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
