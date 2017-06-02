@@ -43,6 +43,7 @@ namespace DMS.Repository
         public async Task<User> Login(string eMail, string password)
         {
 
+
             //var filter = Builders<User>.Filter.Eq("Email", eMail) & Builders<User>.Filter.Eq("Password", password);
             //var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
             //if (objUser == null)
@@ -59,6 +60,8 @@ namespace DMS.Repository
             //}
             //return objUser;
             return await LoginUserLocked(eMail, password);
+
+
         }
 
         public async Task<User> AddUser(User user)
