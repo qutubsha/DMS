@@ -42,12 +42,11 @@ export class LoginComponent {
         this.busy = this._userService.getLoginUser(user).subscribe(
             data => {
                 debugger
-                if (data.result != null) {
+                if (data.Result != null) {
                     debugger
                     //if (data.isSuccess) {
                     //    alert(data.isSuccess)
-                    this.user = data.result;
-                       
+                    this.user = data.Result;
                         localStorage.setItem('currentUser', JSON.stringify(this.user));
                         this.router.navigate(['/dashboard']);
                     //}

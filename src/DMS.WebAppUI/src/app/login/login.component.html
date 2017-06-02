@@ -120,7 +120,7 @@
         }
 
         .main-center-header .logo h1 {
-	color: #222;
+	color:#009edf;
 	font-weight: 700;
 	line-height: 36px;
 }
@@ -157,7 +157,7 @@
     <div class="container">
         <div class="row main-center-header">
             <div class="col-xs-12 logo">
-                <h1 class="logo-text">Document <span class="theme_color">Management System</span></h1>
+                <h1 class="logo-text">Document Management System</h1>
             </div>
         </div>
         <div class="row main">
@@ -239,10 +239,9 @@
                     
 
                     </div>
-                    <div class="cols-sm-10">
+                    <div class="col-lg-offset-3 cols-sm-9" style="margin-top:22%">
                         <div class="input-group">
                             <a (click)="modalPwd.open();" class="text-muted custom-cursor" style="text-decoration:underline;color: #fff !important;"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a>
-
                         </div>
                     </div>
                 </form>
@@ -252,8 +251,8 @@
     <div class="login-custom-modal">
         <modal #modalPwd class="modal">
             <modal-header [show-close]="true" id="modalPwdHeader" >
-                <div class="modal-header" style="padding-bottom: 0px !important;background-color:#2e6da4;color:white;">
-                    <h3 class="modal-title popup_header">Reset your password </h3>
+                <div class="modal-header" style="background-color:#2e6da4;color:white;">
+                    <h4 class="modal-title popup_header">Reset your password </h4>
                 </div>
             </modal-header>
             <modal-body style="padding:0px!important">

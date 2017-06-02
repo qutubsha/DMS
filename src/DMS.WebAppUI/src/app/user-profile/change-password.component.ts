@@ -1,21 +1,28 @@
 ﻿import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UpdatePassword, IUpdatePassword } from '../login/login';
+import { UpdatePassword, IUpdatePassword, IUser } from '../login/login';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
+import { SharedService } from '../shared/shared.service';
+import { GlobalVariable } from '../shared/global';
+import { NotificationsService, SimpleNotificationsComponent, PushNotificationsService } from 'angular2-notifications';
 @Component({
     templateUrl: './change-password.component.html',
+    providers: [UserService, SharedService, NotificationsService]
 })
 export class ChangePasswordComponent {
     private passupdate: IUpdatePassword;
     private notificationTitle: string = '';
     private notificationContent: string = '';
     private errorMessage: string;
+    private currentUser: IUser;
+    public notificationOptions = GlobalVariable.notificationOptions;
     busy: Subscription;
     constructor(
         private router: Router,
-        private _userService: UserService
+        private _userService: UserService,
+        private _sharedService: SharedService
     ) { }
 
     ngOnInit(){
@@ -25,27 +32,35 @@ export class ChangePasswordComponent {
             RepeatPassword: '',
             eMail:''
         };
-
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.passupdate.eMail = this.currentUser.Email;
+    }
+    redirectToDashbord() {
+        this.router.navigate(['/dashboard']);
     }
     submitForm(event: Event): void {
         debugger
         let upUser: UpdatePassword = new UpdatePassword(this.passupdate.oldPwd, this.passupdate.newPwd, this.passupdate.RepeatPassword, this.passupdate.eMail);
-        this.busy = this._userService.updateUser(upUser).subscribe(
+        this.busy = this._userService.updatepassword(upUser).subscribe(
             data => {
                 debugger
-                this.router.navigate(['/dashboard']);
-                return true;
+                if (data.Result != false) {
+                    debugger
+                    this.router.navigate(['/dashboard']);
+                    return true;
+                }
+                else {
+                    this.notificationTitle = 'Invalid Password.';
+                    this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                }
             },
             error => {
+                debugger
                 this.errorMessage = <any>error;
                 this.notificationTitle = 'Error in Updating User.';
-              //  this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
             },
-            () => {
-                debugger
-                this.notificationTitle = 'User Updated successfully.';
-              //  this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
-            });
+        );
 
     }
 }

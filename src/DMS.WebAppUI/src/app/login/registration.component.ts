@@ -30,12 +30,11 @@ export class RegistrationComponent {
             UserID: 0,
             UserName: '',
             Password: '',
-            RepeatPassword:'',
+            RepeatPassword: '',
             FirstName: '',
             LastName: '',
             Email: '',
         };
-
     }
 
     redirectToLogin() {
@@ -45,7 +44,7 @@ export class RegistrationComponent {
 
     submitForm(event: Event): void {
         debugger
-        let saveUser: UserRegistration = new UserRegistration(this.userreg.UserID,'', this.userreg.Password, this.userreg.RepeatPassword, '', '', this.userreg.Email);
+        let saveUser: UserRegistration = new UserRegistration(this.userreg.UserID, '', this.userreg.Password, this.userreg.RepeatPassword, '', '', this.userreg.Email);
         this.busy = this._userService.addUser(saveUser).subscribe(
             data => {
                 debugger

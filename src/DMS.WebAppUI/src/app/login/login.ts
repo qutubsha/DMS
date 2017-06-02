@@ -1,4 +1,5 @@
-﻿export interface IUser {
+﻿
+export interface IUser {
 
     UserID: number;
     Email: string;
@@ -28,7 +29,6 @@ export interface IUserRegistration {
     LastName: string;
     Email: string;
 }
-
 export class UserRegistration implements IUserRegistration {
     constructor(
         public UserID: number,
@@ -60,3 +60,37 @@ export interface IUpdatePassword {
     newPwd: string;
     eMail: string;
 }
+
+//export interface IUser {
+
+//    userid: number;
+//    email: string;
+//    password: string;
+//    firstname: string;
+//    lastname: string;
+//    isactive: boolean;
+//}
+
+
+      
+
+    
+
+    
+
+        //public int LoginAttemptCount { get; set; }
+        //public bool IsActive { get; set; }
+        //public bool IsDeleted { get; set; }
+
+        //public string CreatedBy { get; set; }
+        //public DateTime ? CreatedOn { get; set; }
+
+        //public string ModifiedBy { get; set; }
+        //public DateTime ? ModifiedOn { get; set; }
+
+        //public string DeletedBy { get; set; }
+        //public DateTime ? DeletedOn { get; set; }
+
+        //public DateTime ? LastLoginAttempt { get; set; }
+
+        //public string[] Picture { get; set; }
