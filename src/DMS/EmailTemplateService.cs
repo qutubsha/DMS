@@ -9,7 +9,7 @@ using DMS.Abstraction.EmailTemplate;
 
 namespace DMS
 {
-    public class EmailTemplateService: IEmailTemplateService
+    public class EmailTemplateService : IEmailTemplateService
     {
 
         /// <summary>
@@ -40,10 +40,11 @@ namespace DMS
         /// 
         /// </summary>
         /// <param name="updateTemplate"></param>
+        /// <param name="updatedBy"></param>
         /// <returns></returns>
-        public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate)
+        public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate, string updatedBy)
         {
-            return await _repository.UpdateEmailTemplateByName(updateTemplate);
+            return await _repository.UpdateEmailTemplateByName(updateTemplate, updatedBy);
         }
     }
 }

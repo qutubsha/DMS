@@ -36,7 +36,10 @@ namespace DMS.Repository
                 {
                     EmailBody = emailTemplate.EmailBody,
                     EmailSubject = emailTemplate.EmailSubject,
-                    EmailTemplateName = emailTemplate.EmailTemplateName
+                    EmailTemplateName = emailTemplate.EmailTemplateName,
+                    IsActive = emailTemplate.IsActive,
+                    UpdatedBy = emailTemplate.UpdatedBy,
+                    UpdatedOn = emailTemplate.UpdatedOn
 
                 };
 
@@ -58,9 +61,10 @@ namespace DMS.Repository
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="templateName"></param>
+        /// <param name="updateTemplate"></param>
+        /// <param name="updatedBy"></param>
         /// <returns></returns>
-        public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate)
+        public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate, string updatedBy)
         {
             if (null != updateTemplate)
             {
@@ -68,9 +72,10 @@ namespace DMS.Repository
                 EmailTemplate emailTemplate = await _context.EmailTemplate.Find(filter).FirstOrDefaultAsync();
                 if (null != emailTemplate)
                 {
-                    var updateEmailTemplate = Builders<EmailTemplate>.Update.Set("EmailSubject", updateTemplate.EmailSubject).Set("EmailBody", updateTemplate.EmailBody);
+                    var updateEmailTemplate = Builders<EmailTemplate>.Update.Set("EmailSubject", updateTemplate.EmailSubject).Set("EmailBody", updateTemplate.EmailBody)
+                        .Set("IsActive", updateTemplate.IsActive).Set("UpdatedBy", updatedBy).Set("UpdatedOn", DateTime.Now);
                     await _context.EmailTemplate.UpdateOneAsync(filter, updateEmailTemplate);
-                    return  updateTemplate;
+                    return updateTemplate;
                 }
                 else return null;
             }
