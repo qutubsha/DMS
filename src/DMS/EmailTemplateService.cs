@@ -36,6 +36,8 @@ namespace DMS
             return await _repository.GetEmailTemplateByName(templateName);
         }
 
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -45,6 +47,24 @@ namespace DMS
         public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate, string updatedBy)
         {
             return await _repository.UpdateEmailTemplateByName(updateTemplate, updatedBy);
+        }
+
+        public IEmailTemplate Process(int templateId, object data)
+        {
+            if (templateId <= 0) { throw new ArgumentException("TemplateId should not be less then or equal to 0"); }
+
+            var template = GetEmailTemplateById(templateId);
+            if (!string.IsNullOrWhiteSpace(template.EmailSubject))
+                template.EmailSubject = HandlebarsDotNet.Handlebars.Compile(template.EmailSubject)(data);
+
+            template.EmailBody = HandlebarsDotNet.Handlebars.Compile(template.EmailBody)(data);
+
+            return template;
+        }
+
+        private IEmailTemplate GetEmailTemplateById(int templateId)
+        {
+            return _repository.GetEmailTemplateById(templateId);
         }
     }
 }

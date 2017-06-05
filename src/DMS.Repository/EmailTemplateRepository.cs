@@ -81,5 +81,15 @@ namespace DMS.Repository
             }
             else return null;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="templateId"></param>
+        /// <returns></returns>
+        public IEmailTemplate GetEmailTemplateById(int templateId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

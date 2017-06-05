@@ -1,4 +1,5 @@
 ﻿using DMS.Abstraction;
+using DMS.Abstraction.EmailTemplate;
 using MailKit.Net.Smtp;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,13 @@ namespace DMS
 {
     public class EmailService : IEmailService
     {
+        private IEmailTemplateService TemplateService { get; }
+
+        public EmailService(IEmailTemplateService templateService)
+        {
+            //Log = LogManager.GetLogger(GetType().FullName);
+            TemplateService = templateService;
+        }
 
         /// <summary>
         /// 
@@ -18,9 +26,9 @@ namespace DMS
         /// <param name="data"></param>
         /// <param name="smtpClient"></param>
         /// <returns></returns>
-        public async Task SendMail(string recipients, string fromEmail, object data,SmtpClient smtpClient)
+        public async Task SendMail(string recipients, string fromEmail, int templateId, object data, SmtpClient smtpClient)
         {
-            //var template = TemplateService.Process(templateId, data);
+            var template = TemplateService.Process(templateId, data);
             //var emailMessage = new MailMessage(fromEmail, recipients, template.Subject, template.Body) { IsBodyHtml = true };
             await Task.Run(() =>
             {
