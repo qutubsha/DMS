@@ -51,40 +51,26 @@ export class EditEmailTemplateComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (this.currentUser == null) {
-            // remove user from local storage to log user out
-            localStorage.removeItem('currentUser');
-            this.router.navigate(['/login']);
-        }
-        else {
-            this.ResetEmailTemplate = false;
-            this.UpdateEmailTemplate = false;
-            let EmailTemplateId = localStorage.getItem('CurrentEmailTemplateId');
-            if (EmailTemplateId != null) {
+       
+            let TemplateName = localStorage.getItem('CurrentEmailTemplateId');
+            if (TemplateName != null) {
                 this.initModel();
-              
-            }
-        }
+
+            } 
     }
     private initModel() {
         this.emailtemp = {
-            EmailTemplateId: 0,
             TemplateName: '',
-            Subject: '',
-            Body: '',
-            UpdatedBy: '',
-            UpdatedOn: '',
-            IsActive: true,
-            Active:'',
-            UserId: 0
+            EmailSubject: '',
+            EmailBody: ''
         };
     }
 
 
-    editEmployeetemplate(EmailTemplateId) {
-        if (EmailTemplateId != null) {
-            this.busy = this._emailtemplateService.getEmailTemplateById(EmailTemplateId)
+    editEmployeetemplate(TemplateName) {
+        debugger
+        if (TemplateName != null) {
+            this.busy = this._emailtemplateService.getEmailTemplateById(TemplateName)
                 .subscribe(data => {
                     if (data != null) {
                         this.emailtemp = data;
@@ -100,10 +86,10 @@ export class EditEmailTemplateComponent implements OnInit {
 
     submitForm(event: Event): void {
         event.preventDefault();
-        if (this.emailtemp.EmailTemplateId != 0 && this.emailtemp.EmailTemplateId != null) {
+        //if (this.emailtemp.EmailTemplateId != 0 && this.emailtemp.EmailTemplateId != null) {
             {
-                let saveUser: Template = new Template(this.emailtemp.EmailTemplateId, this.emailtemp.TemplateName, this.emailtemp.Subject, this.emailtemp.Body, '', '', true,'', this.emailtemp.UserId);
-                this.busy = this._emailtemplateService.updateEmailTemplate(saveUser).subscribe(
+                let saveUser: Template = new Template(this.emailtemp.TemplateName, this.emailtemp.EmailSubject, this.emailtemp.EmailBody);
+               this.busy = this._emailtemplateService.updateEmailTemplate(saveUser).subscribe(
                     data => {
                         this._router.navigate(['/email-template'], { skipLocationChange: true });
                         return true;
@@ -120,7 +106,7 @@ export class EditEmailTemplateComponent implements OnInit {
             }
 
             //this.cancelFormData();
-        }
+        //}
     }
 
     cancelFormData() {
@@ -131,23 +117,23 @@ export class EditEmailTemplateComponent implements OnInit {
     // Resets the pagination for filtered data
   
 
-    resetTemplate() {
-        if (this.emailtemp.EmailTemplateId != 0 && this.emailtemp.EmailTemplateId != null) {
-            this.busy = this._emailtemplateService.resetTemplate(this.emailtemp.EmailTemplateId, this.currentUser.UserID).subscribe(
-                data => {
-                    this._router.navigate(['/email-template'], { skipLocationChange: true });
-                    return true;
-                },
-                error => {
-                    this.errorMessage = <any>error;
-                    this.notificationTitle = 'Error in resetting Email Template.';
-                    this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
-                },
-                () => {
-                    this.notificationTitle = 'Email Template has been reset successfully.';
-                    this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
-                });
-        }
-    }
+    //resetTemplate() {
+    //    if (this.emailtemp.EmailTemplateId != 0 && this.emailtemp.EmailTemplateId != null) {
+    //        this.busy = this._emailtemplateService.resetTemplate(this.emailtemp.EmailTemplateId, this.currentUser.UserID).subscribe(
+    //            data => {
+    //                this._router.navigate(['/email-template'], { skipLocationChange: true });
+    //                return true;
+    //            },
+    //            error => {
+    //                this.errorMessage = <any>error;
+    //                this.notificationTitle = 'Error in resetting Email Template.';
+    //                this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+    //            },
+    //            () => {
+    //                this.notificationTitle = 'Email Template has been reset successfully.';
+    //                this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
+    //            });
+    //    }
+    //}
 
 }

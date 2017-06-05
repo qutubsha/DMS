@@ -40,7 +40,7 @@ export class EmailTemplateComponent implements OnInit {
     @ViewChild('mf') mf: DataTable;
     private ckeditorContent: string;
     private showAddForm: boolean = false;
-    private EditEmailTemplate: boolean = false;
+   // private EditEmailTemplate: boolean = false;
     private currentUser: IUser;
 
     constructor(private _route: ActivatedRoute,
@@ -52,37 +52,39 @@ export class EmailTemplateComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (this.currentUser == null) {
-            // remove user from local storage to log user out
-            localStorage.removeItem('currentUser');
-            this._router.navigate(['/login']);
-        }
-        else {
-            this.EditEmailTemplate = false;
-            this.initModel();
-            this.pageInit();
-        }
+        //this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        //if (this.currentUser == null) {
+        //    // remove user from local storage to log user out
+        //    localStorage.removeItem('currentUser');
+        //    this._router.navigate(['/login']);
+        //}
+        //else {
+        //    this.EditEmailTemplate = false;
+        //    this.initModel();
+        //    this.pageInit();
+        //}
+        this.GetEmailTemplates();
     }
 
     private initModel() {
-        this.emailtemp = {
-            EmailTemplateId: 0,
-            TemplateName: '',
-            Subject: '',
-            Body: '',
-            UpdatedBy: '',
-            UpdatedOn: '',
-            IsActive: true,
-            Active:'',
-            UserId: 0
-        };
+        //this.emailtemp = {
+        //    EmailTemplateId: 0,
+        //    TemplateName: '',
+        //    Subject: '',
+        //    Body: '',
+        //    UpdatedBy: '',
+        //    UpdatedOn: '',
+        //    IsActive: true,
+        //    Active:'',
+        //    UserId: 0
+        //};
     }
 
     pageInit() {
     }
 
     GetEmailTemplates() {
+        debugger
         this.showAddForm = false;
         this.busy = this._emailtemplateService.getEmailTemplates()
             .subscribe(data => {
@@ -104,33 +106,34 @@ export class EmailTemplateComponent implements OnInit {
             error => this.errorMessage = <any>error);
     }
 
-    editEmployeetemplate(EmailTemplateId: any) {
-        localStorage.setItem('CurrentEmailTemplateId', EmailTemplateId);
+    editEmployeetemplate(TemplateName: any) {
+        debugger
+        localStorage.setItem('CurrentEmailTemplateId', TemplateName);
         this._router.navigate(['/edit-email-template'], { skipLocationChange: true });
     }
 
-    submitForm(event: Event): void {
-        event.preventDefault();
-        if (this.emailtemp.EmailTemplateId != 0 && this.emailtemp.EmailTemplateId != null) {
-            {
-                let saveUser: Template = new Template(this.emailtemp.EmailTemplateId, this.emailtemp.TemplateName, this.emailtemp.Subject, this.emailtemp.Body, '', '', true,'', this.emailtemp.UserId);
-                this.busy = this._emailtemplateService.updateEmailTemplate(saveUser).subscribe(
-                    data => {
-                        this.GetEmailTemplates();
-                        return true;
-                    },
-                    error => {
-                        this.errorMessage = <any>error;
-                        this.notificationTitle = 'Error in updating Email Template.';
-                        this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
-                    },
-                    () => {
-                        this.notificationTitle = 'Email Template updated successfully.';
-                        this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
-                    });
-            }
-        }
-    }
+    //submitForm(event: Event): void {
+    //    event.preventDefault();
+    //    if (this.emailtemp.EmailTemplateId != 0 && this.emailtemp.EmailTemplateId != null) {
+    //        {
+    //            let saveUser: Template = new Template(this.emailtemp.EmailTemplateId, this.emailtemp.TemplateName, this.emailtemp.Subject, this.emailtemp.Body, '', '', true,'', this.emailtemp.UserId);
+    //            this.busy = this._emailtemplateService.updateEmailTemplate(saveUser).subscribe(
+    //                data => {
+    //                    this.GetEmailTemplates();
+    //                    return true;
+    //                },
+    //                error => {
+    //                    this.errorMessage = <any>error;
+    //                    this.notificationTitle = 'Error in updating Email Template.';
+    //                    this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+    //                },
+    //                () => {
+    //                    this.notificationTitle = 'Email Template updated successfully.';
+    //                    this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
+    //                });
+    //        }
+    //    }
+    //}
 
     filteremialtemplatedetails(event: any) {
         let TemplateNameCodeFilter = this.TemplateNameFilter ? this.TemplateNameFilter.toLowerCase() : null;
