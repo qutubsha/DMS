@@ -42,6 +42,7 @@ export class UserService {
     }
     // Passess data to WebAPI and updates existing  User by User Id
     updatepassword(upUser: any) {
+        debugger
         let headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/json; charset=utf-8');
