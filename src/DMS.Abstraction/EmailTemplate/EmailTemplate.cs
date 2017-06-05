@@ -10,7 +10,7 @@ namespace DMS.Abstraction.EmailTemplate
     public class EmailTemplate : IEmailTemplate
     {
        
-        public string TemplateName { get; set; }
+        public string EmailTemplateName { get; set; }
         public string EmailSubject { get; set; }
         public string EmailBody { get; set; }
 

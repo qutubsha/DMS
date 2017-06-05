@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DMS.Abstraction.EmailService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace DMS.Abstraction
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        Task<User> AddUser(User user);
+        Task<User> AddUser(User user, EmailConfiguration emailConfig);
 
         /// <summary>
         /// 
@@ -46,8 +47,9 @@ namespace DMS.Abstraction
         /// 
         /// </summary>
         /// <param name="eMail"></param>
+        /// <param name="emailConfig"></param>
         /// <returns></returns>
-        Task<bool> ForgotPassword(string eMail);
+        Task<bool> ForgotPassword(string eMail, EmailConfiguration emailConfig);
 
 
 

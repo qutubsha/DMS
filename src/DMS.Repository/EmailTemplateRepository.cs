@@ -36,7 +36,7 @@ namespace DMS.Repository
                 {
                     EmailBody = emailTemplate.EmailBody,
                     EmailSubject = emailTemplate.EmailSubject,
-                    TemplateName = emailTemplate.TemplateName
+                    EmailTemplateName = emailTemplate.EmailTemplateName
 
                 };
 
@@ -64,7 +64,7 @@ namespace DMS.Repository
         {
             if (null != updateTemplate)
             {
-                var filter = Builders<EmailTemplate>.Filter.Eq("TemplateName", updateTemplate.TemplateName);
+                var filter = Builders<EmailTemplate>.Filter.Eq("TemplateName", updateTemplate.EmailTemplateName);
                 EmailTemplate emailTemplate = await _context.EmailTemplate.Find(filter).FirstOrDefaultAsync();
                 if (null != emailTemplate)
                 {
