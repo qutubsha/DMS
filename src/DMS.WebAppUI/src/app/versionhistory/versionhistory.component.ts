@@ -98,6 +98,10 @@ export class VersionHistoryComponent {
         }
     }
 
+    NavigateToDocuments() {
+        this.router.navigate(['/document'], { skipLocationChange: true });
+    }
+
     public resetPagination() {
         this.mf.setPage(1, this.mf.rowsOnPage);
     }

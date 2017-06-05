@@ -78,12 +78,17 @@ export class AccessHistoryComponent {
             .subscribe(data => {
                 this.data = data;
                 this.filteredData = data;
-            },
+            }, 
             error => {
                 this.errorMessage = <any>error;
                 this.notificationTitle = this.errorMessage;
             });
     }
+
+    NavigateToDocuments() {
+        this.router.navigate(['/document'], { skipLocationChange: true });
+    }
+
     public resetPagination() {
         this.mf.setPage(1, this.mf.rowsOnPage);
     }
