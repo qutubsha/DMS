@@ -58,7 +58,7 @@ namespace DMS.Repository
             if (null != user)
             {
                 SmtpClient smtpClient = new SmtpClient();
-                smtpClient.Connect("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
+                smtpClient.Connect(emailConfig.SmtpServer, 465, SecureSocketOptions.SslOnConnect);
                 smtpClient.Authenticate(emailConfig.SmtpUser, emailConfig.SmtpPassword);
 
                 var filter = Builders<User>.Filter.Eq("Email", user.Email);
@@ -201,7 +201,7 @@ namespace DMS.Repository
             if (!string.IsNullOrEmpty(eMail))
             {
                 SmtpClient smtpClient = new SmtpClient();
-                smtpClient.Connect("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
+                smtpClient.Connect(emailConfig.SmtpServer, 465, SecureSocketOptions.SslOnConnect);
                 smtpClient.Authenticate(emailConfig.SmtpUser, emailConfig.SmtpPassword);
 
                 var filter = Builders<User>.Filter.Eq("Email", eMail);
