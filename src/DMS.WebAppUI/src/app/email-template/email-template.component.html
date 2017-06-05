@@ -10,32 +10,26 @@
                                [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder" [mfActivePage]="activePage">
                             <thead>
                                 <tr>
-                                    <th class="fifteen"><mfDefaultSorter by="TemplateName">Template Name</mfDefaultSorter></th>
-                                    <th class="thirty"><mfDefaultSorter by="Subject">Email Subject</mfDefaultSorter></th>
-                                    <th class="fifteen"><mfDefaultSorter by="UpdatedBy">Updated By</mfDefaultSorter></th>
-                                    <th class="ten"><mfDefaultSorter by="UpdatedOn">Updated On</mfDefaultSorter></th>
-                                    <th class="ten"><mfDefaultSorter by="Active">Is Active</mfDefaultSorter></th>
-                                    <th class="ten">Action</th>
+                                    <th style="width:20%"><mfDefaultSorter by="TemplateName">Template Name</mfDefaultSorter></th>
+                                    <th style="width:20%"><mfDefaultSorter by="EmailSubject">Email Subject</mfDefaultSorter></th>
+                                    <th><mfDefaultSorter by="EmailBody">Email Body</mfDefaultSorter></th>
+                                    <th style="width:20%">Action</th>
                                 </tr>
                                 <tr class="filters">
-                                    <th class="fifteen"><input type="text" class="form-control" [(ngModel)]="TemplateNameFilter" (ngModelChange)="filteremialtemplatedetails($event)"></th>
+                                    <!--<th class="fifteen"><input type="text" class="form-control" [(ngModel)]="TemplateNameFilter" (ngModelChange)="filteremialtemplatedetails($event)"></th>
                                     <th class="thirty"><input type="text" class="form-control" [(ngModel)]="SubjectFilter" (ngModelChange)="filteremialtemplatedetails($event)"></th>
                                     <th class="fifteen"><input type="text" class="form-control" [(ngModel)]="UpdatedByFilter" (ngModelChange)="filteremialtemplatedetails($event)"></th>
-                                    <th class="ten"><input type="text" class="form-control" [(ngModel)]="UpdatedOnFilter" (ngModelChange)="filteremialtemplatedetails($event)"></th>
-                                    <th class="ten"><input type="text" class="form-control" [(ngModel)]="IsActiveFilter" (ngModelChange)="filteremialtemplatedetails($event)"></th>
-                                    <th class="ten"></th>
+                                    <th class="ten"></th>-->
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of mf.data">
-                                    <td class="fifteen">{{item.TemplateName}}</td>
-                                    <td class="thirty">{{item.Subject}}</td>
-                                    <td class="fifteen">{{item.UpdatedBy}}</td>
-                                    <td class="ten">{{item.UpdatedOn}}</td>
-                                    <td class="ten">{{item.Active}}</td>
-                                    <td class="ten delete_department">
-                                        <a class="template_btn" *ngIf="EditEmailTemplate">
-                                            <img class="new-cursor" title="Edit" alt="Edit" src="assets/images/edit1.png" (click)="editEmployeetemplate(item.EmailTemplateId)">
+                                    <td style="width:20%">{{item.TemplateName}}</td>
+                                    <td>{{item.EmailSubject}}</td>
+                                    <td style="width:20%">{{item.EmailBody}}</td>
+                                    <td style="width:20%" class="ten delete_department">
+                                        <a class="template_btn">
+                                            <img class="new-cursor" title="Edit" alt="Edit" src="../../assets/images/edit1.png" (click)="editEmployeetemplate(item.TemplateName)">
                                         </a>
                                     </td>
                                 </tr>

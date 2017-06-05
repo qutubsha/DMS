@@ -17,14 +17,14 @@ export class EmailTemplateService {
 
     // Calls Get Email template  Web API to fetch the list of Email template
     getEmailTemplates(): Observable<ITemplate[]> {
-        return this._http.get(this._pathfinder.emailtemplateUrl, this._pathfinder.getJWT())
+        return this._http.get(this._pathfinder.emailtemplateUrl, this._pathfinder.getheaderWithoutJWT())
             .map((response: Response) => <ITemplate[]>response.json())
             .catch(err => this.handleError(err));
     }
 
     //// Calls Get email template  Web API to fetch the template  by the ID
     getEmailTemplateById(id: number): Observable<ITemplate> {
-        return this._http.get(this._pathfinder.emailtemplateUrl + "/" + id, this._pathfinder.getJWT())
+        return this._http.get(this._pathfinder.emailtemplateUrl + "/" + id, this._pathfinder.getheaderWithoutJWT())
             .map((response: Response) => <ITemplate>response.json())
             .catch(err => this.handleError(err));
     }
@@ -32,13 +32,13 @@ export class EmailTemplateService {
     // Passess data to WebAPI and updates existing  template  by the ID
     updateEmailTemplate(emailtemp: any) {
         let body = JSON.stringify(emailtemp);
-        return this._http.put(this._pathfinder.emailtemplateUrl + "?templateId=" + emailtemp.EmailTemplateId, body, this._pathfinder.getJWT())
+        return this._http.put(this._pathfinder.emailtemplateUrl + "?templateId=" + emailtemp.EmailTemplateId, body, this._pathfinder.getheaderWithoutJWT())
             .map(res => res.json().data)
             .catch(err => this.handleError(err));
     }
 
     resetTemplate(templateId: number, userId: number) {
-        return this._http.get(this._pathfinder.emailtemplateUrl + "/ResetTemplate/" + templateId + "/" + userId, this._pathfinder.getJWT())
+        return this._http.get(this._pathfinder.emailtemplateUrl + "/ResetTemplate/" + templateId + "/" + userId, this._pathfinder.getheaderWithoutJWT())
             .map(res => res.json().data)
             .catch(err => this.handleError(err));
     }
