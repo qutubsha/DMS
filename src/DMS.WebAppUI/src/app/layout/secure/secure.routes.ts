@@ -9,14 +9,16 @@ import { RightsComponent } from '../../roles/rights.component';
 import { ChangePasswordComponent } from '../../user-profile/change-password.component';
 import { EmailTemplateComponent } from '../../email-template/email-template.component';
 import { EditEmailTemplateComponent } from '../../email-template/edit-email-template.component';
+import { VersionHistoryComponent } from '../../versionhistory/versionhistory.component';
 export const SECURE_ROUTES: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'userprofile', component: UserProfileComponent, canActivate: [AuthGuard] },
     { path: 'document', component: DocumentComponent, canActivate: [AuthGuard] },
-    { path: 'accesshistory', component: AccessHistoryComponent, canActivate: [AuthGuard] },
+    { path: 'docaccesshistory/:id', component: AccessHistoryComponent, canActivate: [AuthGuard] },
     { path: 'roles', component: RolesComponent, canActivate: [AuthGuard] },
     { path: 'rights', component: RightsComponent, canActivate: [AuthGuard] },
     { path: 'ChangePassword', component: ChangePasswordComponent, canActivate: [AuthGuard] },
+    { path: 'docversionhistory/:id', component: VersionHistoryComponent, canActivate: [AuthGuard] },
     { path: 'email-template', component: EmailTemplateComponent, canActivate: [AuthGuard] },
     { path: 'edit-email-template', component: EditEmailTemplateComponent, canActivate: [AuthGuard] },
 

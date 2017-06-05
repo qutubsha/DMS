@@ -6,20 +6,20 @@
                 <div class="view_department">
                     <div class="panel panel-primary filterable ">
                         <div class="table-responsive">
-                            <table class="table table-striped " [mfData]="data" #mf="mfDataTable"
+                            <table class="table table-striped " [mfData]="filteredData" #mf="mfDataTable"
                                    [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder" [mfActivePage]="activePage">
 
                                 <thead>
                                     <tr>
                                         <th class="td-width-30">
-                                            <mfDefaultSorter by="action">Action</mfDefaultSorter>                                            
+                                            <mfDefaultSorter by="Action">Action</mfDefaultSorter>                                            
                                         </th>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="performedBy">Performed By</mfDefaultSorter>  
+                                            <mfDefaultSorter by="PerformedBy">Performed By</mfDefaultSorter>  
                                             
                                         </th>
                                         <th class="td-width-35">
-                                            <mfDefaultSorter by="performedOn">Performed On</mfDefaultSorter>  
+                                            <mfDefaultSorter by="PerformedOn">Performed On</mfDefaultSorter>  
                                             
                                         </th>
                                     </tr>
@@ -33,10 +33,10 @@
                                 <tbody>
                                     <tr *ngFor="let item of  mf.data">
                                         <td>
-                                            {{item.action}}
+                                            {{item.Action}}
                                         </td>
-                                        <td>{{item.performedBy}}</td>
-                                        <td>{{item.performedOn}}</td>
+                                        <td>{{item.PerformedBy}}</td>
+                                        <td>{{item.PerformedOn | date: 'shortDate'}}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>

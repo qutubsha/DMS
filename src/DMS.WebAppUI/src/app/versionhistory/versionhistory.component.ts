@@ -30,34 +30,76 @@ export class VersionHistoryComponent {
     private whatFilter = '';
     private whyFilter = '';
     private filters: IDictionary[];
+    private docid: number;
+
     //private currentUser: IUser;
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
 
     // default constructor of the AccessHistory class, initiate Document service here
-    constructor(private router: Router,private _documentservice :DocumentService) {
+    constructor(private router: Router, private _documentservice: DocumentService, private _route: ActivatedRoute) {
     }
 
     // onInit method for the AccessHistory class, initialize AccessHistory data used for binding UI form fields, 
     // call getAccessHistorys service for binding list AccessHistory 
     ngOnInit(): void {
+        this._route.params.subscribe(
+            params => {
+                let id = +params['id'];
+                this.docid = id;
+            });
         this.getVersionHistory();
     }
 
-    getVersionHistory()
-    {
-        this.busy = this._documentservice.getVersionHistory(10)
-        .subscribe(data => {
-            this.data = data;
-            this.filteredData = data;
-        },
-        error => {
-            this.errorMessage = <any>error;
-            this.notificationTitle = this.errorMessage;
-        });
+    getVersionHistory() {
+        this.busy = this._documentservice.getVersionHistory(this.docid)
+            .subscribe(data => {
+                this.data = data;
+                this.filteredData = data;
+            },
+            error => {
+                this.errorMessage = <any>error;
+                this.notificationTitle = this.errorMessage;
+            });
     }
+
+    filterVersionHistory() {
+
+        let versionFilter = this.versionFilter ? this.versionFilter.toLocaleLowerCase() : null;
+        let revisionFilter = this.revisionFilter ? this.revisionFilter.toLocaleLowerCase() : null;
+        let fileNameFilter = this.fileNameFilter ? this.fileNameFilter.toLocaleLowerCase() : null;
+        let extensionFilter = this.extensionFilter ? this.extensionFilter.toLocaleLowerCase() : null;
+        let whatFilter = this.whatFilter ? this.whatFilter.toLocaleLowerCase() : null;
+        let whyFilter = this.whyFilter ? this.whyFilter.toLocaleLowerCase() : null;
+
+        this.filters = [];
+        if (versionFilter != null)
+            this.filters.push({ key: 'VersionId', value: versionFilter });
+        if (revisionFilter != null)
+            this.filters.push({ key: 'RevisionId', value: revisionFilter });
+        if (fileNameFilter != null)
+            this.filters.push({ key: 'FileName', value: fileNameFilter });
+        if (extensionFilter != null)
+            this.filters.push({ key: 'Extension', value: extensionFilter });
+        if (whatFilter != null)
+            this.filters.push({ key: 'What', value: whatFilter });
+        if (whyFilter != null)
+            this.filters.push({ key: 'Why', value: whyFilter });
+
+        this.filteredData = this.data;
+        for (var i = 0; i < this.filters.length; i++) {
+            let tempData: IVersionHistory[];
+
+            tempData = this.filteredData.filter((doc: IVersionHistory) =>
+                doc[this.filters[i].key] != null && doc[this.filters[i].key].toString() != '' &&
+                doc[this.filters[i].key].toString().toLocaleLowerCase().indexOf(this.filters[i].value.toString()) != -1);
+            this.filteredData = tempData;
+
+        }
+    }
+
     public resetPagination() {
         this.mf.setPage(1, this.mf.rowsOnPage);
     }
- }
+}
 

@@ -20,6 +20,8 @@ import { RolesModule } from './roles/roles.module';
 import { SimpleNotificationsModule, PushNotificationsModule } from 'angular2-notifications';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { ChangePasswordModule } from './user-profile/change-password.module';
+import { RecaptchaModule } from 'ng2-recaptcha';
+import { VersionHistoryModule } from './versionhistory/versionhistory.module';
 import { EmailTemplateModule } from './email-template/email-template.module';
 import { EditEmailTemplateModule } from './email-template/edit-email-template.module';
 @NgModule({
@@ -44,6 +46,8 @@ import { EditEmailTemplateModule } from './email-template/edit-email-template.mo
         SimpleNotificationsModule,
         PushNotificationsModule,
         ChangePasswordModule,
+        RecaptchaModule.forRoot(),
+        VersionHistoryModule,
         EmailTemplateModule,
         EditEmailTemplateModule
     ],
