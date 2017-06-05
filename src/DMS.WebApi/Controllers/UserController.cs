@@ -15,7 +15,7 @@ namespace DMS.WebApi.Controllers
     public class UserController : BaseController<UserController>
     {
         readonly IUserService _userService;
-
+    
         readonly string MailFrom= "ptms.hrms@gmail.com";
         readonly string SmtpServer= "smtp.gmail.com";
         readonly string SmtpUser= "ptms.hrms@gmail.com";
@@ -24,6 +24,7 @@ namespace DMS.WebApi.Controllers
         public UserController(ILogger<UserController> logger, IUserService services) : base(logger)
         {
             _userService = services;
+            
         }
 
         [HttpPost("Login")]

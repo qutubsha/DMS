@@ -28,9 +28,9 @@ namespace DMS.Abstraction.EmailTemplate
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="templateId"></param>
+        /// <param name="templateName"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        IEmailTemplate Process(int templateId, object data);
+        IEmailTemplate Process(string templateName, object data);
     }
 }
