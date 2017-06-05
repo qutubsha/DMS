@@ -62,9 +62,8 @@ namespace DMS.Repository
         /// 
         /// </summary>
         /// <param name="updateTemplate"></param>
-        /// <param name="updatedBy"></param>
         /// <returns></returns>
-        public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate, string updatedBy)
+        public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate)
         {
             if (null != updateTemplate)
             {
@@ -73,7 +72,7 @@ namespace DMS.Repository
                 if (null != emailTemplate)
                 {
                     var updateEmailTemplate = Builders<EmailTemplate>.Update.Set("EmailSubject", updateTemplate.EmailSubject).Set("EmailBody", updateTemplate.EmailBody)
-                        .Set("IsActive", updateTemplate.IsActive).Set("UpdatedBy", updatedBy).Set("UpdatedOn", DateTime.Now);
+                        .Set("IsActive", updateTemplate.IsActive).Set("UpdatedBy", updateTemplate.UpdatedBy).Set("UpdatedOn", DateTime.Now);
                     await _context.EmailTemplate.UpdateOneAsync(filter, updateEmailTemplate);
                     return updateTemplate;
                 }

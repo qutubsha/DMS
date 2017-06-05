@@ -94,17 +94,14 @@ export class UserService {
     //        .catch(err => this.handleError(err));
     //}
 
-    SendMailOnForgotPassword(username: string): Observable<IUser[]> {
+    SendMailOnForgotPassword(forgotpass: string): Observable<IUser[]> {
         debugger
-        //return this._http.get(this._pathfinder.userUrl + "/ForgotPassword?username=" + username, this._pathfinder.getJWT())
-        //    .map((response: Response) => <IUser[]>response.json())
-        //    .catch(err => this.handleError(err));
         let headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/json; charset=utf-8');
        //let body = JSON.stringify(username);
        let options = new RequestOptions({ headers: headers });
-       return this._http.get(this._pathfinder.userUrl + "/ForgotPassword?username=" + username, options)
+       return this._http.get(this._pathfinder.userUrl + "/ForgotPassword/" + forgotpass, options)
             .map((response: Response) => <IUser>response.json())
             .catch(err => this.handleError(err));
     }

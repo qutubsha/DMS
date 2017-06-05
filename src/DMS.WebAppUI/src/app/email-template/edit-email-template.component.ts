@@ -43,6 +43,7 @@ export class EditEmailTemplateComponent implements OnInit {
     ngOnInit(): void {
         debugger
         let EmailTemplateName = localStorage.getItem('CurrentEmailTemplateId');
+        this.currentUser= JSON.parse(localStorage.getItem('currentUser'));
         if (EmailTemplateName != null) {
                 this.initModel();
                 this.editEmployeetemplate(EmailTemplateName);
@@ -53,7 +54,9 @@ export class EditEmailTemplateComponent implements OnInit {
         this.emailtemp = {
             EmailTemplateName: '',
             EmailSubject: '',
-            EmailBody: ''
+            EmailBody: '',
+            IsActive: true,
+            UpdatedBy:''
         };
     }
 
@@ -79,8 +82,11 @@ export class EditEmailTemplateComponent implements OnInit {
         event.preventDefault();
         debugger
         //if (this.emailtemp.EmailTemplateId != 0 && this.emailtemp.EmailTemplateId != null) {
-            {
-            let saveUser: Template = new Template(this.emailtemp.EmailTemplateName, this.emailtemp.EmailSubject, this.emailtemp.EmailBody);
+        {
+           
+            this.emailtemp.UpdatedBy = this.currentUser.Email;
+            debugger
+            let saveUser: Template = new Template(this.emailtemp.EmailTemplateName, this.emailtemp.EmailSubject, this.emailtemp.EmailBody, this.emailtemp.IsActive, this.emailtemp.UpdatedBy);
                this.busy = this._emailtemplateService.updateEmailTemplate(saveUser).subscribe(
                     data => {
                         this._router.navigate(['/email-template'], { skipLocationChange: true });

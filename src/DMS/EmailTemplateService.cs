@@ -44,9 +44,9 @@ namespace DMS
         /// <param name="updateTemplate"></param>
         /// <param name="updatedBy"></param>
         /// <returns></returns>
-        public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate, string updatedBy)
+        public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate)
         {
-            return await _repository.UpdateEmailTemplateByName(updateTemplate, updatedBy);
+            return await _repository.UpdateEmailTemplateByName(updateTemplate);
         }
 
         public IEmailTemplate Process(string templateName, object data)
