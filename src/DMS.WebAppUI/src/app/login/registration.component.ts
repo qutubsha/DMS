@@ -48,19 +48,22 @@ export class RegistrationComponent {
         this.busy = this._userService.addUser(saveUser).subscribe(
             data => {
                 debugger
-                        this.router.navigate(['/dashboard']);
-                        return true;
+                if (data.Result != null) {
+                    this.router.navigate(['/login']);
+                    return true;
+                } else
+                {
+                    debugger
+                    this.notificationTitle = 'User already exists.';
+                    this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                }
                     },
                     error => {
                         this.errorMessage = <any>error;
                         this.notificationTitle = 'Error in Creating User.';
                         this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
-                    },
-                    () => {
-                        debugger
-                        this.notificationTitle = 'User Created successfully.';
-                        this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
-                    });
+            },
+        );
            
     }
 }

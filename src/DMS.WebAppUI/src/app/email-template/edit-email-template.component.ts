@@ -22,16 +22,6 @@ export class EditEmailTemplateComponent implements OnInit {
     private emailtemplatedata: ITemplate[];
     private emailtemp: ITemplate;
     busy: Subscription;
-    private rowsOnPage = GlobalVariable.rowsOnPage;
-    private sortBy = 'Subject';
-    private sortOrder = 'asc';
-    private activePage = 1;
-    private TemplateNameFilter = '';
-    private SubjectFilter = '';
-    private UpdatedByFilter = '';
-    private UpdatedOnFilter = '';
-    private IsActiveFilter = '';
-    private filters: IDictionary[];
     private notificationTitle: string = '';
     private notificationContent: string = '';
     private ckeditorContent: string;
@@ -51,10 +41,11 @@ export class EditEmailTemplateComponent implements OnInit {
     }
 
     ngOnInit(): void {
-       
+        debugger
             let TemplateName = localStorage.getItem('CurrentEmailTemplateId');
             if (TemplateName != null) {
                 this.initModel();
+                this.editEmployeetemplate(TemplateName);
 
             } 
     }
