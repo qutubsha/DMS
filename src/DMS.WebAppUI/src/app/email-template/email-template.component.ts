@@ -88,6 +88,7 @@ export class EmailTemplateComponent implements OnInit {
         this.showAddForm = false;
         this.busy = this._emailtemplateService.getEmailTemplates()
             .subscribe(data => {
+                debugger
                 this.emailtemplatedata = data;
                 this.data = data;
                // for (var i = 0; i < this.emailtemplatedata.length; i++) {
@@ -106,9 +107,9 @@ export class EmailTemplateComponent implements OnInit {
             error => this.errorMessage = <any>error);
     }
 
-    editEmployeetemplate(TemplateName: any) {
+    editEmployeetemplate(EmailTemplateName: any) {
         debugger
-        localStorage.setItem('CurrentEmailTemplateId', TemplateName);
+        localStorage.setItem('CurrentEmailTemplateId', EmailTemplateName);
         this._router.navigate(['/edit-email-template'], { skipLocationChange: true });
     }
 

@@ -6,58 +6,42 @@
                 <div class="fields_container">
                     <div class="add_section">
 
-                        <a id="add_fields">
+                        <!--<a id="add_fields">
                             Edit Template
-                        </a>
+                        </a>-->
                     </div>
                 </div>
                <!-- <ai-modal #modal modalTitle="Reset Email Template" modalContent="Are sure you wish to reset this Email template?" showCancel="true" (modalClicked)='resetTemplate()'></ai-modal>-->
                 <div class="show_addsection">
                     <form #emtemp="ngForm"  novalidate (ngSubmit)="emtemp.submitted && emtemp.valid && submitForm($event)">
-                            <div class="show_addsectioninner">
-                                <div class="fieldset">
-                                    <div class="row">
-                                        <div class="col-sm-4 col-md-8">
-                                            <label class="twenty_five">Template</label>
-                                            <label class="templatelbl">{{emailtemp.TemplateName}}</label>
+                          
+                                    
+                                        <div class="form-group">
+                                            <label>Template</label>
+                                           <!-- <label class="templatelbl">{{emailtemp.TemplateName}}</label>-->
+                                            <input type="text" class="form-control" [(ngModel)]="emailtemp.EmailTemplateName" name="TemplateName" disabled/>
                                         </div>
-                                        <!--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" *ngIf="ResetEmailTemplate">
-                                            <a (click)='modal.open();' class="aBack">
-                                                Reset to Default
-                                            </a>
-                                        </div>-->
-                                      </div>
-                                    <div class="row">
-                                        <div class="col-sm-4 col-md-8">
+                                     
+                                        <div class="form-group">
                                             <label class="twenty_five ">Subject</label>
                                             <input type="text" class="form-control"  name="Subject" [(ngModel)]="emailtemp.EmailSubject" required #Subject="ngModel">
                                             <div *ngIf="Subject.errors && !(Subject.valid || (Subject.pristine && !emtemp.submitted))">
                                                 <small [hidden]="!Subject.errors.required" class="text-danger-leftemail">Please enter Subject.</small>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                                <label  style="width:100% !important;">Body</label>
-                                        </div>
-                                        <div class="col-md-10">
+                                    
+                                    <div class="form-group">
+                                            <label  style="width:100% !important;">Body</label>
                                             <p-editor [(ngModel)]="emailtemp.EmailBody" name="Body"></p-editor>
-                                        </div>
-                                   
+                                      
                                     </div>
                                   
-                                </div>
-                            </div>
-                            <div class="fieldset">
-                                <div class="row" *ngIf="UpdateEmailTemplate">
-                                    <div class="col-lg-1 col-md-2 col-sm-6 col-xs-12 ">
-                                        <button type="submit" class="fr-btn">Save</button>
-                                    </div>
-                                    <div class="col-lg-1 col-md-2 col-sm-6 col-xs-12 ">
-                                        <button type="button" class="fr-btn hide_addsection" (click)="cancelFormData()">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
+                             
+                           
+                                   
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <button type="button" class="btn btn-primary" (click)="cancelFormData()">Cancel</button>
+                                    
                         </form>
                 </div>
             </div>

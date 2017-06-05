@@ -29,7 +29,7 @@ export class EditEmailTemplateComponent implements OnInit {
     private EmailTemplateId: number;
     private currentUser: IUser;
     private ResetEmailTemplate: boolean = false;
-    private UpdateEmailTemplate: boolean = false;
+   // private UpdateEmailTemplate: boolean = false;
 
     constructor(private _route: ActivatedRoute,
         private _router: Router,
@@ -42,26 +42,26 @@ export class EditEmailTemplateComponent implements OnInit {
 
     ngOnInit(): void {
         debugger
-            let TemplateName = localStorage.getItem('CurrentEmailTemplateId');
-            if (TemplateName != null) {
+        let EmailTemplateName = localStorage.getItem('CurrentEmailTemplateId');
+        if (EmailTemplateName != null) {
                 this.initModel();
-                this.editEmployeetemplate(TemplateName);
+                this.editEmployeetemplate(EmailTemplateName);
 
             } 
     }
     private initModel() {
         this.emailtemp = {
-            TemplateName: '',
+            EmailTemplateName: '',
             EmailSubject: '',
             EmailBody: ''
         };
     }
 
 
-    editEmployeetemplate(TemplateName) {
+    editEmployeetemplate(EmailTemplateName) {
         debugger
-        if (TemplateName != null) {
-            this.busy = this._emailtemplateService.getEmailTemplateById(TemplateName)
+        if (EmailTemplateName != null) {
+            this.busy = this._emailtemplateService.getEmailTemplateById(EmailTemplateName)
                 .subscribe(data => {
                     if (data != null) {
                         this.emailtemp = data;
@@ -77,9 +77,10 @@ export class EditEmailTemplateComponent implements OnInit {
 
     submitForm(event: Event): void {
         event.preventDefault();
+        debugger
         //if (this.emailtemp.EmailTemplateId != 0 && this.emailtemp.EmailTemplateId != null) {
             {
-                let saveUser: Template = new Template(this.emailtemp.TemplateName, this.emailtemp.EmailSubject, this.emailtemp.EmailBody);
+            let saveUser: Template = new Template(this.emailtemp.EmailTemplateName, this.emailtemp.EmailSubject, this.emailtemp.EmailBody);
                this.busy = this._emailtemplateService.updateEmailTemplate(saveUser).subscribe(
                     data => {
                         this._router.navigate(['/email-template'], { skipLocationChange: true });
@@ -96,7 +97,7 @@ export class EditEmailTemplateComponent implements OnInit {
                     });
             }
 
-            //this.cancelFormData();
+            this.cancelFormData();
         //}
     }
 

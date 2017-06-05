@@ -1,7 +1,7 @@
 ﻿
 export interface ITemplate {
    
-    TemplateName: string;
+    EmailTemplateName: string;
     EmailSubject: string;
     EmailBody: string;
    
@@ -11,7 +11,7 @@ export class Template implements ITemplate {
 
     constructor(
       
-        public TemplateName: string,
+        public EmailTemplateName: string,
         public EmailSubject: string,
        public EmailBody: string,
        
