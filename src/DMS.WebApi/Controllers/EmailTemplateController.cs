@@ -44,12 +44,13 @@ namespace DMS.WebApi.Controllers
         /// 
         /// </summary>
         /// <param name="updateTemplate"></param>
+        /// <param name="updatedBy"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task<EmailTemplate> UpdateEmailTemplateByName([FromBody]EmailTemplate updateTemplate)
+        public Task<EmailTemplate> UpdateEmailTemplateByName([FromBody]EmailTemplate updateTemplate, string updatedBy)
         {
 
-            return _emailTemplateService.UpdateEmailTemplateByName(updateTemplate);
+            return _emailTemplateService.UpdateEmailTemplateByName(updateTemplate,updatedBy);
         }
 
 

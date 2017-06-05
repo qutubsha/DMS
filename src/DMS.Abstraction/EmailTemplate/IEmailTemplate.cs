@@ -13,5 +13,17 @@ namespace DMS.Abstraction.EmailTemplate
         string EmailTemplateName { get; set; }
         string EmailSubject { get; set; }
         string EmailBody { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        bool IsActive { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        string UpdatedBy { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        DateTime? UpdatedOn { get; set; }
     }
 }

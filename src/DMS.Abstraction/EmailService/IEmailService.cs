@@ -8,6 +8,15 @@ namespace DMS.Abstraction
 {
     public interface IEmailService
     {
-        Task SendMail(string recipients, string fromEmail, object data,SmtpClient smtpClient);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="recipients"></param>
+        /// <param name="fromEmail"></param>
+        /// <param name="templateName"></param>
+        /// <param name="data"></param>
+        /// <param name="smtpClient"></param>
+        /// <returns></returns>
+        Task SendMail(string recipients, string fromEmail, string templateName, object data, SmtpClient smtpClient);
     }
 }

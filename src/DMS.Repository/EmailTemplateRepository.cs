@@ -36,7 +36,10 @@ namespace DMS.Repository
                 {
                     EmailBody = emailTemplate.EmailBody,
                     EmailSubject = emailTemplate.EmailSubject,
-                    EmailTemplateName = emailTemplate.EmailTemplateName
+                    EmailTemplateName = emailTemplate.EmailTemplateName,
+                    IsActive = emailTemplate.IsActive,
+                    UpdatedBy = emailTemplate.UpdatedBy,
+                    UpdatedOn = emailTemplate.UpdatedOn
 
                 };
 
@@ -49,10 +52,34 @@ namespace DMS.Repository
         /// </summary>
         /// <param name="templateName"></param>
         /// <returns></returns>
-        public async Task<EmailTemplate> GetEmailTemplateByName(string templateName)
+        public Task<EmailTemplate> GetEmailTemplateByName(string templateName)
         {
-            var filter = Builders<EmailTemplate>.Filter.Eq("TemplateName", templateName);
-            return await _context.EmailTemplate.Find(filter).FirstOrDefaultAsync();
+            var filter = Builders<EmailTemplate>.Filter.Eq("EmailTemplateName", templateName);
+            return _context.EmailTemplate.Find(filter).FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updateTemplate"></param>
+        /// <param name="updatedBy"></param>
+        /// <returns></returns>
+        public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate, string updatedBy)
+        {
+            if (null != updateTemplate)
+            {
+                var filter = Builders<EmailTemplate>.Filter.Eq("EmailTemplateName", updateTemplate.EmailTemplateName);
+                EmailTemplate emailTemplate = await _context.EmailTemplate.Find(filter).FirstOrDefaultAsync();
+                if (null != emailTemplate)
+                {
+                    var updateEmailTemplate = Builders<EmailTemplate>.Update.Set("EmailSubject", updateTemplate.EmailSubject).Set("EmailBody", updateTemplate.EmailBody)
+                        .Set("IsActive", updateTemplate.IsActive).Set("UpdatedBy", updatedBy).Set("UpdatedOn", DateTime.Now);
+                    await _context.EmailTemplate.UpdateOneAsync(filter, updateEmailTemplate);
+                    return updateTemplate;
+                }
+                else return null;
+            }
+            else return null;
         }
 
         /// <summary>
@@ -60,21 +87,22 @@ namespace DMS.Repository
         /// </summary>
         /// <param name="templateName"></param>
         /// <returns></returns>
-        public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate)
+        public IEmailTemplate GetEmailTemplate(string templateName)
         {
-            if (null != updateTemplate)
+            var filter = Builders<EmailTemplate>.Filter.Eq("EmailTemplateName", templateName);
+            var emailTemp =  _context.EmailTemplate.Find(filter).FirstOrDefault();
+            var emailTemplate = new EmailTemplate()
             {
-                var filter = Builders<EmailTemplate>.Filter.Eq("TemplateName", updateTemplate.EmailTemplateName);
-                EmailTemplate emailTemplate = await _context.EmailTemplate.Find(filter).FirstOrDefaultAsync();
-                if (null != emailTemplate)
-                {
-                    var updateEmailTemplate = Builders<EmailTemplate>.Update.Set("EmailSubject", updateTemplate.EmailSubject).Set("EmailBody", updateTemplate.EmailBody);
-                    await _context.EmailTemplate.UpdateOneAsync(filter, updateEmailTemplate);
-                    return  updateTemplate;
-                }
-                else return null;
-            }
-            else return null;
+                EmailBody = emailTemp.EmailBody,
+                EmailSubject = emailTemp.EmailSubject,
+                EmailTemplateName = emailTemp.EmailTemplateName,
+                IsActive = emailTemp.IsActive,
+                UpdatedBy = emailTemp.UpdatedBy,
+                UpdatedOn = emailTemp.UpdatedOn
+            };
+            return emailTemplate;
         }
+
+
     }
 }
