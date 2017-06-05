@@ -67,7 +67,7 @@ namespace DMS.Repository
                 {
                     await _context.Users.InsertOneAsync(user);
 
-                    await EmailService.SendMail(objUser.Email, emailConfig.SenderMail,
+                    await EmailService.SendMail(objUser.Email, emailConfig.SenderMail,2,
                         new
                         {
                             FullName = objUser.FirstName + string.Empty + objUser.LastName,
@@ -208,7 +208,7 @@ namespace DMS.Repository
                 var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
                 if (null != objUser)
                 {
-                    await EmailService.SendMail(objUser.Email, emailConfig.SenderMail,
+                    await EmailService.SendMail(objUser.Email, emailConfig.SenderMail, 1,
                          new
                          {
                              FullName = objUser.FirstName + string.Empty + objUser.LastName,
