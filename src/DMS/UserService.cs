@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using DMS.Abstraction;
 using DMS.Repository;
 using DMS.Validator;
+using DMS.Abstraction.EmailService;
 
- namespace DMS
+namespace DMS
 {
     public class UserService : IUserService
     {
@@ -24,14 +25,15 @@ using DMS.Validator;
             return await _repository.Login(eMail, password);
         }
 
-       
+
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="user"></param>
+        /// <param name="emailConfig"></param>
         /// <returns></returns>
-        public async Task<User> AddUser(User user)
+        public async Task<User> AddUser(User user, EmailConfiguration emailConfig)
         {
             // Throws null exception if user value is null
             if (user == null) throw new ArgumentNullException(nameof(user), "User should not be null");
@@ -40,7 +42,7 @@ using DMS.Validator;
             UserValidator.IsValid(user);
 
             // returns new user
-            return await _repository.AddUser(user);
+            return await _repository.AddUser(user,emailConfig);
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ using DMS.Validator;
         /// <param name="newPwd"></param>
         /// <returns></returns>
         public async Task<bool> UpdatePassword(string eMail, string oldPwd, string newPwd)
-        {  
+        {
             // Throws null exception if user value is null
             if (string.IsNullOrEmpty(eMail)) throw new ArgumentNullException(nameof(eMail), "User email should not be empty");
             if (string.IsNullOrEmpty(oldPwd)) throw new ArgumentNullException(nameof(oldPwd), "Password should not be empty");
@@ -70,7 +72,7 @@ using DMS.Validator;
             if (string.IsNullOrEmpty(eMail)) throw new ArgumentNullException(nameof(eMail), "User eMail should not be null");
 
             // Validate user before saving it to database
-           
+
 
             // returns new user
             return await _repository.GetUserDetails(eMail);
@@ -97,13 +99,14 @@ using DMS.Validator;
         /// 
         /// </summary>
         /// <param name="eMail"></param>
+        /// <param name="emailConfig"></param>
         /// <returns></returns>
-        public async Task<bool> ForgotPassword(string eMail)
+        public async Task<bool> ForgotPassword(string eMail, EmailConfiguration emailConfig)
         {
             // Throws null exception if user value is null
             if (string.IsNullOrEmpty(eMail)) throw new ArgumentNullException(nameof(eMail), "Email should not be null or empty");
 
-            return await _repository.ForgotPassword(eMail);
+            return await _repository.ForgotPassword(eMail, emailConfig);
         }
 
     }

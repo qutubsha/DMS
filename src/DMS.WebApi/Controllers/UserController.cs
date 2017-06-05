@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DMS.Abstraction;
+using DMS.Abstraction.EmailService;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,6 +15,11 @@ namespace DMS.WebApi.Controllers
     public class UserController : BaseController<UserController>
     {
         readonly IUserService _userService;
+
+        readonly string MailFrom= "ptms.hrms@gmail.com";
+        readonly string SmtpServer= "smtp.gmail.com";
+        readonly string SmtpUser= "ptms.hrms@gmail.com";
+        readonly string SmtpPass = "sigma@123";
 
         public UserController(ILogger<UserController> logger, IUserService services) : base(logger)
         {
@@ -30,7 +36,7 @@ namespace DMS.WebApi.Controllers
         [HttpPost("AddUser")]
         public IActionResult AddUser([FromBody]User user)
         {
-            return Execute(() => Ok(_userService.AddUser(user)));
+            return Execute(() => Ok(_userService.AddUser(user, GetEmailConfiguration())));
         }
 
         /// <summary>
@@ -65,7 +71,19 @@ namespace DMS.WebApi.Controllers
         [HttpGet("ForgotPassword/{eMail}")]
         public Task<bool> ForgotPassword(string eMail)
         {
-            return _userService.ForgotPassword(eMail);
+            return _userService.ForgotPassword(eMail,GetEmailConfiguration());
+        }
+
+        private EmailConfiguration GetEmailConfiguration()
+        {
+            return new EmailConfiguration()
+            {
+                SenderMail= MailFrom,
+                SmtpServer=SmtpServer,
+                SmtpUser = SmtpUser,
+                SmtpPassword=SmtpPass
+
+            };
         }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using DMS.Abstraction;
+using DMS.Abstraction.EmailService;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -50,15 +53,26 @@ namespace DMS.Repository
             return await AuthenticUserLocked(eMail, password);
         }
 
-        public async Task<User> AddUser(User user)
+        public async Task<User> AddUser(User user, EmailConfiguration emailConfig)
         {
             if (null != user)
             {
+                SmtpClient smtpClient = new SmtpClient();
+                smtpClient.Connect("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
+                smtpClient.Authenticate(emailConfig.SmtpUser, emailConfig.SmtpPassword);
+
                 var filter = Builders<User>.Filter.Eq("Email", user.Email);
                 var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
                 if (null == objUser)
                 {
                     await _context.Users.InsertOneAsync(user);
+
+                    await EmailService.SendMail(objUser.Email, emailConfig.SenderMail,
+                        new
+                        {
+                            FullName = objUser.FirstName + string.Empty + objUser.LastName,
+                            TemplateName = "WelComeUser"
+                        }, smtpClient);
                 }
                 else
                     user = null;
@@ -180,23 +194,28 @@ namespace DMS.Repository
         /// 
         /// </summary>
         /// <param name="eMail"></param>
+        /// <param name="emailConfig"></param>
         /// <returns></returns>
-        public async Task<bool> ForgotPassword(string eMail)
+        public async Task<bool> ForgotPassword(string eMail, EmailConfiguration emailConfig)
         {
             if (!string.IsNullOrEmpty(eMail))
             {
+                SmtpClient smtpClient = new SmtpClient();
+                smtpClient.Connect("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
+                smtpClient.Authenticate(emailConfig.SmtpUser, emailConfig.SmtpPassword);
+
                 var filter = Builders<User>.Filter.Eq("Email", eMail);
                 var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
                 if (null != objUser)
                 {
-                    await EmailService.SendMail(objUser.Email, "sender@email.com",
+                    await EmailService.SendMail(objUser.Email, emailConfig.SenderMail,
                          new
                          {
                              FullName = objUser.FirstName + string.Empty + objUser.LastName,
                              TemplateName = "ForgotPassword",
                              Email = objUser.Email.Trim(),
-                             Password=objUser.Password.Trim()
-                         });
+                             Password = objUser.Password.Trim()
+                         }, smtpClient);
                     return true;
                 }
                 else return false;
