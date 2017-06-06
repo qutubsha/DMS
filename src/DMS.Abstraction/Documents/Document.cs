@@ -49,6 +49,10 @@ namespace DMS.Abstraction
         public byte[] DocumentData { get; set; }
 
         public string DocumentTags { get; set; }
+
+        public string CreatedByName { get; set; }
+
+        public string LockedByName { get; set; }
     }
 }
 
