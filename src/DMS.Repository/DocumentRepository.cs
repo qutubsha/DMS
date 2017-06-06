@@ -29,9 +29,9 @@ namespace DMS.Repository
             string filePath = CreateDocumentPath(basePath, document.DocumentId, document.CurrentVersion,
                             document.CurrentRevision, document.Extension);
             //TODO : check if filepath is null
-            Revision revision = CreateRevision(document.DocumentId, document.FileName, document.Extension, 
+            Revision revision = CreateRevision(document.DocumentId, document.FileName, document.Extension,
                     document.CreatedBy, 1, 1, "Created", "Created", filePath);
-           
+
             // TODO : Save file on this path 
             await _context.Revisions.InsertOneAsync(revision);
         }
@@ -59,7 +59,7 @@ namespace DMS.Repository
         {
             var filter = Builders<Document>.Filter.Eq("DocumentId", documentId);
             Document document = await _context.Documents.Find(filter).FirstOrDefaultAsync();
-            if(document != null)
+            if (document != null)
             {
                 //TODO : check permission if user is allowed to check out document and document is not check out
 
@@ -109,9 +109,9 @@ namespace DMS.Repository
                     string filePath = CreateDocumentPath(basePath, document.DocumentId, versionId,
                                     revisionId, document.Extension);
                     //TODO : check if filepath is null
-                    Revision revision = CreateRevision(documentId, fileName, extension, loginId, 
+                    Revision revision = CreateRevision(documentId, fileName, extension, loginId,
                         revisionId, versionId, what, why, filePath);
-                 
+
                     await _context.Revisions.InsertOneAsync(revision);
 
                     // TODO : Save file on this path 
@@ -121,7 +121,7 @@ namespace DMS.Repository
                                                       .Set(s => s.CurrentRevision, revisionId)
                                                       .Set(s => s.CurrentVersion, versionId)
                                                       .Set(s => s.LockedBy, null);
-                   
+
                     await _context.Documents.UpdateOneAsync(filter, update);
                 }
             }
@@ -131,7 +131,14 @@ namespace DMS.Repository
         public async Task<List<Document>> GetAllDocuments(bool IsShared, int loginId)
         {
             //TODO : Get documents on which user has rights and  are not deleted
-            return _context.Documents.AsQueryable().Where(x => x.IsShared.Equals(false) && x.IsDeleted.Equals(false)).ToList();
+
+            List<Document> doclist = _context.Documents.AsQueryable().Where(x => x.IsShared.Equals(false) && x.IsDeleted.Equals(false)).ToList();
+            foreach (Document doc in doclist)
+            {
+                doc.CreatedByName = (doc.CreatedBy > 0) ? _context.Users.AsQueryable().FirstOrDefault(x => x.UserId.Equals(doc.CreatedBy)).UserName : string.Empty; //set CreatedByName with CreatedById
+                doc.LockedByName = (doc.LockedBy > 0) ? _context.Users.AsQueryable().FirstOrDefault(x => x.UserId.Equals(doc.LockedBy)).UserName : string.Empty; //set LockedByName with LockedById
+            }
+            return doclist;
             //var filter = Builders<Document>.Filter.Eq("IsShared", IsShared);
             //return  await _context.Documents.Find(filter).ToListAsync();
         }
@@ -164,7 +171,7 @@ namespace DMS.Repository
             return document;
         }
 
-        private Revision CreateRevision(int documentId, string fileName, string extension, int loginId, int revisionId, 
+        private Revision CreateRevision(int documentId, string fileName, string extension, int loginId, int revisionId,
                             int versionId, string what, string why, string path)
         {
             Revision revision = new Revision();
@@ -183,14 +190,14 @@ namespace DMS.Repository
             return revision;
         }
 
-        private string CreateDocumentPath (string basePath, int documentd, int versionId, 
+        private string CreateDocumentPath(string basePath, int documentd, int versionId,
                 int revisionId, string extension)
         {
             string path = null;
             if (Directory.Exists(basePath))
             {
                 path = Path.Combine(basePath, documentd.ToString(), versionId.ToString());
-                
+
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);

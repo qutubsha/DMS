@@ -21,13 +21,13 @@
                                             <mfDefaultSorter by="Extension">Extension</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="CreatedBy">Created By</mfDefaultSorter>
+                                            <mfDefaultSorter by="CreatedByName">Created By</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
                                             <mfDefaultSorter by="CreatedOn">Created On</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
-                                            <mfDefaultSorter by="LockedBy">Locked By</mfDefaultSorter>
+                                            <mfDefaultSorter by="LockedByName">Locked By</mfDefaultSorter>
                                         </th>
                                         <th class="td-width-15">
                                             <mfDefaultSorter by="DocumentTags">Document Tag(s)</mfDefaultSorter>
@@ -52,9 +52,9 @@
                                             {{item.FileName}}
                                         </td>
                                         <td>{{item.Extension}}</td>
-                                        <td>{{item.CreatedBy}}</td>
+                                        <td>{{item.CreatedByName}}</td>
                                         <td>{{item.CreatedOn}}</td>
-                                        <td>{{item.LockedBy}}</td>
+                                        <td>{{item.LockedByName}}</td>
                                         <td>{{item.DocumentTags}}</td>
                                         <td>
                                             <a (click)="DownloadDoc();" style="cursor:pointer" title="download"><span class="glyphicon glyphicon-download"></span></a>

@@ -91,9 +91,9 @@ export class DocumentComponent {
         if (ExtensionFilter != null)
             this.filters.push({ key: 'Extension', value: ExtensionFilter });
         if (CreatedByFilter != null)
-            this.filters.push({ key: 'CreatedBy', value: CreatedByFilter });
+            this.filters.push({ key: 'CreatedByName', value: CreatedByFilter });
         if (LockedByFilter != null)
-            this.filters.push({ key: 'LockedBy', value: LockedByFilter });
+            this.filters.push({ key: 'LockedByName', value: LockedByFilter });
         if (DocumentTagFilter != null)
             this.filters.push({ key: 'DocumentTags', value: DocumentTagFilter });
         if (CreatedOnFilter != null)
