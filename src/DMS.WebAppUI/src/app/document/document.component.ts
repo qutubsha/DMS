@@ -9,6 +9,7 @@ import {DataTable } from "angular2-datatable";
 import { GlobalVariable, IDictionary } from '../shared/global';
 import { SharedService } from '../shared/shared.service';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { IUser, User} from '../login/login';
 
 @Component({
     templateUrl: './document.component.html',
@@ -35,22 +36,34 @@ export class DocumentComponent {
     private notificationTitle: string = '';
     private notificationContent: string = '';
     private filters: IDictionary[];
+    private selectedDocId: number;
+    private loggedInUser: IUser;
+
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
     @ViewChild('modal')
     modal: ModalComponent;
-
+    @ViewChild('dlteDocmodal')
+    dlteDocmodal: ModalComponent;
     constructor(
         private _sharedService: SharedService,
         private router: Router, private _documentservice: DocumentService) {
     }
 
     ngOnInit(): void {
-        this.GetAllDocuments();
+       
+        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (this.loggedInUser == null) {
+            localStorage.removeItem('currentUser');
+            this.router.navigate(['/login']);
+        }
+        else {
+            this.GetAllDocuments();
+        }
     }
 
     GetAllDocuments() {
-        this.busy = this._documentservice.getDocuments()
+        this.busy = this._documentservice.getDocuments(this.loggedInUser.UserID)
             .subscribe(data => {
                 this.data = data;
 
@@ -100,7 +113,7 @@ export class DocumentComponent {
     }
 
     LockDoc(docid: number) {
-        this.busy = this._documentservice.CheckinCheckOutDocument(docid, 1)
+        this.busy = this._documentservice.CheckinCheckOutDocument(docid, this.loggedInUser.UserID)
             .subscribe(data => {
 
             },
@@ -148,5 +161,26 @@ export class DocumentComponent {
         }
     }
 
+    showDlteCOnfirm(docid: number) {
+        this.selectedDocId = docid;
+        this.dlteDocmodal.open();
+    }
+
+    DeleteDoc() {
+        this.busy = this._documentservice.deleteDocument(this.selectedDocId, 1)
+            .subscribe(data => {
+                this.modal.close();
+                this.GetAllDocuments();
+            },
+            error => {
+                this.errorMessage = <any>error;
+                this.notificationTitle = this.errorMessage;
+                this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            },
+            () => {
+                this.notificationTitle = 'Document deleted successfully.';
+                this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
+            });
+    }
 }
 

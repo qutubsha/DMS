@@ -131,8 +131,9 @@ namespace DMS.Repository
         public async Task<List<Document>> GetAllDocuments(bool IsShared, int loginId)
         {
             //TODO : Get documents on which user has rights and  are not deleted
-            var filter = Builders<Document>.Filter.Eq("IsShared", IsShared);
-            return  await _context.Documents.Find(filter).ToListAsync();
+            return _context.Documents.AsQueryable().Where(x => x.IsShared.Equals(false) && x.IsDeleted.Equals(false)).ToList();
+            //var filter = Builders<Document>.Filter.Eq("IsShared", IsShared);
+            //return  await _context.Documents.Find(filter).ToListAsync();
         }
 
         public async Task<Document> GetDocumentById(int documentId, int loginId)
