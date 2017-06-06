@@ -21,12 +21,14 @@ namespace DMS.WebApi.Controllers
     public class DocumentController : BaseController<DocumentController>
     {
         readonly DocumentService _documentService;
+        public static string fileUploadPath;
 
         public DocumentController(ILogger<DocumentController> logger, IOptions<Settings> settings) : base(logger)
         {
             var repository = new DocumentRepository(settings);
             var accessrepository = new DocumentAccessHistoryRepository(settings);
             _documentService = new DocumentService(repository, accessrepository);
+            fileUploadPath = settings.Value.FileUploadPath;
         }
 
         [HttpGet]
@@ -55,10 +57,10 @@ namespace DMS.WebApi.Controllers
         //}
 
         [HttpPost]
-        public IActionResult AddDocument([FromBody]Document document, [FromBody]byte[] file)
+        public IActionResult AddDocument([FromBody]Document document, [FromBody]byte[] file, string fileUploadPath)
         {
             // TODO : Check add permission, save document in repository, check date time issue
-            return Execute(() => Ok(_documentService.AddDocument(document, file)));
+            return Execute(() => Ok(_documentService.AddDocument(document, file, fileUploadPath)));
         }
 
         [HttpDelete("{id}")]
@@ -92,10 +94,10 @@ namespace DMS.WebApi.Controllers
         }
 
         [HttpPut("TagDocument/{id}")]
-        public IActionResult TagDocument(int id, int loginId,string tags)
+        public IActionResult TagDocument(int id, int loginId, string tags)
         {
             //TODO : Check permission, validate request
-            return Execute(() => Ok(_documentService.TagDocument(id, loginId,tags)));
+            return Execute(() => Ok(_documentService.TagDocument(id, loginId, tags)));
         }
 
         [HttpGet("versions/{id}")]
@@ -106,7 +108,7 @@ namespace DMS.WebApi.Controllers
         }
 
         [HttpPost("UploadFiles")]
-        public HttpResponseMessage UploadJsonFile()
+        public HttpResponseMessage UploadJsonFile(int userId)
         {
             HttpResponseMessage response = new HttpResponseMessage();
 
@@ -117,40 +119,28 @@ namespace DMS.WebApi.Controllers
                 foreach (var formFile in httpRequest.Form.Files)
                 {
                     IFormFile postedFile = httpRequest.Form.Files[formFile.Name];
-
-                    //var filePath = HttpContext.Request.HttpContext.Request MsapPath("~/UploadFile/" + postedFile.FileName);
-                    ////postedFile.SaveAs(filePath);
-                    //var postedFile = httpRequest.Files[file];
-                    //File abc = new File(;
-                    //var filePath = HttpContext.Request.u .MapPath("~/UploadFile/" + postedFile.FileName);
-                    //postedFile.SaveAs(filePath);
-
-
-                    //    System.Console.WriteLine("You received the call!");
-                    //  WriteLog("PostFiles call received!", true);
-                    //We would always copy the attachments to the folder specified above but for now dump it wherver....
-
-
-                    // full path to file in temp location
-                    var filePath = Path.GetTempFileName();
-                    var fileName = Path.GetTempFileName();
-                    var filePath1 = Path.GetFullPath("D:\\DMSUploadFiles") + "\\" + formFile.FileName;
-
-
+                    var filePath1 = Path.GetTempPath() + "\\" + formFile.FileName;
                     if (formFile.Length > 0)
                     {
                         using (var stream = new FileStream(filePath1, FileMode.Create))
                         {
                             formFile.CopyToAsync(stream);
-                            //formFile.CopyToAsync(stream);
                         }
+
+                        // Saves document details in database
+                        //Document document, [FromBody]byte[] file
+                        byte[] file = new byte[100];
+                        var document = new Document()
+                        {
+                            CreatedBy = userId,
+                            CurrentRevision = 1,
+                            CurrentVersion = 1,
+                            Extension = Path.GetExtension(filePath1),
+                            FileName = Path.GetFileNameWithoutExtension(filePath1),
+                        };
+                        var myTask = _documentService.AddDocument(document, file, fileUploadPath); // call your method which will return control once it hits await
+                        string result = myTask.Status.ToString();
                     }
-                    // process uploaded files
-                    // Don't rely on or trust the FileName property without validation.
-                    //Displaying File Name for verification purposes for 
-
-                    // return Ok(new { count = httpRequest.Form.Files.Count, fileName, size, filePath });
-
                 }
             }
             return response;

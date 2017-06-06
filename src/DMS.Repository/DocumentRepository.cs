@@ -21,18 +21,40 @@ namespace DMS.Repository
             _context = new DMSContext(settings);
         }
 
-        public async Task AddDocument(Document document, byte[] file)
+        public async Task AddDocument(Document document, byte[] file, string fileUploadPath)
         {
+            if (document == null) { throw new ArgumentNullException(nameof(document), "document should not be null."); }
+            var maxDocId = _context.Documents.AsQueryable().Max(p => p.DocumentId);
+
+            var newDoc = new Document()
+            {
+                DocumentId = ++maxDocId,
+                CreatedBy = document.CreatedBy,
+                CurrentRevision = document.CurrentRevision,
+                CurrentVersion = document.CurrentVersion,
+                DeletedBy = document.DeletedBy,
+                DeletedOn = document.DeletedOn,
+                DocumentData = document.DocumentData,
+                DocumentTags = document.DocumentTags,
+                Extension = document.Extension,
+                FileName = document.FileName,
+                IsDeleted = document.IsDeleted,
+                IsShared = document.IsShared,
+                LockedBy = document.LockedBy,
+                ModifiedBy = document.ModifiedBy
+            };
+
             //TODO Check permission, validate request, save file, add transaction, set identity and use it
-            string basePath = Path.GetTempPath();
-            await _context.Documents.InsertOneAsync(document);
-            string filePath = CreateDocumentPath(basePath, document.DocumentId, document.CurrentVersion,
+            await _context.Documents.InsertOneAsync(newDoc);
+            string filePath = CreateDocumentPath(fileUploadPath, maxDocId, document.CurrentVersion,
                             document.CurrentRevision, document.Extension);
             //TODO : check if filepath is null
-            Revision revision = CreateRevision(document.DocumentId, document.FileName, document.Extension, 
+            Revision revision = CreateRevision(maxDocId, document.FileName, document.Extension,
                     document.CreatedBy, 1, 1, "Created", "Created", filePath);
-           
+
             // TODO : Save file on this path 
+            File.Move(Path.GetTempPath() + "\\" + document.FileName + document.Extension, filePath);
+
             await _context.Revisions.InsertOneAsync(revision);
         }
 
@@ -59,7 +81,7 @@ namespace DMS.Repository
         {
             var filter = Builders<Document>.Filter.Eq("DocumentId", documentId);
             Document document = await _context.Documents.Find(filter).FirstOrDefaultAsync();
-            if(document != null)
+            if (document != null)
             {
                 //TODO : check permission if user is allowed to check out document and document is not check out
 
@@ -109,9 +131,9 @@ namespace DMS.Repository
                     string filePath = CreateDocumentPath(basePath, document.DocumentId, versionId,
                                     revisionId, document.Extension);
                     //TODO : check if filepath is null
-                    Revision revision = CreateRevision(documentId, fileName, extension, loginId, 
+                    Revision revision = CreateRevision(documentId, fileName, extension, loginId,
                         revisionId, versionId, what, why, filePath);
-                 
+
                     await _context.Revisions.InsertOneAsync(revision);
 
                     // TODO : Save file on this path 
@@ -121,7 +143,7 @@ namespace DMS.Repository
                                                       .Set(s => s.CurrentRevision, revisionId)
                                                       .Set(s => s.CurrentVersion, versionId)
                                                       .Set(s => s.LockedBy, null);
-                   
+
                     await _context.Documents.UpdateOneAsync(filter, update);
                 }
             }
@@ -132,7 +154,7 @@ namespace DMS.Repository
         {
             //TODO : Get documents on which user has rights and  are not deleted
             var filter = Builders<Document>.Filter.Eq("IsShared", IsShared);
-            return  await _context.Documents.Find(filter).ToListAsync();
+            return await _context.Documents.Find(filter).ToListAsync();
         }
 
         public async Task<Document> GetDocumentById(int documentId, int loginId)
@@ -163,7 +185,7 @@ namespace DMS.Repository
             return document;
         }
 
-        private Revision CreateRevision(int documentId, string fileName, string extension, int loginId, int revisionId, 
+        private Revision CreateRevision(int documentId, string fileName, string extension, int loginId, int revisionId,
                             int versionId, string what, string why, string path)
         {
             Revision revision = new Revision();
@@ -182,19 +204,20 @@ namespace DMS.Repository
             return revision;
         }
 
-        private string CreateDocumentPath (string basePath, int documentd, int versionId, 
+        private string CreateDocumentPath(string basePath, int documentd, int versionId,
                 int revisionId, string extension)
         {
             string path = null;
             if (Directory.Exists(basePath))
             {
                 path = Path.Combine(basePath, documentd.ToString(), versionId.ToString());
-                
+
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
                 }
-                path += Path.DirectorySeparatorChar + revisionId.ToString() + "." + extension;
+                path += Path.DirectorySeparatorChar + revisionId.ToString() + extension;
+                //path += Path.DirectorySeparatorChar + revisionId.ToString() + "." + extension;
             }
             return path;
         }

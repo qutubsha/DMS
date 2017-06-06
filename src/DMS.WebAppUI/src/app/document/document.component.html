@@ -10,7 +10,7 @@
                     <div class="panel panel-primary filterable ">
                         <div class="table-responsive">
                             <table class="table table-striped " [mfData]="filteredData" #mf="mfDataTable"
-                                   [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder" [mfActivePage]="activePage" >
+                                   [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder" [mfActivePage]="activePage">
 
                                 <thead>
                                     <tr>
@@ -32,7 +32,7 @@
                                         <th class="td-width-15">
                                             <mfDefaultSorter by="DocumentTags">Document Tag(s)</mfDefaultSorter>
                                         </th>
-                                        <th class="td-width-15">
+                                        <th class="td-width-15" style="width:10% !important">
                                             Operations
                                         </th>
                                     </tr>
@@ -60,7 +60,7 @@
                                             <a (click)="DownloadDoc();" style="cursor:pointer" title="download"><span class="glyphicon glyphicon-download"></span></a>
                                             <a (click)="DeleteDoc();" style="cursor:pointer" title="delete"><span class="glyphicon glyphicon-remove"></span></a>
                                             <a (click)="LockDoc(item.DocumentId);" style="cursor:pointer" title="check out"><span class="glyphicon glyphicon-lock"></span></a>
-                                            <a (click)="ViewAccessHistory(item.DocumentId);" title="Access history" ><span class="fa fa-history"></span></a>
+                                            <a (click)="ViewAccessHistory(item.DocumentId);" title="Access history"><span class="fa fa-history"></span></a>
                                             <a (click)="ViewVersionHistory(item.DocumentId);" title="Version history"><span class="fa fa-file-text"></span></a>
                                         </td>
 
@@ -78,19 +78,19 @@
                                 <thead>
                                     <tr>
                                         <th class="td-width-30"><mfDefaultSorter by="extension">extension</mfDefaultSorter>
-                                   
+
                                         </th>
 
                                     </tr>
-                                   
+
                                 </thead>
                                 <tbody>
-                                                                       
+
                                     <tr *ngFor="let item of mf.data">
                                         <td>{{item.extension}}</td>
-                                       
+
                                     </tr>
-                                    
+
                                 </tbody>
                                 <tfoot>
                                     <tr>
