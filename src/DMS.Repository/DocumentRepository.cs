@@ -21,18 +21,39 @@ namespace DMS.Repository
             _context = new DMSContext(settings);
         }
 
-        public async Task AddDocument(Document document, byte[] file)
+        public async Task AddDocument(Document document, byte[] file, string fileUploadPath)
         {
+            if (document == null) { throw new ArgumentNullException(nameof(document), "document should not be null."); }
+            var maxDocId = _context.Documents.AsQueryable().Max(p => p.DocumentId);
+
+            var newDoc = new Document()
+            {
+                DocumentId = ++maxDocId,
+                CreatedBy = document.CreatedBy,
+                CurrentRevision = document.CurrentRevision,
+                CurrentVersion = document.CurrentVersion,
+                DeletedBy = document.DeletedBy,
+                DeletedOn = document.DeletedOn,
+                DocumentData = document.DocumentData,
+                DocumentTags = document.DocumentTags,
+                Extension = document.Extension,
+                FileName = document.FileName,
+                IsDeleted = document.IsDeleted,
+                IsShared = document.IsShared,
+                LockedBy = document.LockedBy,
+                ModifiedBy = document.ModifiedBy
+            };
+
             //TODO Check permission, validate request, save file, add transaction, set identity and use it
-            string basePath = Path.GetTempPath();
-            await _context.Documents.InsertOneAsync(document);
-            string filePath = CreateDocumentPath(basePath, document.DocumentId, document.CurrentVersion,
+            await _context.Documents.InsertOneAsync(newDoc);
+            string filePath = CreateDocumentPath(fileUploadPath, maxDocId, document.CurrentVersion,
                             document.CurrentRevision, document.Extension);
             //TODO : check if filepath is null
-            Revision revision = CreateRevision(document.DocumentId, document.FileName, document.Extension,
+            Revision revision = CreateRevision(maxDocId, document.FileName, document.Extension,
                     document.CreatedBy, 1, 1, "Created", "Created", filePath);
-
+            
             // TODO : Save file on this path 
+            File.Move(Path.GetTempPath() + "\\" + document.FileName + document.Extension, filePath);
             await _context.Revisions.InsertOneAsync(revision);
         }
 
@@ -202,7 +223,8 @@ namespace DMS.Repository
                 {
                     Directory.CreateDirectory(path);
                 }
-                path += Path.DirectorySeparatorChar + revisionId.ToString() + "." + extension;
+                path += Path.DirectorySeparatorChar + revisionId.ToString() + extension;
+                //path += Path.DirectorySeparatorChar + revisionId.ToString() + "." + extension;
             }
             return path;
         }

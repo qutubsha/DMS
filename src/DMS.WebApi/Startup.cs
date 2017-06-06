@@ -56,6 +56,7 @@ namespace DMS.WebApi
             {
                 options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
                 options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+                options.FileUploadPath = Configuration.GetSection("DocumentRepository:FileUploadPath").Value;
             });
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<IDocumentRepository, DocumentRepository>();

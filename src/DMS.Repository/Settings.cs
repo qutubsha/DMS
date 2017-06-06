@@ -9,5 +9,6 @@ namespace DMS.Repository
     {
         public string ConnectionString;
         public string Database;
+        public string FileUploadPath;
     }
 }

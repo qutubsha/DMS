@@ -45,12 +45,12 @@ export class DocumentService {
             .catch(err => this.handleError(err));
     }
 
-    uploadFile(formData): any {
+    uploadFile(formData, userId : number): any {
         let headers = new Headers()
         //headers.append('Content-Type', 'json');  
         //headers.append('Accept', 'application/json');  
         let options = new RequestOptions({ headers: headers });
-        return this._http.post(this._pathfinder.documentUrl + "/UploadFiles", formData, options)
+        return this._http.post(this._pathfinder.documentUrl + "/UploadFiles?userId=" + userId, formData, options)
             .map(res => res.json())
             .catch(error => Observable.throw(error));
     }
