@@ -15,13 +15,15 @@ namespace DMS.Repository
     public class DocumentRepository : IDocumentRepository
     {
         private readonly DMSContext _context = null;
+        public static string fileUploadPath;
 
         public DocumentRepository(IOptions<Settings> settings)
         {
             _context = new DMSContext(settings);
+            fileUploadPath = settings.Value.FileUploadPath;
         }
 
-        public async Task AddDocument(Document document, byte[] file, string fileUploadPath)
+        public async Task AddDocument(Document document, byte[] file)
         {
             if (document == null) { throw new ArgumentNullException(nameof(document), "document should not be null."); }
             var maxDocId = _context.Documents.AsQueryable().Max(p => p.DocumentId);

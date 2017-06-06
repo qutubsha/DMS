@@ -27,13 +27,13 @@ namespace DMS
         }
 
 
-        public async Task AddDocument(Document document, byte[] file, string fileUploadPath)
+        public async Task AddDocument(Document document, byte[] file)
         {
             if (document == null)
             {
                 throw new ArgumentNullException(nameof(document), "Document should not be null");
             }
-            await _repository.AddDocument(document, file, fileUploadPath);
+            await _repository.AddDocument(document, file);
             DocumentAccessHistory accessHistory = GetAccessDetails(document.DocumentId, document.DocumentId, document.CreatedBy, AccessLog.Created);
             await _accessRepository.InsertDocumentAccessLog(accessHistory);
         }

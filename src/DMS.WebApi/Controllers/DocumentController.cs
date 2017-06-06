@@ -21,14 +21,12 @@ namespace DMS.WebApi.Controllers
     public class DocumentController : BaseController<DocumentController>
     {
         readonly DocumentService _documentService;
-        public static string fileUploadPath;
 
         public DocumentController(ILogger<DocumentController> logger, IOptions<Settings> settings) : base(logger)
         {
             var repository = new DocumentRepository(settings);
             var accessrepository = new DocumentAccessHistoryRepository(settings);
             _documentService = new DocumentService(repository, accessrepository);
-            fileUploadPath = settings.Value.FileUploadPath;
         }
 
         [HttpGet]
@@ -57,10 +55,10 @@ namespace DMS.WebApi.Controllers
         //}
 
         [HttpPost]
-        public IActionResult AddDocument([FromBody]Document document, [FromBody]byte[] file, string fileUploadPath)
+        public IActionResult AddDocument([FromBody]Document document, [FromBody]byte[] file)
         {
             // TODO : Check add permission, save document in repository, check date time issue
-            return Execute(() => Ok(_documentService.AddDocument(document, file, fileUploadPath)));
+            return Execute(() => Ok(_documentService.AddDocument(document, file)));
         }
 
         [HttpDelete]
@@ -138,7 +136,7 @@ namespace DMS.WebApi.Controllers
                             Extension = Path.GetExtension(filePath1),
                             FileName = Path.GetFileNameWithoutExtension(filePath1),
                         };
-                        var myTask = _documentService.AddDocument(document, file, fileUploadPath); // call your method which will return control once it hits await
+                        var myTask = _documentService.AddDocument(document, file); // call your method which will return control once it hits await
                         string result = myTask.Status.ToString();
                     }
                 }
