@@ -22,9 +22,15 @@ namespace DMS.Abstraction.EmailTemplate
         /// 
         /// </summary>
         /// <param name="updateTemplate"></param>
+        /// <param name="updatedBy"></param>
         /// <returns></returns>
         Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate);
-
-        IEmailTemplate Process(int templateId, object data);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="templateName"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        IEmailTemplate Process(string templateName, object data);
     }
 }

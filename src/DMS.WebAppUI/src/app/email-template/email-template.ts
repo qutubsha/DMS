@@ -1,20 +1,23 @@
 ﻿
 export interface ITemplate {
    
-    TemplateName: string;
+    EmailTemplateName: string;
     EmailSubject: string;
     EmailBody: string;
-   
+    IsActive: boolean;
+    UpdatedBy: string;
+///DateTime ? UpdatedOn { get; set; }
 }
 
 export class Template implements ITemplate {
 
     constructor(
       
-        public TemplateName: string,
+        public EmailTemplateName: string,
         public EmailSubject: string,
-       public EmailBody: string,
-       
+        public EmailBody: string,
+        public IsActive: boolean,
+        public UpdatedBy: string
     )
     { }
 }

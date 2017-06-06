@@ -22,14 +22,17 @@ namespace DMS.Abstraction.EmailTemplate
         /// 
         /// </summary>
         /// <param name="updateTemplate"></param>
+        /// <param name="updatedBy"></param>
         /// <returns></returns>
         Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate);
-
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="templateId"></param>
+        /// <param name="templateName"></param>
         /// <returns></returns>
-        IEmailTemplate GetEmailTemplateById(int templateId);
+        IEmailTemplate GetEmailTemplate(string templateName);
+
+
+
     }
 }

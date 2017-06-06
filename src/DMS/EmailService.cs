@@ -26,12 +26,12 @@ namespace DMS
         /// <param name="data"></param>
         /// <param name="smtpClient"></param>
         /// <returns></returns>
-        public async Task SendMail(string recipients, string fromEmail, int templateId, object data, SmtpClient smtpClient)
+        public async Task SendMail(string recipients, string fromEmail, string templateName, object data, SmtpClient smtpClient)
         {
-            var template = TemplateService.Process(templateId, data);
+            var template = TemplateService.Process(templateName, data);
             //var emailMessage = new MailMessage(fromEmail, recipients, template.Subject, template.Body) { IsBodyHtml = true };
             await Task.Run(() =>
-            {
+             {
                 //try
                 //{
                 //    smtpClient.Send(emailMessage);

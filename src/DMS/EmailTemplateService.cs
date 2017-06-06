@@ -9,7 +9,7 @@ using DMS.Abstraction.EmailTemplate;
 
 namespace DMS
 {
-    public class EmailTemplateService: IEmailTemplateService
+    public class EmailTemplateService : IEmailTemplateService
     {
 
         /// <summary>
@@ -42,17 +42,19 @@ namespace DMS
         /// 
         /// </summary>
         /// <param name="updateTemplate"></param>
+        /// <param name="updatedBy"></param>
         /// <returns></returns>
         public async Task<EmailTemplate> UpdateEmailTemplateByName(EmailTemplate updateTemplate)
         {
             return await _repository.UpdateEmailTemplateByName(updateTemplate);
         }
 
-        public IEmailTemplate Process(int templateId, object data)
+        public IEmailTemplate Process(string templateName, object data)
         {
-            if (templateId <= 0) { throw new ArgumentException("TemplateId should not be less then or equal to 0"); }
+            if (string.IsNullOrEmpty(templateName)) { throw new ArgumentException("TemplateName should not be empty or null"); }
 
-            var template = GetEmailTemplateById(templateId);
+            var template = GetEmailTemplateById(templateName);
+
             if (!string.IsNullOrWhiteSpace(template.EmailSubject))
                 template.EmailSubject = HandlebarsDotNet.Handlebars.Compile(template.EmailSubject)(data);
 
@@ -60,10 +62,14 @@ namespace DMS
 
             return template;
         }
-
-        private IEmailTemplate GetEmailTemplateById(int templateId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="templateName"></param>
+        /// <returns></returns>
+        private IEmailTemplate GetEmailTemplateById(string templateName)
         {
-            return _repository.GetEmailTemplateById(templateId);
+            return _repository.GetEmailTemplate(templateName);
         }
     }
 }

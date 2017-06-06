@@ -21,40 +21,18 @@ namespace DMS.Repository
             _context = new DMSContext(settings);
         }
 
-        public async Task AddDocument(Document document, byte[] file, string fileUploadPath)
+        public async Task AddDocument(Document document, byte[] file)
         {
-            if (document == null) { throw new ArgumentNullException(nameof(document), "document should not be null."); }
-            var maxDocId = _context.Documents.AsQueryable().Max(p => p.DocumentId);
-
-            var newDoc = new Document()
-            {
-                DocumentId = ++maxDocId,
-                CreatedBy = document.CreatedBy,
-                CurrentRevision = document.CurrentRevision,
-                CurrentVersion = document.CurrentVersion,
-                DeletedBy = document.DeletedBy,
-                DeletedOn = document.DeletedOn,
-                DocumentData = document.DocumentData,
-                DocumentTags = document.DocumentTags,
-                Extension = document.Extension,
-                FileName = document.FileName,
-                IsDeleted = document.IsDeleted,
-                IsShared = document.IsShared,
-                LockedBy = document.LockedBy,
-                ModifiedBy = document.ModifiedBy
-            };
-
             //TODO Check permission, validate request, save file, add transaction, set identity and use it
-            await _context.Documents.InsertOneAsync(newDoc);
-            string filePath = CreateDocumentPath(fileUploadPath, maxDocId, document.CurrentVersion,
+            string basePath = Path.GetTempPath();
+            await _context.Documents.InsertOneAsync(document);
+            string filePath = CreateDocumentPath(basePath, document.DocumentId, document.CurrentVersion,
                             document.CurrentRevision, document.Extension);
             //TODO : check if filepath is null
-            Revision revision = CreateRevision(maxDocId, document.FileName, document.Extension,
+            Revision revision = CreateRevision(document.DocumentId, document.FileName, document.Extension,
                     document.CreatedBy, 1, 1, "Created", "Created", filePath);
 
             // TODO : Save file on this path 
-            File.Move(Path.GetTempPath() + "\\" + document.FileName + document.Extension, filePath);
-
             await _context.Revisions.InsertOneAsync(revision);
         }
 
@@ -153,8 +131,16 @@ namespace DMS.Repository
         public async Task<List<Document>> GetAllDocuments(bool IsShared, int loginId)
         {
             //TODO : Get documents on which user has rights and  are not deleted
-            var filter = Builders<Document>.Filter.Eq("IsShared", IsShared);
-            return await _context.Documents.Find(filter).ToListAsync();
+
+            List<Document> doclist = _context.Documents.AsQueryable().Where(x => x.IsShared.Equals(false) && x.IsDeleted.Equals(false)).ToList();
+            foreach (Document doc in doclist)
+            {
+                doc.CreatedByName = (doc.CreatedBy > 0) ? _context.Users.AsQueryable().FirstOrDefault(x => x.UserId.Equals(doc.CreatedBy)).UserName : string.Empty; //set CreatedByName with CreatedById
+                doc.LockedByName = (doc.LockedBy > 0) ? _context.Users.AsQueryable().FirstOrDefault(x => x.UserId.Equals(doc.LockedBy)).UserName : string.Empty; //set LockedByName with LockedById
+            }
+            return doclist;
+            //var filter = Builders<Document>.Filter.Eq("IsShared", IsShared);
+            //return  await _context.Documents.Find(filter).ToListAsync();
         }
 
         public async Task<Document> GetDocumentById(int documentId, int loginId)
@@ -216,8 +202,7 @@ namespace DMS.Repository
                 {
                     Directory.CreateDirectory(path);
                 }
-                path += Path.DirectorySeparatorChar + revisionId.ToString() + extension;
-                //path += Path.DirectorySeparatorChar + revisionId.ToString() + "." + extension;
+                path += Path.DirectorySeparatorChar + revisionId.ToString() + "." + extension;
             }
             return path;
         }

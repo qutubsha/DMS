@@ -69,6 +69,8 @@ namespace DMS.WebApi
             services.AddTransient<IEmailTemplateService, EmailTemplateService>();
             services.AddTransient<IEmailTemplateRepository, EmailTemplateRepository>();
 
+            services.AddTransient<IEmailService, EmailService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "DMS API", Version = "v1" });

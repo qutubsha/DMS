@@ -53,22 +53,13 @@ export class LoginComponent {
         let user: User = new User(0, this.email, this.password, '', '', true)
         this.busy = this._userService.getLoginUser(user).subscribe(
             data => {
-                debugger
                 if (data.Result != null) {
-                    debugger
-                    //if (data.isSuccess) {
-                    //    alert(data.isSuccess)
                     this.user = data.Result;
                         localStorage.setItem('currentUser', JSON.stringify(this.user));
                         this.router.navigate(['/dashboard']);
-                    //}
-                    //else {
-                    //    alert(data.message);
-                    //}
                 }
                 else {
-                    debugger
-                    this.notificationTitle = 'Invalid Login Attempt.';
+                    this.notificationTitle = 'Username/Password you entered is not valid.';
                     this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
                 }
             },
@@ -83,7 +74,6 @@ export class LoginComponent {
     }
 
     SendMailOnForgotPassword() {
-
         this.isusernameClicked = true;
         if (this.forgotpass != null && this.forgotpass != '') {
             this.isusernameValid = true;

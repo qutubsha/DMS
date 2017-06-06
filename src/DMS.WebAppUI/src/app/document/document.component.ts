@@ -1,4 +1,4 @@
-﻿import { Component, Input, OnInit, ViewChild, trigger, transition, style, animate, state, ElementRef } from '@angular/core';
+﻿import { Component, Input, OnInit, ViewChild, trigger, transition, style, animate, state } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IDocument, Document } from './document';
 import 'rxjs/Rx';
@@ -9,9 +9,7 @@ import {DataTable } from "angular2-datatable";
 import { GlobalVariable, IDictionary } from '../shared/global';
 import { SharedService } from '../shared/shared.service';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-//import * as $ from 'jquery'
-//window['$'] = window['jQuery'] = $;
-import { IUser, User } from '../login/login';
+import { IUser, User} from '../login/login';
 
 @Component({
     templateUrl: './document.component.html',
@@ -38,25 +36,34 @@ export class DocumentComponent {
     private notificationTitle: string = '';
     private notificationContent: string = '';
     private filters: IDictionary[];
+    private selectedDocId: number;
+    private loggedInUser: IUser;
+
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
     @ViewChild('modal')
     modal: ModalComponent;
-    private currentUser: IUser;
-
+    @ViewChild('dlteDocmodal')
+    dlteDocmodal: ModalComponent;
     constructor(
         private _sharedService: SharedService,
-        private router: Router, private _documentservice: DocumentService, private element: ElementRef) {
+        private router: Router, private _documentservice: DocumentService) {
     }
 
     ngOnInit(): void {
-        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        this.GetAllDocuments();
-
+       
+        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (this.loggedInUser == null) {
+            localStorage.removeItem('currentUser');
+            this.router.navigate(['/login']);
+        }
+        else {
+            this.GetAllDocuments();
+        }
     }
 
     GetAllDocuments() {
-        this.busy = this._documentservice.getDocuments()
+        this.busy = this._documentservice.getDocuments(this.loggedInUser.UserID)
             .subscribe(data => {
                 this.data = data;
 
@@ -84,9 +91,9 @@ export class DocumentComponent {
         if (ExtensionFilter != null)
             this.filters.push({ key: 'Extension', value: ExtensionFilter });
         if (CreatedByFilter != null)
-            this.filters.push({ key: 'CreatedBy', value: CreatedByFilter });
+            this.filters.push({ key: 'CreatedByName', value: CreatedByFilter });
         if (LockedByFilter != null)
-            this.filters.push({ key: 'LockedBy', value: LockedByFilter });
+            this.filters.push({ key: 'LockedByName', value: LockedByFilter });
         if (DocumentTagFilter != null)
             this.filters.push({ key: 'DocumentTags', value: DocumentTagFilter });
         if (CreatedOnFilter != null)
@@ -106,7 +113,7 @@ export class DocumentComponent {
     }
 
     LockDoc(docid: number) {
-        this.busy = this._documentservice.CheckinCheckOutDocument(docid, 1)
+        this.busy = this._documentservice.CheckinCheckOutDocument(docid, this.loggedInUser.UserID)
             .subscribe(data => {
 
             },
@@ -131,7 +138,6 @@ export class DocumentComponent {
     }
 
     fileChange(event) {
-        debugger;
         let fileList: FileList = event.target.files;
         if (fileList.length > 0) {
             let formData: FormData = new FormData();
@@ -139,15 +145,14 @@ export class DocumentComponent {
                 let file: File = fileList[i];
                 formData.append('uploadFile', file, file.name);
             }
-            event.srcElement.value = "";
-            this.busy = this._documentservice.uploadFile(formData, this.currentUser.UserID)
+            this.busy = this._documentservice.uploadFile(formData)
                 .subscribe(data => {
                     this.modal.close();
                 },
                 error => {
                     this.errorMessage = <any>error;
                     this.notificationTitle = this.errorMessage;
-                    this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                    //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
                 },
                 () => {
                     this.notificationTitle = 'Files uploaded successfully.';
@@ -156,5 +161,26 @@ export class DocumentComponent {
         }
     }
 
+    showDlteCOnfirm(docid: number) {
+        this.selectedDocId = docid;
+        this.dlteDocmodal.open();
+    }
+
+    DeleteDoc() {
+        this.busy = this._documentservice.deleteDocument(this.selectedDocId, 1)
+            .subscribe(data => {
+                this.modal.close();
+                this.GetAllDocuments();
+            },
+            error => {
+                this.errorMessage = <any>error;
+                this.notificationTitle = this.errorMessage;
+                this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            },
+            () => {
+                this.notificationTitle = 'Document deleted successfully.';
+                this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
+            });
+    }
 }
 

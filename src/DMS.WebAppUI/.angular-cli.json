@@ -23,8 +23,11 @@
         "assets/css/bootstrap.min.css",
         "assets/css/sb-admin.css",
         "assets/css/plugins/morris.css",
+        "../node_modules/primeng/resources/primeng.min.css",
+        "../node_modules/quill/dist/quill.core.css",
+        "../node_modules/quill/dist/quill.snow.css",
         "../node_modules/font-awesome/css/font-awesome.min.css",
-        "../node_modules/font-awesome/css/font-awesome.css" 
+        "../node_modules/font-awesome/css/font-awesome.css"
       ],
       "scripts": [
         "assets/js/jquery.js",

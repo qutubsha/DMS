@@ -45,7 +45,7 @@ namespace DMS.WebApi.Controllers
         /// </summary>
         /// <param name="updateTemplate"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         public Task<EmailTemplate> UpdateEmailTemplateByName([FromBody]EmailTemplate updateTemplate)
         {
 

@@ -1,5 +1,6 @@
 ﻿using DMS.Abstraction;
 using DMS.Abstraction.EmailService;
+using DMS.Abstraction.EmailTemplate;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
@@ -14,13 +15,25 @@ namespace DMS.Repository
 {
     public class UserRepository : IUserRepository
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly DMSContext _context = null;
-        private readonly IEmailService EmailService;
-
-        public UserRepository(IOptions<Settings> settings)
+        /// <summary>
+        /// 
+        /// </summary>
+        public readonly IEmailService EmailService;
+       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="emailService"></param>
+        public UserRepository(IOptions<Settings> settings, IEmailService emailService)
         {
             _context = new DMSContext(settings);
-            //EmailService = new EmailService();
+            EmailService = emailService;
+            
         }
 
         public async Task<bool> ValidateLoginAttempt(string eMail)
@@ -65,14 +78,15 @@ namespace DMS.Repository
                 var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
                 if (null == objUser)
                 {
+                    user.IsActive = true;
                     await _context.Users.InsertOneAsync(user);
 
-                    await EmailService.SendMail(objUser.Email, emailConfig.SenderMail,2,
-                        new
-                        {
-                            FullName = objUser.FirstName + string.Empty + objUser.LastName,
-                            TemplateName = "WelComeUser"
-                        }, smtpClient);
+                    //await EmailService.SendMail(objUser.Email, emailConfig.SenderMail,CommonEnums.EmailTemplates.WelComeUser.ToString(),
+                    //    new
+                    //    {
+                    //        FullName = objUser.FirstName + string.Empty + objUser.LastName,
+                    //        TemplateName = CommonEnums.EmailTemplates.WelComeUser.ToString()
+                    //    }, smtpClient);
                 }
                 else
                     user = null;
@@ -196,7 +210,7 @@ namespace DMS.Repository
         /// <param name="eMail"></param>
         /// <param name="emailConfig"></param>
         /// <returns></returns>
-        public async Task<bool> ForgotPassword(string eMail, EmailConfiguration emailConfig)
+        public async  Task<bool> ForgotPassword(string eMail, EmailConfiguration emailConfig)
         {
             if (!string.IsNullOrEmpty(eMail))
             {
@@ -208,11 +222,11 @@ namespace DMS.Repository
                 var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
                 if (null != objUser)
                 {
-                    await EmailService.SendMail(objUser.Email, emailConfig.SenderMail, 1,
+                     await EmailService.SendMail(objUser.Email, emailConfig.SenderMail, CommonEnums.EmailTemplates.ForgotPassword.ToString(),
                          new
                          {
                              FullName = objUser.FirstName + string.Empty + objUser.LastName,
-                             TemplateName = "ForgotPassword",
+                             TemplateName = CommonEnums.EmailTemplates.ForgotPassword.ToString(),
                              Email = objUser.Email.Trim(),
                              Password = objUser.Password.Trim()
                          }, smtpClient);

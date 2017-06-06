@@ -1,7 +1,7 @@
 ﻿
 /* Defines the IDocument entity */
 export interface IDocument {
-    CreatedBy: string;
+    CreatedByName: string;
     CreatedOn: string;
     CurrentRevision: number;
     CurrentVersion: number;
@@ -12,7 +12,7 @@ export interface IDocument {
     FileName: string;
     IsDeleted: boolean;
     IsShared: boolean;
-    LockedBy: string;
+    LockedByName: string;
     ModifiedBy: string;
     ModifiedOn: string;
     DocumentData: any;
@@ -21,7 +21,7 @@ export interface IDocument {
 
 export class Document implements IDocument {
     constructor(
-        public CreatedBy: string,
+        public CreatedByName: string,
         public CreatedOn: string,
         public CurrentRevision: number,
         public CurrentVersion: number,
@@ -32,7 +32,7 @@ export class Document implements IDocument {
         public FileName: string,
         public IsDeleted: boolean,
         public IsShared: boolean,
-        public LockedBy: string,
+        public LockedByName: string,
         public ModifiedBy: string,
         public ModifiedOn: string,
         public DocumentData: any,

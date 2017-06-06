@@ -14,7 +14,7 @@ export class DocumentService {
     constructor(private _http: Http, private _pathfinder: PathFinder, private router: Router) { }
 
 
-    getDocuments(): Observable<IDocument[]> {
+    getDocuments(loginId: number): Observable<IDocument[]> {
         //let headers = new Headers();
         //headers.append('Accept', 'application/json');
         //headers.append('Content-Type', 'application/json; charset=utf-8');
@@ -22,7 +22,7 @@ export class DocumentService {
         ////let body = JSON.stringify(username);
         //let options = new RequestOptions({ headers: headers });
 
-        return this._http.get(this._pathfinder.documentUrl, this._pathfinder.getheaderWithoutJWT())
+        return this._http.get(this._pathfinder.documentUrl + "?loginId=" + loginId, this._pathfinder.getheaderWithoutJWT())
             .map((response: Response) => <IDocument>response.json())
             .catch(err => this.handleError(err));
     }
@@ -51,6 +51,16 @@ export class DocumentService {
         //headers.append('Accept', 'application/json');  
         let options = new RequestOptions({ headers: headers });
         return this._http.post(this._pathfinder.documentUrl + "/UploadFiles?userId=" + userId, formData, options)
+            .map(res => res.json())
+            .catch(error => Observable.throw(error));
+    }
+
+    deleteDocument(documentId: number, loginId: number): any {
+        let headers = new Headers()
+        //headers.append('Content-Type', 'json');  
+        //headers.append('Accept', 'application/json');  
+        let options = new RequestOptions({ headers: headers });
+        return this._http.delete(this._pathfinder.documentUrl + "?id=" + documentId + "&loginid=" + loginId, this._pathfinder.getheaderWithoutJWT())
             .map(res => res.json())
             .catch(error => Observable.throw(error));
     }

@@ -15,9 +15,12 @@ namespace DMS
 
         private IUserRepository _repository;
 
-        public UserService(IUserRepository repository)
+        private IEmailService _emailService;
+
+        public UserService(IUserRepository repository, IEmailService emailService)
         {
             _repository = repository;
+            _emailService = emailService;
         }
 
         public async Task<User> Login(string eMail, string password)

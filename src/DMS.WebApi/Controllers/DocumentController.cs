@@ -63,7 +63,7 @@ namespace DMS.WebApi.Controllers
             return Execute(() => Ok(_documentService.AddDocument(document, file, fileUploadPath)));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public IActionResult Delete(int id, int loginid)
         {
             return Execute(() => Ok(_documentService.DeleteDocument(id, loginid)));

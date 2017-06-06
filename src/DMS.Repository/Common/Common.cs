@@ -10,7 +10,7 @@ namespace DMS.Repository
         public enum EmailTemplates
         {
             ForgotPassword,
-            Welcome
+            WelComeUser
         }
     }
 }

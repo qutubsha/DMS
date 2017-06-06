@@ -29,7 +29,7 @@ export class EditEmailTemplateComponent implements OnInit {
     private EmailTemplateId: number;
     private currentUser: IUser;
     private ResetEmailTemplate: boolean = false;
-    private UpdateEmailTemplate: boolean = false;
+   // private UpdateEmailTemplate: boolean = false;
 
     constructor(private _route: ActivatedRoute,
         private _router: Router,
@@ -42,33 +42,35 @@ export class EditEmailTemplateComponent implements OnInit {
 
     ngOnInit(): void {
         debugger
-            let TemplateName = localStorage.getItem('CurrentEmailTemplateId');
-            if (TemplateName != null) {
+        let EmailTemplateName = localStorage.getItem('CurrentEmailTemplateId');
+        this.currentUser= JSON.parse(localStorage.getItem('currentUser'));
+        if (EmailTemplateName != null) {
                 this.initModel();
-                this.editEmployeetemplate(TemplateName);
+                this.editEmployeetemplate(EmailTemplateName);
 
             } 
     }
     private initModel() {
         this.emailtemp = {
-            TemplateName: '',
+            EmailTemplateName: '',
             EmailSubject: '',
-            EmailBody: ''
+            EmailBody: '',
+            IsActive: true,
+            UpdatedBy:''
         };
     }
 
 
-    editEmployeetemplate(TemplateName) {
-        debugger
-        if (TemplateName != null) {
-            this.busy = this._emailtemplateService.getEmailTemplateById(TemplateName)
+    editEmployeetemplate(EmailTemplateName) {
+        if (EmailTemplateName != null) {
+            this.busy = this._emailtemplateService.getEmailTemplateById(EmailTemplateName)
                 .subscribe(data => {
                     if (data != null) {
                         this.emailtemp = data;
                     }
                 }, error => {
                     this.errorMessage = <any>error;
-                    this.notificationTitle = 'Error in getting Badge Manager details.';
+                    this.notificationTitle = 'Error in getting email template details.';
                     this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
                 });
 
@@ -78,8 +80,11 @@ export class EditEmailTemplateComponent implements OnInit {
     submitForm(event: Event): void {
         event.preventDefault();
         //if (this.emailtemp.EmailTemplateId != 0 && this.emailtemp.EmailTemplateId != null) {
-            {
-                let saveUser: Template = new Template(this.emailtemp.TemplateName, this.emailtemp.EmailSubject, this.emailtemp.EmailBody);
+        {
+           
+            this.emailtemp.UpdatedBy = this.currentUser.Email;
+            debugger
+            let saveUser: Template = new Template(this.emailtemp.EmailTemplateName, this.emailtemp.EmailSubject, this.emailtemp.EmailBody, this.emailtemp.IsActive, this.emailtemp.UpdatedBy);
                this.busy = this._emailtemplateService.updateEmailTemplate(saveUser).subscribe(
                     data => {
                         this._router.navigate(['/email-template'], { skipLocationChange: true });
@@ -96,7 +101,7 @@ export class EditEmailTemplateComponent implements OnInit {
                     });
             }
 
-            //this.cancelFormData();
+            this.cancelFormData();
         //}
     }
 

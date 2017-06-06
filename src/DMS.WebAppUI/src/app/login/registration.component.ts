@@ -47,13 +47,11 @@ export class RegistrationComponent {
         let saveUser: UserRegistration = new UserRegistration(this.userreg.UserID, '', this.userreg.Password, this.userreg.RepeatPassword, '', '', this.userreg.Email);
         this.busy = this._userService.addUser(saveUser).subscribe(
             data => {
-                debugger
                 if (data.Result != null) {
                     this.router.navigate(['/login']);
                     return true;
                 } else
                 {
-                    debugger
                     this.notificationTitle = 'User already exists.';
                     this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
                 }
