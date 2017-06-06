@@ -58,7 +58,7 @@
                                         <td>{{item.DocumentTags}}</td>
                                         <td>
                                             <a (click)="DownloadDoc();" style="cursor:pointer" title="download"><span class="glyphicon glyphicon-download"></span></a>
-                                            <a (click)="DeleteDoc();" style="cursor:pointer" title="delete"><span class="glyphicon glyphicon-remove"></span></a>
+                                            <a (click)="showDlteCOnfirm(item.DocumentId);" style="cursor:pointer" title="delete"><span class="glyphicon glyphicon-remove"></span></a>
                                             <a (click)="LockDoc(item.DocumentId);" style="cursor:pointer" title="check out"><span class="glyphicon glyphicon-lock"></span></a>
                                             <a (click)="ViewAccessHistory(item.DocumentId);" title="Access history" ><span class="fa fa-history"></span></a>
                                             <a (click)="ViewVersionHistory(item.DocumentId);" title="Version history"><span class="fa fa-file-text"></span></a>
@@ -122,3 +122,5 @@
     </modal-body>
 
 </modal>
+
+<ai-modal #dlteDocmodal modalTitle="Delete Documents" modalContent="Are sure you wish to delete document?" showCancel="true" (modalClicked)='DeleteDoc(id);'></ai-modal>
