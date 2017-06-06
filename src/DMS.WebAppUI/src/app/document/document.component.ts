@@ -10,6 +10,8 @@ import { GlobalVariable, IDictionary } from '../shared/global';
 import { SharedService } from '../shared/shared.service';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { IUser, User} from '../login/login';
+//import * as $ from 'jquery'
+//window['$'] = window['jQuery'] = $;
 
 @Component({
     templateUrl: './document.component.html',
@@ -145,14 +147,16 @@ export class DocumentComponent {
                 let file: File = fileList[i];
                 formData.append('uploadFile', file, file.name);
             }
-            this.busy = this._documentservice.uploadFile(formData)
+            event.srcElement.value = "";
+            this.busy = this._documentservice.uploadFile(formData, this.loggedInUser.UserID)
                 .subscribe(data => {
                     this.modal.close();
+                    this.GetAllDocuments();
                 },
                 error => {
                     this.errorMessage = <any>error;
                     this.notificationTitle = this.errorMessage;
-                    //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                    this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
                 },
                 () => {
                     this.notificationTitle = 'Files uploaded successfully.';
