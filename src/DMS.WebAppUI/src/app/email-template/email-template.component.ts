@@ -26,7 +26,7 @@ export class EmailTemplateComponent implements OnInit {
     private emailtemp: ITemplate;
     busy: Subscription;
     private rowsOnPage = GlobalVariable.rowsOnPage;
-    private sortBy = 'Subject';
+    private sortBy = 'EmailTemplateName';
     private sortOrder = 'asc';
     private activePage = 1;
     private TemplateNameFilter = '';
@@ -136,42 +136,42 @@ export class EmailTemplateComponent implements OnInit {
     //    }
     //}
 
-    filteremialtemplatedetails(event: any) {
-        let TemplateNameCodeFilter = this.TemplateNameFilter ? this.TemplateNameFilter.toLowerCase() : null;
-        let SubjectCodeFilter = this.SubjectFilter ? this.SubjectFilter.toLowerCase() : null;
-        let UpdatedByCodeFilter = this.UpdatedByFilter ? this.UpdatedByFilter.toLowerCase() : null;
-        let UpdatedOnFilter = this.UpdatedOnFilter ? this.UpdatedOnFilter.toLowerCase() : null;
-        let IsActiveCodeFilter = this.IsActiveFilter ? this.IsActiveFilter.toLowerCase() : null;
+    //filteremialtemplatedetails(event: any) {
+    //    let TemplateNameCodeFilter = this.TemplateNameFilter ? this.TemplateNameFilter.toLowerCase() : null;
+    //    let SubjectCodeFilter = this.SubjectFilter ? this.SubjectFilter.toLowerCase() : null;
+    //    let UpdatedByCodeFilter = this.UpdatedByFilter ? this.UpdatedByFilter.toLowerCase() : null;
+    //    let UpdatedOnFilter = this.UpdatedOnFilter ? this.UpdatedOnFilter.toLowerCase() : null;
+    //    let IsActiveCodeFilter = this.IsActiveFilter ? this.IsActiveFilter.toLowerCase() : null;
 
-        this.filters = [];
-        if (TemplateNameCodeFilter != null)
-            this.filters.push({ key: 'TemplateName', value: TemplateNameCodeFilter });
-        if (SubjectCodeFilter != null)
-            this.filters.push({ key: 'Subject', value: SubjectCodeFilter });
-        if (UpdatedByCodeFilter != null)
-            this.filters.push({ key: 'UpdatedBy', value: UpdatedByCodeFilter });
-        if (UpdatedOnFilter != null)
-            this.filters.push({ key: 'UpdatedOn', value: UpdatedOnFilter });
-        if (IsActiveCodeFilter != null)
-            this.filters.push({ key: 'Active', value: IsActiveCodeFilter });
+    //    this.filters = [];
+    //    if (TemplateNameCodeFilter != null)
+    //        this.filters.push({ key: 'TemplateName', value: TemplateNameCodeFilter });
+    //    if (SubjectCodeFilter != null)
+    //        this.filters.push({ key: 'Subject', value: SubjectCodeFilter });
+    //    if (UpdatedByCodeFilter != null)
+    //        this.filters.push({ key: 'UpdatedBy', value: UpdatedByCodeFilter });
+    //    if (UpdatedOnFilter != null)
+    //        this.filters.push({ key: 'UpdatedOn', value: UpdatedOnFilter });
+    //    if (IsActiveCodeFilter != null)
+    //        this.filters.push({ key: 'Active', value: IsActiveCodeFilter });
 
-        this.emailtemplatedata = this.data;
+    //    this.emailtemplatedata = this.data;
 
-        for (var i = 0; i < this.filters.length; i++) {
-            let tempData: ITemplate[] = [];
+    //    for (var i = 0; i < this.filters.length; i++) {
+    //        let tempData: ITemplate[] = [];
 
-            tempData = this.emailtemplatedata.filter((Template: ITemplate) =>
-                Template[this.filters[i].key] != null && Template[this.filters[i].key] != '' &&
-                Template[this.filters[i].key].toString().toLowerCase().indexOf(this.filters[i].value) != -1);
-            this.emailtemplatedata = tempData;
-        }
+    //        tempData = this.emailtemplatedata.filter((Template: ITemplate) =>
+    //            Template[this.filters[i].key] != null && Template[this.filters[i].key] != '' &&
+    //            Template[this.filters[i].key].toString().toLowerCase().indexOf(this.filters[i].value) != -1);
+    //        this.emailtemplatedata = tempData;
+    //    }
 
-        this.resetPagination();
-    }
+    //    this.resetPagination();
+    //}
 
     // Resets the pagination for filtered data
-    public resetPagination() {
-        this.mf.setPage(1, this.mf.rowsOnPage);
-    }
+    //public resetPagination() {
+    //    this.mf.setPage(1, this.mf.rowsOnPage);
+    //}
 
 }

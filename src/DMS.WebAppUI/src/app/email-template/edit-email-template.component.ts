@@ -62,7 +62,6 @@ export class EditEmailTemplateComponent implements OnInit {
 
 
     editEmployeetemplate(EmailTemplateName) {
-        debugger
         if (EmailTemplateName != null) {
             this.busy = this._emailtemplateService.getEmailTemplateById(EmailTemplateName)
                 .subscribe(data => {
@@ -71,7 +70,7 @@ export class EditEmailTemplateComponent implements OnInit {
                     }
                 }, error => {
                     this.errorMessage = <any>error;
-                    this.notificationTitle = 'Error in getting Badge Manager details.';
+                    this.notificationTitle = 'Error in getting email template details.';
                     this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
                 });
 
@@ -80,7 +79,6 @@ export class EditEmailTemplateComponent implements OnInit {
 
     submitForm(event: Event): void {
         event.preventDefault();
-        debugger
         //if (this.emailtemp.EmailTemplateId != 0 && this.emailtemp.EmailTemplateId != null) {
         {
            
