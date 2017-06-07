@@ -66,7 +66,7 @@ namespace DMS.Abstraction
         /// <returns></returns>
         IUserProfilePhoto UpdateEmployeeImage(UserProfilePhoto image, string eMail);
 
-
+        List<IUser> GetUserList();
 
     }
 }

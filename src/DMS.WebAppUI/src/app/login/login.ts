@@ -61,6 +61,32 @@ export interface IUpdatePassword {
     eMail: string;
 }
 
+export interface IUserDetails {
+
+    Roles:IRole[]
+    UserId: number;
+    FirstName: string;
+    LastName: string;
+    UserName: string;
+    Password: string;
+    Email: string;
+    IsActive: boolean;
+    IsDeleted: boolean;
+    CreatedBy: string;
+
+
+}
+
+
+export interface IRole {
+    RoleId: number;
+    RoleName: string;
+    IsActive: boolean;
+    CreatedOn: string;
+    UpdatedOn: string;
+   
+}
+
 //export interface IUser {
 
 //    userid: number;

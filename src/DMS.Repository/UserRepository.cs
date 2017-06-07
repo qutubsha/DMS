@@ -6,7 +6,11 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+<<<<<<< .merge_file_a06308
 using System.IO;
+=======
+using System.Collections.Generic;
+>>>>>>> .merge_file_a05240
 using System.Linq;
 using System.Threading.Tasks;
 using System.Drawing;
@@ -244,6 +248,7 @@ namespace DMS.Repository
         }
 
 
+<<<<<<< .merge_file_a06308
         /// <summary>
         /// This method is used to call service method GetEmployeeImage
         /// to receive the image of an employee
@@ -390,6 +395,41 @@ namespace DMS.Repository
             bmPhoto.Save(outStream, ImageFormat.Jpeg);
 
             return outStream;
+=======
+        public List<IUser> GetUserList()
+        {
+            var lstRepositoryUserdetails = _context.Users.AsQueryable().ToList();
+            var lstuser = new List<IUser>();
+            if (lstRepositoryUserdetails == null || lstRepositoryUserdetails.Count <= 0) { throw new NullReferenceException(nameof(lstRepositoryUserdetails)); }
+            foreach (User userdetails in lstRepositoryUserdetails)
+            {
+                var localuserdetail = new User()
+                {
+                    FirstName = userdetails.FirstName,
+                    LastName = userdetails.LastName,
+                    Email = userdetails.Email,
+                    IsActive = userdetails.IsActive,
+                    CreatedBy = userdetails.CreatedBy,
+                    CreatedOn = userdetails.CreatedOn,
+                    LoginAttemptCount = userdetails.LoginAttemptCount,
+                    Password = userdetails.Password,
+                    UserId = userdetails.UserId,
+                    Picture = userdetails.Picture,
+                    Roles = userdetails.Roles,
+                    IsDeleted = userdetails.IsDeleted,
+                    DeletedBy=userdetails.DeletedOn.ToString(),
+                    ModifiedBy=userdetails.ModifiedBy,
+                    ModifiedOn=userdetails.ModifiedOn,
+                   DeletedOn=userdetails.DeletedOn,
+                   LastLoginAttempt=userdetails.LastLoginAttempt,
+                   UserName=userdetails.UserName 
+
+                };
+
+                lstuser.Add(localuserdetail);
+            }
+            return lstuser;
+>>>>>>> .merge_file_a05240
         }
     }
 }

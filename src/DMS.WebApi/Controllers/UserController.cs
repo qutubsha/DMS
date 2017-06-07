@@ -87,6 +87,7 @@ namespace DMS.WebApi.Controllers
 
             };
         }
+<<<<<<< .merge_file_a02836
         /// <summary>
         /// 
         /// </summary>
@@ -109,5 +110,14 @@ namespace DMS.WebApi.Controllers
             return _userService.UpdateEmployeeImage(image, eMail);
         }
 
+=======
+
+
+        [HttpGet("GetUserlist")]
+        public List<IUser> GetUserList()
+        {
+            return _userService.GetUserList();
+        }
+>>>>>>> .merge_file_a05916
     }
 }
