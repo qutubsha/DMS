@@ -20,7 +20,7 @@ namespace DMS.Abstraction
         //public List<IRevision> Revisions { get; set; }
         public int CreatedBy { get; set; }
 
-       // public string CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         public int CurrentRevision { get; set; }
 
@@ -44,7 +44,7 @@ namespace DMS.Abstraction
 
         public string ModifiedBy { get; set; }
 
-        //public string ModifiedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
 
         public byte[] DocumentData { get; set; }
 

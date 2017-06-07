@@ -5,11 +5,11 @@ import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { DocumentService } from '../services/document.service';
 //import {DataTable} from '../angular2-datatable/datatable';
-import {DataTable } from "angular2-datatable";
+import { DataTable } from "angular2-datatable";
 import { GlobalVariable, IDictionary } from '../shared/global';
 import { SharedService } from '../shared/shared.service';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { IUser, User} from '../login/login';
+import { IUser, User } from '../login/login';
 //import * as $ from 'jquery'
 //window['$'] = window['jQuery'] = $;
 
@@ -53,7 +53,7 @@ export class DocumentComponent {
     }
 
     ngOnInit(): void {
-       
+
         this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
         if (this.loggedInUser == null) {
             localStorage.removeItem('currentUser');
@@ -143,17 +143,19 @@ export class DocumentComponent {
         let fileList: FileList = event.target.files;
         if (fileList.length > 0) {
             let formData: FormData = new FormData();
+            formData.append("userId~" + this.loggedInUser.UserID, 1);
             for (let i = 0; i < fileList.length; i++) {
                 let file: File = fileList[i];
                 formData.append('uploadFile', file, file.name);
             }
             event.srcElement.value = "";
-            this.busy = this._documentservice.uploadFile(formData, this.loggedInUser.UserID)
+            this.busy = this._documentservice.uploadFile(formData)
                 .subscribe(data => {
                     this.modal.close();
                     this.GetAllDocuments();
                 },
                 error => {
+                    this.modal.close();
                     this.errorMessage = <any>error;
                     this.notificationTitle = this.errorMessage;
                     this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);

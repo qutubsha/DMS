@@ -25,7 +25,8 @@
     "DMS.Repository": "1.0.0-*",
     "NLog.Web.AspNetCore": "4.4.0",
     "Swashbuckle.AspNetCore": "1.0.0",
-    "Microsoft.AspNetCore.Cors": "1.0.0"
+    "Microsoft.AspNetCore.Cors": "1.0.0",
+    "System.Runtime": "4.3.0"
   },
   "frameworks": {
     "netcoreapp1.0": {

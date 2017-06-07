@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using DMS.WebApi.Class;
 using Microsoft.Extensions.Logging;
@@ -13,6 +14,13 @@ using DMS.Abstraction;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.Http.Features;
+using System.Text;
+using System.Globalization;
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DMS.WebApi.Controllers
@@ -21,6 +29,7 @@ namespace DMS.WebApi.Controllers
     public class DocumentController : BaseController<DocumentController>
     {
         readonly DocumentService _documentService;
+        private static readonly FormOptions _defaultFormOptions = new FormOptions();
 
         public DocumentController(ILogger<DocumentController> logger, IOptions<Settings> settings) : base(logger)
         {
@@ -30,6 +39,7 @@ namespace DMS.WebApi.Controllers
         }
 
         [HttpGet]
+        [GenerateAntiforgeryTokenCookieForAjax]
         public IActionResult Get(int loginId)
         {
             return Execute(() => Ok(_documentService.GetAllDocuments(false, loginId).Result));
@@ -105,43 +115,294 @@ namespace DMS.WebApi.Controllers
             return Execute(() => Ok(_documentService.GetVersionDetails(id, loginId).Result));
         }
 
+        //[HttpPost("UploadFiles")]
+        //public HttpResponseMessage UploadJsonFile(int userId)
+        //{
+        //    HttpResponseMessage response = new HttpResponseMessage();
+
+        //    var httpRequest = HttpContext.Request;
+        //    if (httpRequest.Form.Files.Count > 0)
+        //    {
+        //        long size = httpRequest.Form.Files.Sum(f => f.Length);
+        //        foreach (var formFile in httpRequest.Form.Files)
+        //        {
+        //            IFormFile postedFile = httpRequest.Form.Files[formFile.Name];
+        //            var filePath1 = Path.GetTempPath() + "\\" + formFile.FileName;
+        //            if (formFile.Length > 0)
+        //            {
+        //                using (var stream = new FileStream(filePath1, FileMode.Create))
+        //                {
+        //                    formFile.CopyToAsync(stream);
+        //                }
+
+        //                // Saves document details in database
+        //                //Document document, [FromBody]byte[] file
+        //                byte[] file = new byte[100];
+        //                var document = new Document()
+        //                {
+        //                    CreatedBy = userId,
+        //                    CurrentRevision = 1,
+        //                    CurrentVersion = 1,
+        //                    Extension = Path.GetExtension(filePath1),
+        //                    FileName = Path.GetFileNameWithoutExtension(filePath1),
+        //                };
+        //                var myTask = _documentService.AddDocument(document, file); // call your method which will return control once it hits await
+        //                string result = myTask.Status.ToString();
+        //            }
+        //        }
+        //    }
+        //    return response;
+        //}
+
+        // 1. Disable the form value model binding here to take control of handling 
+        //    potentially large files.
+        // 2. Typically antiforgery tokens are sent in request body, but since we 
+        //    do not want to read the request body early, the tokens are made to be 
+        //    sent via headers. The antiforgery token filter first looks for tokens
+        //    in the request header and then falls back to reading the body.
+
+
         [HttpPost("UploadFiles")]
-        public HttpResponseMessage UploadJsonFile(int userId)
+        //[DisableFormValueModelBinding]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadJsonFile()
         {
-            HttpResponseMessage response = new HttpResponseMessage();
-
-            var httpRequest = HttpContext.Request;
-            if (httpRequest.Form.Files.Count > 0)
+            try
             {
-                long size = httpRequest.Form.Files.Sum(f => f.Length);
-                foreach (var formFile in httpRequest.Form.Files)
+                if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
                 {
-                    IFormFile postedFile = httpRequest.Form.Files[formFile.Name];
-                    var filePath1 = Path.GetTempPath() + "\\" + formFile.FileName;
-                    if (formFile.Length > 0)
-                    {
-                        using (var stream = new FileStream(filePath1, FileMode.Create))
-                        {
-                            formFile.CopyToAsync(stream);
-                        }
-
-                        // Saves document details in database
-                        //Document document, [FromBody]byte[] file
-                        byte[] file = new byte[100];
-                        var document = new Document()
-                        {
-                            CreatedBy = userId,
-                            CurrentRevision = 1,
-                            CurrentVersion = 1,
-                            Extension = Path.GetExtension(filePath1),
-                            FileName = Path.GetFileNameWithoutExtension(filePath1),
-                        };
-                        var myTask = _documentService.AddDocument(document, file); // call your method which will return control once it hits await
-                        string result = myTask.Status.ToString();
-                    }
+                    return BadRequest($"Expected a multipart request, but got {Request.ContentType}");
                 }
+
+                // Used to accumulate all the form url encoded key value pairs in the 
+                // request.
+                var formAccumulator = new KeyValueAccumulator();
+                string targetFilePath = null;
+
+                var boundary = MultipartRequestHelper.GetBoundary(
+                    MediaTypeHeaderValue.Parse(Request.ContentType),
+                    _defaultFormOptions.MultipartBoundaryLengthLimit);
+                var reader = new MultipartReader(boundary, HttpContext.Request.Body);
+
+                var section = await reader.ReadNextSectionAsync();
+                while (section != null)
+                {
+                    ContentDispositionHeaderValue contentDisposition;
+                    var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out contentDisposition);
+
+                    int createdBy = 1;
+                    string contentName = contentDisposition.Name.Replace("\"", "");
+                    if (contentName.Contains("userId"))
+                    {
+                        createdBy = Convert.ToInt32(contentName.Split('~')[1].ToString());
+                    }
+
+                    if (hasContentDispositionHeader)
+                    {
+                        if (MultipartRequestHelper.HasFileContentDisposition(contentDisposition))
+                        {
+                            targetFilePath = Path.GetTempPath() + "\\" + contentDisposition.FileName.Replace("\"", "");
+                            using (var targetStream = System.IO.File.Create(targetFilePath))
+                            {
+                                await section.Body.CopyToAsync(targetStream);
+                            }
+
+                            // Saves document details in database
+                            //Document document, [FromBody]byte[] file
+                            byte[] file = new byte[100];
+                            var document = new Document()
+                            {
+                                CreatedBy = createdBy,
+                                CurrentRevision = 1,
+                                CurrentVersion = 1,
+                                Extension = Path.GetExtension(targetFilePath),
+                                FileName = Path.GetFileNameWithoutExtension(targetFilePath),
+                            };
+                            Execute(() => Ok(_documentService.AddDocument(document, file).Status));
+                            //var myTask = _documentService.AddDocument(document, file); // call your method which will return control once it hits await
+                            //string result = myTask.Status.ToString();
+                        }
+                        //else if (MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition))
+                        //{
+                        //    // Content-Disposition: form-data; name="key"
+                        //    //
+                        //    // value
+
+                        //    // Do not limit the key name length here because the 
+                        //    // multipart headers length limit is already in effect.
+                        //    var key = HeaderUtilities.RemoveQuotes(contentDisposition.Name);
+                        //    var encoding = GetEncoding(section);
+                        //    using (var streamReader = new StreamReader(
+                        //        section.Body,
+                        //        encoding,
+                        //        detectEncodingFromByteOrderMarks: true,
+                        //        bufferSize: 1024,
+                        //        leaveOpen: true))
+                        //    {
+                        //        // The value length limit is enforced by MultipartBodyLengthLimit
+                        //        var value = await streamReader.ReadToEndAsync();
+                        //        if (String.Equals(value, "undefined", StringComparison.OrdinalIgnoreCase))
+                        //        {
+                        //            value = String.Empty;
+                        //        }
+                        //        formAccumulator.Append(key, value);
+
+                        //        if (formAccumulator.ValueCount > _defaultFormOptions.ValueCountLimit)
+                        //        {
+                        //            throw new InvalidDataException($"Form key count limit {_defaultFormOptions.ValueCountLimit} exceeded.");
+                        //        }
+                        //    }
+                        //}
+                    }
+
+                    // Drains any remaining section body that has not been consumed and
+                    // reads the headers for the next section.
+                    section = await reader.ReadNextSectionAsync();
+                }
+
+                // Bind form data to a model
+                //var user = new User();
+                //var formValueProvider = new FormValueProvider(
+                //    BindingSource.Form,
+                //    new FormCollection(formAccumulator.GetResults()),
+                //    CultureInfo.CurrentCulture);
+
+                //var bindingSuccessful = await TryUpdateModelAsync(user, prefix: "",
+                //    valueProvider: formValueProvider);
+                //if (!bindingSuccessful)
+                //{
+                //    if (!ModelState.IsValid)
+                //    {
+                //        return BadRequest(ModelState);
+                //    }
+                //}
             }
-            return response;
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            var uploadedData = new UploadedData()
+            {
+                Name = "",
+                Age = 0,
+                Zipcode = 0,
+                FilePath = ""
+            };
+            return Json(uploadedData);
         }
+
+        private static Encoding GetEncoding(MultipartSection section)
+        {
+            MediaTypeHeaderValue mediaType;
+            var hasMediaTypeHeader = MediaTypeHeaderValue.TryParse(section.ContentType, out mediaType);
+            // UTF-7 is insecure and should not be honored. UTF-8 will succeed in 
+            // most cases.
+            if (!hasMediaTypeHeader || Encoding.UTF7.Equals(mediaType.Encoding))
+            {
+                return Encoding.UTF8;
+            }
+            return mediaType.Encoding;
+        }
+    }
+
+    public class GenerateAntiforgeryTokenCookieForAjaxAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            var antiforgery = context.HttpContext.RequestServices.GetService<IAntiforgery>();
+
+            // We can send the request token as a JavaScript-readable cookie, 
+            // and Angular will use it by default.
+            var tokens = antiforgery.GetAndStoreTokens(context.HttpContext);
+            context.HttpContext.Response.Cookies.Append(
+                "XSRF-TOKEN",
+                tokens.RequestToken,
+                new CookieOptions() { HttpOnly = false });
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class DisableFormValueModelBindingAttribute : Attribute, IResourceFilter
+    {
+        public void OnResourceExecuting(ResourceExecutingContext context)
+        {
+            var formValueProviderFactory = context.ValueProviderFactories
+                .OfType<FormValueProviderFactory>()
+                .FirstOrDefault();
+            if (formValueProviderFactory != null)
+            {
+                context.ValueProviderFactories.Remove(formValueProviderFactory);
+            }
+
+            var jqueryFormValueProviderFactory = context.ValueProviderFactories
+                .OfType<JQueryFormValueProviderFactory>()
+                .FirstOrDefault();
+            if (jqueryFormValueProviderFactory != null)
+            {
+                context.ValueProviderFactories.Remove(jqueryFormValueProviderFactory);
+            }
+        }
+
+        public void OnResourceExecuted(ResourceExecutedContext context)
+        {
+        }
+    }
+
+    public static class MultipartRequestHelper
+    {
+        // Content-Type: multipart/form-data; boundary="----WebKitFormBoundarymx2fSWqWSd0OxQqq"
+        // The spec says 70 characters is a reasonable limit.
+        public static string GetBoundary(MediaTypeHeaderValue contentType, int lengthLimit)
+        {
+            var boundary = HeaderUtilities.RemoveQuotes(contentType.Boundary);
+            if (string.IsNullOrWhiteSpace(boundary))
+            {
+                throw new InvalidDataException("Missing content-type boundary.");
+            }
+
+            if (boundary.Length > lengthLimit)
+            {
+                throw new InvalidDataException(
+                    $"Multipart boundary length limit {lengthLimit} exceeded.");
+            }
+
+            return boundary;
+        }
+
+        public static bool IsMultipartContentType(string contentType)
+        {
+            return !string.IsNullOrEmpty(contentType)
+                   && contentType.IndexOf("multipart/", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        public static bool HasFormDataContentDisposition(ContentDispositionHeaderValue contentDisposition)
+        {
+            // Content-Disposition: form-data; name="key";
+            return contentDisposition != null
+                   && contentDisposition.DispositionType.Equals("form-data")
+                   && string.IsNullOrEmpty(contentDisposition.FileName)
+                   && string.IsNullOrEmpty(contentDisposition.FileNameStar);
+        }
+
+        public static bool HasFileContentDisposition(ContentDispositionHeaderValue contentDisposition)
+        {
+            // Content-Disposition: form-data; name="myfile1"; filename="Misc 002.jpg"
+            return contentDisposition != null
+                   && contentDisposition.DispositionType.Equals("form-data")
+                   && (!string.IsNullOrEmpty(contentDisposition.FileName)
+                       || !string.IsNullOrEmpty(contentDisposition.FileNameStar));
+        }
+    }
+
+    public class UploadedData
+    {
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+
+        public int Zipcode { get; set; }
+
+        public string FilePath { get; set; }
     }
 }

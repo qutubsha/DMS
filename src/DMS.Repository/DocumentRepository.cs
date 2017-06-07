@@ -26,7 +26,7 @@ namespace DMS.Repository
         public async Task AddDocument(Document document, byte[] file)
         {
             if (document == null) { throw new ArgumentNullException(nameof(document), "document should not be null."); }
-            var maxDocId = _context.Documents.AsQueryable().Max(p => p.DocumentId);
+            var maxDocId = _context.Documents.AsQueryable().Count() > 0 ? _context.Documents.AsQueryable().Max(p => p.DocumentId) : 0;
 
             var newDoc = new Document()
             {
@@ -43,7 +43,8 @@ namespace DMS.Repository
                 IsDeleted = document.IsDeleted,
                 IsShared = document.IsShared,
                 LockedBy = document.LockedBy,
-                ModifiedBy = document.ModifiedBy
+                ModifiedBy = document.ModifiedBy,
+                CreatedOn = DateTime.Now
             };
 
             //TODO Check permission, validate request, save file, add transaction, set identity and use it
