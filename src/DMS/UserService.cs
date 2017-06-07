@@ -112,5 +112,11 @@ namespace DMS
             return await _repository.ForgotPassword(eMail, emailConfig);
         }
 
+
+
+        public List<IUser> GetUserList()
+        {
+            return _repository.GetUserList();
+        }
     }
 }

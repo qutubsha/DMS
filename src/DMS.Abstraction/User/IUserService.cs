@@ -44,5 +44,7 @@ namespace DMS.Abstraction
         /// <param name="emailConfig"></param>
         /// <returns></returns>
         Task<bool> ForgotPassword(string eMail, EmailConfiguration emailConfig);
+
+        List<IUser> GetUserList();
     }
 }

@@ -86,5 +86,12 @@ namespace DMS.WebApi.Controllers
 
             };
         }
+
+
+        [HttpGet("GetUserlist")]
+        public List<IUser> GetUserList()
+        {
+            return _userService.GetUserList();
+        }
     }
 }
