@@ -12,25 +12,42 @@ namespace DMS
 {
     public class UserService : IUserService
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private static UserValidator UserValidator { get; } = new UserValidator();
 
+        /// <summary>
+        /// 
+        /// </summary>
         private IUserRepository _repository;
 
+        /// <summary>
+        /// 
+        /// </summary>
         private IEmailService _emailService;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="emailService"></param>
         public UserService(IUserRepository repository, IEmailService emailService)
         {
             _repository = repository;
             _emailService = emailService;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eMail"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public async Task<User> Login(string eMail, string password)
         {
             return await _repository.Login(eMail, password);
         }
-
-
-
         /// <summary>
         /// 
         /// </summary>
