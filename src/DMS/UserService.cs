@@ -6,6 +6,7 @@ using DMS.Abstraction;
 using DMS.Repository;
 using DMS.Validator;
 using DMS.Abstraction.EmailService;
+using DMS.Abstraction.UserProfile;
 
 namespace DMS
 {
@@ -45,7 +46,7 @@ namespace DMS
             UserValidator.IsValid(user);
 
             // returns new user
-            return await _repository.AddUser(user,emailConfig);
+            return await _repository.AddUser(user, emailConfig);
         }
 
         /// <summary>
@@ -110,6 +111,28 @@ namespace DMS
             if (string.IsNullOrEmpty(eMail)) throw new ArgumentNullException(nameof(eMail), "Email should not be null or empty");
 
             return await _repository.ForgotPassword(eMail, emailConfig);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public IUserProfilePhoto GetEmployeeImage(string email)
+        {
+            return _repository.GetEmployeeImage(email);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="eMail"></param>
+        /// <returns></returns>
+        public IUserProfilePhoto UpdateEmployeeImage(UserProfilePhoto image, string eMail)
+        {
+
+            return _repository.UpdateEmployeeImage(image, eMail);
         }
 
     }

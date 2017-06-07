@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DMS.Abstraction;
 using DMS.Abstraction.EmailService;
+using DMS.Abstraction.UserProfile;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -86,5 +87,27 @@ namespace DMS.WebApi.Controllers
 
             };
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eMail"></param>
+        /// <returns></returns>
+        [HttpGet("GetEmployeeImage/{email}")]
+        public IUserProfilePhoto GetEmployeeImage(string email)
+        {
+            return _userService.GetEmployeeImage(email);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="eMail"></param>
+        /// <returns></returns>
+        [HttpPut("UpdateEmployeeImage")]
+        public IUserProfilePhoto UpdateEmployeeImage([FromBody]UserProfilePhoto image, string eMail)
+        {
+            return _userService.UpdateEmployeeImage(image, eMail);
+        }
+
     }
 }

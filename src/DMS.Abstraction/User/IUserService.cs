@@ -1,4 +1,5 @@
 ﻿using DMS.Abstraction.EmailService;
+using DMS.Abstraction.UserProfile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,5 +45,20 @@ namespace DMS.Abstraction
         /// <param name="emailConfig"></param>
         /// <returns></returns>
         Task<bool> ForgotPassword(string eMail, EmailConfiguration emailConfig);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        IUserProfilePhoto GetEmployeeImage(string email);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="eMail"></param>
+        /// <returns></returns>
+        IUserProfilePhoto UpdateEmployeeImage(UserProfilePhoto image, string eMail);
     }
 }
