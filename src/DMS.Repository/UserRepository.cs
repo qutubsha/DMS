@@ -7,11 +7,8 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
-<<<<<<< HEAD
 using System.Collections.Generic;
-=======
 using System.Linq;
->>>>>>> 44f87d5bc9c7040532663d30985cfc543f27444d
 using System.Threading.Tasks;
 
 
