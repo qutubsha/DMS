@@ -1,22 +1,18 @@
 ﻿using DMS.Abstraction;
 using DMS.Abstraction.EmailService;
+using DMS.Abstraction.UserProfile;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
-<<<<<<< .merge_file_a06308
-using System.IO;
-=======
 using System.Collections.Generic;
->>>>>>> .merge_file_a05240
-using System.Linq;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Collections.Generic;
-using DMS.Abstraction.UserProfile;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DMS.Repository
 {
@@ -247,8 +243,6 @@ namespace DMS.Repository
             else return false;
         }
 
-
-<<<<<<< .merge_file_a06308
         /// <summary>
         /// This method is used to call service method GetEmployeeImage
         /// to receive the image of an employee
@@ -395,7 +389,8 @@ namespace DMS.Repository
             bmPhoto.Save(outStream, ImageFormat.Jpeg);
 
             return outStream;
-=======
+        }
+
         public List<IUser> GetUserList()
         {
             var lstRepositoryUserdetails = _context.Users.AsQueryable().ToList();
@@ -429,7 +424,7 @@ namespace DMS.Repository
                 lstuser.Add(localuserdetail);
             }
             return lstuser;
->>>>>>> .merge_file_a05240
+
         }
     }
 }

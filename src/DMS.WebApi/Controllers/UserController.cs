@@ -16,16 +16,16 @@ namespace DMS.WebApi.Controllers
     public class UserController : BaseController<UserController>
     {
         readonly IUserService _userService;
-    
-        readonly string MailFrom= "ptms.hrms@gmail.com";
-        readonly string SmtpServer= "smtp.gmail.com";
-        readonly string SmtpUser= "ptms.hrms@gmail.com";
+
+        readonly string MailFrom = "ptms.hrms@gmail.com";
+        readonly string SmtpServer = "smtp.gmail.com";
+        readonly string SmtpUser = "ptms.hrms@gmail.com";
         readonly string SmtpPass = "sigma@123";
 
         public UserController(ILogger<UserController> logger, IUserService services) : base(logger)
         {
             _userService = services;
-            
+
         }
 
         [HttpPost("Login")]
@@ -73,21 +73,21 @@ namespace DMS.WebApi.Controllers
         [HttpGet("ForgotPassword/{eMail}")]
         public Task<bool> ForgotPassword(string eMail)
         {
-            return _userService.ForgotPassword(eMail,GetEmailConfiguration());
+            return _userService.ForgotPassword(eMail, GetEmailConfiguration());
         }
 
         private EmailConfiguration GetEmailConfiguration()
         {
             return new EmailConfiguration()
             {
-                SenderMail= MailFrom,
-                SmtpServer=SmtpServer,
+                SenderMail = MailFrom,
+                SmtpServer = SmtpServer,
                 SmtpUser = SmtpUser,
-                SmtpPassword=SmtpPass
+                SmtpPassword = SmtpPass
 
             };
         }
-<<<<<<< .merge_file_a02836
+
         /// <summary>
         /// 
         /// </summary>
@@ -110,7 +110,7 @@ namespace DMS.WebApi.Controllers
             return _userService.UpdateEmployeeImage(image, eMail);
         }
 
-=======
+
 
 
         [HttpGet("GetUserlist")]
@@ -118,6 +118,6 @@ namespace DMS.WebApi.Controllers
         {
             return _userService.GetUserList();
         }
->>>>>>> .merge_file_a05916
+
     }
 }

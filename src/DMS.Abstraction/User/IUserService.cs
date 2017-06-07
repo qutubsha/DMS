@@ -46,7 +46,7 @@ namespace DMS.Abstraction
         /// <returns></returns>
         Task<bool> ForgotPassword(string eMail, EmailConfiguration emailConfig);
 
-<<<<<<< .merge_file_a06408
+
         /// <summary>
         /// 
         /// </summary>
@@ -61,8 +61,11 @@ namespace DMS.Abstraction
         /// <param name="eMail"></param>
         /// <returns></returns>
         IUserProfilePhoto UpdateEmployeeImage(UserProfilePhoto image, string eMail);
-=======
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         List<IUser> GetUserList();
->>>>>>> .merge_file_a05932
+
     }
 }

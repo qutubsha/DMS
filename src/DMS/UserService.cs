@@ -112,8 +112,6 @@ namespace DMS
 
             return await _repository.ForgotPassword(eMail, emailConfig);
         }
-
-<<<<<<< .merge_file_a06356
         /// <summary>
         /// 
         /// </summary>
@@ -136,13 +134,10 @@ namespace DMS
             return _repository.UpdateEmployeeImage(image, eMail);
         }
 
-=======
-
-
         public List<IUser> GetUserList()
         {
             return _repository.GetUserList();
         }
->>>>>>> .merge_file_a07408
+
     }
 }
