@@ -169,6 +169,8 @@ namespace DMS.WebApi.Controllers
         {
             try
             {
+                int createdBy = 1;
+
                 if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
                 {
                     return BadRequest($"Expected a multipart request, but got {Request.ContentType}");
@@ -190,7 +192,6 @@ namespace DMS.WebApi.Controllers
                     ContentDispositionHeaderValue contentDisposition;
                     var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out contentDisposition);
 
-                    int createdBy = 1;
                     string contentName = contentDisposition.Name.Replace("\"", "");
                     if (contentName.Contains("userId"))
                     {
