@@ -5,11 +5,11 @@ import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { DocumentService } from '../services/document.service';
 //import {DataTable} from '../angular2-datatable/datatable';
-import {DataTable } from "angular2-datatable";
+import { DataTable } from "angular2-datatable";
 import { GlobalVariable, IDictionary } from '../shared/global';
 import { SharedService } from '../shared/shared.service';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { IUser, User} from '../login/login';
+import { IUser, User } from '../login/login';
 //import * as $ from 'jquery'
 //window['$'] = window['jQuery'] = $;
 
@@ -22,8 +22,8 @@ export class DocumentComponent {
 
     /// Variables declaration
     private errorMessage: string;
-    private data: any[] = []; // data is the default name for Angular 2 datatable used in equipment listing
-    private filteredData: any[] = [];
+    private data: IDocument[] = []; // data is the default name for Angular 2 datatable used in equipment listing
+    private filteredData: IDocument[] = [];
     private activePage = 1;
     private sortBy = 'FileName';
     private rowsOnPage = GlobalVariable.rowsOnPage;
@@ -53,7 +53,7 @@ export class DocumentComponent {
     }
 
     ngOnInit(): void {
-       
+
         this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
         if (this.loggedInUser == null) {
             localStorage.removeItem('currentUser');
@@ -69,8 +69,18 @@ export class DocumentComponent {
             .subscribe(data => {
                 this.data = data;
 
-                this.filteredData = data;
-            },  
+                for (var i = 0; i < this.data.length; i++) {
+                    if (this.data[i].LockedByName != null && this.data[i].LockedByName != "") {
+                        this.data[i].LockStatus = "Check In";
+                        this.data[i].IsDocCheckedOut = true;
+                    }
+                    else {
+                        this.data[i].LockStatus = "Check Out";
+                        this.data[i].IsDocCheckedOut = false;
+                    }
+                }
+                this.filteredData = this.data;
+            },
             error => {
                 this.errorMessage = <any>error;
                 this.notificationTitle = this.errorMessage;
@@ -117,12 +127,16 @@ export class DocumentComponent {
     LockDoc(docid: number) {
         this.busy = this._documentservice.CheckinCheckOutDocument(docid, this.loggedInUser.UserId)
             .subscribe(data => {
-
+                this.GetAllDocuments();
             },
             error => {
                 this.errorMessage = <any>error;
                 this.notificationTitle = this.errorMessage;
-                //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            },
+            () => {
+                this.notificationTitle = 'Document Checked-out successfully.';
+                this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
             });
     }
 

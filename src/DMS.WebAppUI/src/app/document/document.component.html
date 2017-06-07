@@ -1,7 +1,7 @@
 ﻿<div class="main_cantent_inner">
     <h2>Documents</h2>
     <div class="row">
-        <a (click)="modal.open();" style="cursor:pointer;float:right">
+        <a class="btn" (click)="modal.open();" style="cursor:pointer;float:left">
             Upload Multiple Documents
         </a>
         <div class="col-lg-12 col_padding">
@@ -59,7 +59,12 @@
                                         <td>
                                             <a (click)="DownloadDoc();" style="cursor:pointer" title="download"><span class="glyphicon glyphicon-download"></span></a>
                                             <a (click)="showDlteCOnfirm(item.DocumentId);" style="cursor:pointer" title="delete"><span class="glyphicon glyphicon-remove"></span></a>
-                                            <a (click)="LockDoc(item.DocumentId);" style="cursor:pointer" title="check out"><span class="glyphicon glyphicon-lock"></span></a>
+                                            <a (click)="LockDoc(item.DocumentId);" style="cursor:pointer" [title]="item.LockStatus">
+                                                <span *ngIf="item.IsDocCheckedOut" class="fa fa-unlock">
+                                                </span>
+                                                <span *ngIf="!item.IsDocCheckedOut" class="glyphicon glyphicon-lock">
+                                                </span>
+                                            </a>
                                             <a (click)="ViewAccessHistory(item.DocumentId);" title="Access history"><span class="fa fa-history"></span></a>
                                             <a (click)="ViewVersionHistory(item.DocumentId);" title="Version history"><span class="fa fa-file-text"></span></a>
                                         </td>

@@ -17,6 +17,8 @@ export interface IDocument {
     ModifiedOn: string;
     DocumentData: any;
     DocumentTags: string;
+    LockStatus: string;
+    IsDocCheckedOut: boolean;
 }
 
 export class Document implements IDocument {
@@ -36,7 +38,9 @@ export class Document implements IDocument {
         public ModifiedBy: string,
         public ModifiedOn: string,
         public DocumentData: any,
-        public DocumentTags: string
+        public DocumentTags: string,
+        public LockStatus: string,
+        public IsDocCheckedOut: boolean
     ) { }
 
 }
