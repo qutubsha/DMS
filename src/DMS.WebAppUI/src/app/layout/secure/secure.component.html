@@ -154,7 +154,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-search"></i> Advance Search</a>
+                        <a routerLink="/doc-advance-search" routerLinkActive="active"><i class="fa fa-fw fa-search"></i> Advance Search</a>
                     </li>
                     <li>
                         <a routerLink="/userprofile"><i class="fa fa-fw fa-user"></i> User Profile</a>
@@ -163,7 +163,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#admin"><i class="fa fa-fw fa-user-circle-o"></i> Admin <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="admin" class="collapse">
                             <li>
-                                <a href="#">Configuration Settings</a>
+                                <a routerLink="/configurationsettings" routerLinkActive="active">Configuration Settings</a>
                             </li>
                             <li>
                                 <a routerLink="/roles" routerLinkActive="active">Roles</a>
@@ -176,12 +176,12 @@
 
                             </li>
                             <li>
-                                <a href="#">Manage Users</a>
+                                <a routerLink="/userdetails">Manage Users</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a (click)='logout()'><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+                        <a (click)='logout()'><i class="fa fa-fw fa-sign-out" style="cursor:pointer"></i> Logout</a>
                     </li>
                     <!--<li>
                         <a routerLink="/document" routerLinkActive="active"><i class="fa fa-fw fa-book"></i> Documents</a>

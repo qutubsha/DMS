@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import { AppSettings } from '../appsettings';
-import { IUser, User, IUserRegistration} from '../login/login';
+import { IUser, User, IUserRegistration, IUserDetails} from '../login/login';
 import { PathFinder } from '../path-finder';
 
 @Injectable()
@@ -83,6 +83,13 @@ export class UserService {
         //    .map((response: Response) => <IManageUser>response.json())
         //    .catch(err => this.handleError(err));
     }
+
+    getuserlist(): Observable<IUserDetails[]> {
+        return this._http.get(this._pathfinder.loginUrl +"/GetUserlist", this._pathfinder.getheaderWithoutJWT())
+            .map((response: Response) => <IUserDetails[]>response.json())
+            .catch(err => this.handleError(err));
+    }
+
     // Calls web api to check the rights of all the roles assigned to userid passed against the comma seperated list of rights passed
     // Returns only those rights that are permitted from the list of rights passed as input
     // this method will be called on page load of each screen, respective screens rights will be passed as comma seperated along with logged in user id

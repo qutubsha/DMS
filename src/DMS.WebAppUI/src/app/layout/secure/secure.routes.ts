@@ -10,6 +10,9 @@ import { ChangePasswordComponent } from '../../user-profile/change-password.comp
 import { EmailTemplateComponent } from '../../email-template/email-template.component';
 import { EditEmailTemplateComponent } from '../../email-template/edit-email-template.component';
 import { VersionHistoryComponent } from '../../versionhistory/versionhistory.component';
+import { UserComponent } from '../../user-profile/manage-user.component';
+import { ConfigurationSettingsComponent } from '../../configuration-settings/configuration-settings.component';
+import { DocAdvanceSearchComponent } from '../../doc-advance-search/doc-advance-search.component';
 export const SECURE_ROUTES: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'userprofile', component: UserProfileComponent, canActivate: [AuthGuard] },
@@ -21,5 +24,7 @@ export const SECURE_ROUTES: Routes = [
     { path: 'docversionhistory/:id', component: VersionHistoryComponent, canActivate: [AuthGuard] },
     { path: 'email-template', component: EmailTemplateComponent, canActivate: [AuthGuard] },
     { path: 'edit-email-template', component: EditEmailTemplateComponent, canActivate: [AuthGuard] },
-
+    { path: 'userdetails', component: UserComponent, canActivate: [AuthGuard] },
+    { path: 'configurationsettings', component: ConfigurationSettingsComponent, canActivate: [AuthGuard] },
+    { path: 'doc-advance-search', component: DocAdvanceSearchComponent, canActivate: [AuthGuard] }
 ];

@@ -1,6 +1,7 @@
 ﻿using DMS.Abstraction;
 using DMS.Abstraction.EmailTemplate;
 using MailKit.Net.Smtp;
+using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,18 +30,31 @@ namespace DMS
         public async Task SendMail(string recipients, string fromEmail, string templateName, object data, SmtpClient smtpClient)
         {
             var template = TemplateService.Process(templateName, data);
-            //var emailMessage = new MailMessage(fromEmail, recipients, template.Subject, template.Body) { IsBodyHtml = true };
+            //var emailMessage = new MimeMessage(fromEmail, recipients, template.Subject, template.Body) { IsBodyHtml = true };
+
+
+            BodyBuilder bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = template.EmailBody;
+
+            var emailMessage = new MimeMessage();
+            emailMessage.From.Add(new MailboxAddress(fromEmail));
+            emailMessage.To.Add(new MailboxAddress(recipients));
+            emailMessage.Subject = template.EmailSubject;
+            emailMessage.Body = bodyBuilder.ToMessageBody();
+
             await Task.Run(() =>
              {
-                //try
-                //{
-                //    smtpClient.Send(emailMessage);
-                //}
-                //catch (Exception ex)
-                //{
-                //    Log.Error(ex.Message);
-                //}
-            });
+                 try
+                 {
+                     smtpClient.Send(emailMessage);
+                     smtpClient.Disconnect(true);
+                 }
+                 catch (Exception ex)
+                 {
+                     string log = ex.Message;
+                     
+                 }
+             });
         }
     }
 }

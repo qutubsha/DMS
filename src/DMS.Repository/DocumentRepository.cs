@@ -54,7 +54,7 @@ namespace DMS.Repository
             //TODO : check if filepath is null
             Revision revision = CreateRevision(maxDocId, document.FileName, document.Extension,
                     document.CreatedBy, 1, 1, "Created", "Created", filePath);
-            
+
             // TODO : Save file on this path 
             File.Move(Path.GetTempPath() + "\\" + document.FileName + document.Extension, filePath);
             await _context.Revisions.InsertOneAsync(revision);
@@ -159,8 +159,10 @@ namespace DMS.Repository
             List<Document> doclist = _context.Documents.AsQueryable().Where(x => x.IsShared.Equals(false) && x.IsDeleted.Equals(false)).ToList();
             foreach (Document doc in doclist)
             {
-                doc.CreatedByName = (doc.CreatedBy > 0) ? _context.Users.AsQueryable().FirstOrDefault(x => x.UserId.Equals(doc.CreatedBy)).UserName : string.Empty; //set CreatedByName with CreatedById
-                doc.LockedByName = (doc.LockedBy > 0) ? _context.Users.AsQueryable().FirstOrDefault(x => x.UserId.Equals(doc.LockedBy)).UserName : string.Empty; //set LockedByName with LockedById
+                User createdByUser = (doc.CreatedBy > 0) ? _context.Users.AsQueryable().Where(x => x.UserId.Equals(doc.CreatedBy)).FirstOrDefault() : null;
+                User lockedByUser = (doc.LockedBy > 0) ? _context.Users.AsQueryable().Where(x => x.UserId.Equals(doc.LockedBy)).FirstOrDefault() : null;
+                doc.CreatedByName = (createdByUser != null) ? string.Join(" ", createdByUser.FirstName, createdByUser.LastName) : string.Empty; //set CreatedByName with CreatedById
+                doc.LockedByName = (lockedByUser != null) ? string.Join(" ", lockedByUser.FirstName, lockedByUser.LastName) : string.Empty; //set LockedByName with LockedById
             }
             return doclist;
             //var filter = Builders<Document>.Filter.Eq("IsShared", IsShared);

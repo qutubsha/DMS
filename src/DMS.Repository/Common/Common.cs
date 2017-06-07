@@ -12,5 +12,17 @@ namespace DMS.Repository
             ForgotPassword,
             WelComeUser
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public enum AnchorPosition
+        {
+            Top,
+            Center,
+            Bottom,
+            Left,
+            Right
+        }
     }
 }

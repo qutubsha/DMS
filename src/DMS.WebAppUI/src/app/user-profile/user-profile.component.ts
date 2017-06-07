@@ -21,7 +21,7 @@ export class UserProfileComponent {
 
     ngOnInit(){
         this.userprofile = {
-            UserID: 0,
+            UserId: 0,
             UserName: '',
             Password: '',
             RepeatPassword: '',
@@ -57,7 +57,7 @@ export class UserProfileComponent {
     }
     submitForm(event: Event): void {
         debugger
-        let upUserpro: UserRegistration = new UserRegistration(this.userprofile.UserID, '', this.userprofile.Password, '', this.userprofile.FirstName, this.userprofile.LastName, this.userprofile.Email);
+        let upUserpro: UserRegistration = new UserRegistration(this.userprofile.UserId, '', this.userprofile.Password, '', this.userprofile.FirstName, this.userprofile.LastName, this.userprofile.Email);
         this.busy = this._userService.updateuser(upUserpro).subscribe(
             data => {
                 debugger

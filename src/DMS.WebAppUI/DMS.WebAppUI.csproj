@@ -102,6 +102,7 @@
     <Content Include="src\app\accesshistory\accesshistory.component.html" />
     <Content Include="src\app\app.component.css" />
     <Content Include="src\app\app.component.html" />
+    <Content Include="src\app\configuration-settings\configuration-settings.component.html" />
     <Content Include="src\app\dashboard\dashboard.component.html" />
     <Content Include="src\app\document\document.component.html" />
     <Content Include="src\app\email-template\edit-email-template.component.html" />
@@ -114,8 +115,8 @@
     <Content Include="src\app\roles\rights.component.html" />
     <Content Include="src\app\roles\roles.component.html" />
     <Content Include="src\app\user-profile\change-password.component.html" />
+    <Content Include="src\app\user-profile\manage-user.component.html" />
     <Content Include="src\app\user-profile\user-profile.component.html" />
-    <Content Include="src\app\user-profile\user-profile.component-1.html" />
     <Content Include="src\app\versionhistory\versionhistory.component.html" />
     <Content Include="src\assets\css\bootstrap-rtl.css" />
     <Content Include="src\assets\css\bootstrap-rtl.min.css" />
@@ -159,6 +160,8 @@
     <TypeScriptCompile Include="src\app\app.module.ts" />
     <TypeScriptCompile Include="src\app\app-Routing.module.ts" />
     <TypeScriptCompile Include="src\app\appSettings.ts" />
+    <TypeScriptCompile Include="src\app\configuration-settings\configuration-settings.component.ts" />
+    <TypeScriptCompile Include="src\app\configuration-settings\configuration-settings.module.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.module.ts" />
     <TypeScriptCompile Include="src\app\document\document.component.ts" />
@@ -185,6 +188,7 @@
     <TypeScriptCompile Include="src\app\roles\roles.component.ts" />
     <TypeScriptCompile Include="src\app\roles\roles.module.ts" />
     <TypeScriptCompile Include="src\app\roles\roles.ts" />
+    <TypeScriptCompile Include="src\app\services\configuration-settings.service.ts" />
     <TypeScriptCompile Include="src\app\services\document.service.ts" />
     <TypeScriptCompile Include="src\app\services\email-template.service.ts" />
     <TypeScriptCompile Include="src\app\services\roles.service.ts" />
@@ -201,6 +205,8 @@
     <TypeScriptCompile Include="src\app\shared\shared.service.ts" />
     <TypeScriptCompile Include="src\app\user-profile\change-password.component.ts" />
     <TypeScriptCompile Include="src\app\user-profile\change-password.module.ts" />
+    <TypeScriptCompile Include="src\app\user-profile\manage-user.component.ts" />
+    <TypeScriptCompile Include="src\app\user-profile\manage-user.module.ts" />
     <TypeScriptCompile Include="src\app\user-profile\user-profile.component.ts" />
     <TypeScriptCompile Include="src\app\user-profile\user-profile.module.ts" />
     <TypeScriptCompile Include="src\app\versionhistory\versionhistory.component.ts" />

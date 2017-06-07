@@ -4,8 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Rx';
-import { IMultiSelectSettings } from '../shared/multiselect-dropdown';
-import { IMultiSelectListOption } from '../shared/multiselect-list';
 import { List, Enumerable } from '../shared/linq';
 import { GlobalVariable, IDictionary } from '../shared/global';
 import { EmailTemplateService } from '../services/email-template.service';
@@ -84,31 +82,16 @@ export class EmailTemplateComponent implements OnInit {
     }
 
     GetEmailTemplates() {
-        debugger
         this.showAddForm = false;
         this.busy = this._emailtemplateService.getEmailTemplates()
             .subscribe(data => {
-                debugger
                 this.emailtemplatedata = data;
                 this.data = data;
-               // for (var i = 0; i < this.emailtemplatedata.length; i++) {
-
-                    //    if (this.emailtemplatedata[i].UpdatedOn != null && this.emailtemplatedata[i].UpdatedOn != '')
-                    //        this.emailtemplatedata[i].UpdatedOn = this._sharedService.parseDateToStringWithFormat(this.emailtemplatedata[i].UpdatedOn.toString());
-
-
-                    //    if (this.emailtemplatedata[i].IsActive == true)
-                    //        this.emailtemplatedata[i].Active = "Yes";
-                    //    else
-                    //        this.emailtemplatedata[i].Active = "No";
-                    //}
-                //}
             },
             error => this.errorMessage = <any>error);
     }
 
     editEmployeetemplate(EmailTemplateName: any) {
-        debugger
         localStorage.setItem('CurrentEmailTemplateId', EmailTemplateName);
         this._router.navigate(['/edit-email-template'], { skipLocationChange: true });
     }

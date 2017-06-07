@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DMS.Abstraction;
 using DMS.Abstraction.EmailService;
+using DMS.Abstraction.UserProfile;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,16 +16,16 @@ namespace DMS.WebApi.Controllers
     public class UserController : BaseController<UserController>
     {
         readonly IUserService _userService;
-    
-        readonly string MailFrom= "ptms.hrms@gmail.com";
-        readonly string SmtpServer= "smtp.gmail.com";
-        readonly string SmtpUser= "ptms.hrms@gmail.com";
+
+        readonly string MailFrom = "ptms.hrms@gmail.com";
+        readonly string SmtpServer = "smtp.gmail.com";
+        readonly string SmtpUser = "ptms.hrms@gmail.com";
         readonly string SmtpPass = "sigma@123";
 
         public UserController(ILogger<UserController> logger, IUserService services) : base(logger)
         {
             _userService = services;
-            
+
         }
 
         [HttpPost("Login")]
@@ -72,19 +73,51 @@ namespace DMS.WebApi.Controllers
         [HttpGet("ForgotPassword/{eMail}")]
         public Task<bool> ForgotPassword(string eMail)
         {
-            return _userService.ForgotPassword(eMail,GetEmailConfiguration());
+            return _userService.ForgotPassword(eMail, GetEmailConfiguration());
         }
 
         private EmailConfiguration GetEmailConfiguration()
         {
             return new EmailConfiguration()
             {
-                SenderMail= MailFrom,
-                SmtpServer=SmtpServer,
+                SenderMail = MailFrom,
+                SmtpServer = SmtpServer,
                 SmtpUser = SmtpUser,
-                SmtpPassword=SmtpPass
+                SmtpPassword = SmtpPass
 
             };
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eMail"></param>
+        /// <returns></returns>
+        [HttpGet("GetEmployeeImage/{email}")]
+        public IUserProfilePhoto GetEmployeeImage(string email)
+        {
+            return _userService.GetEmployeeImage(email);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="eMail"></param>
+        /// <returns></returns>
+        [HttpPut("UpdateEmployeeImage")]
+        public IUserProfilePhoto UpdateEmployeeImage([FromBody]UserProfilePhoto image, string eMail)
+        {
+            return _userService.UpdateEmployeeImage(image, eMail);
+        }
+
+
+
+
+        [HttpGet("GetUserlist")]
+        public List<IUser> GetUserList()
+        {
+            return _userService.GetUserList();
+        }
+
     }
 }
