@@ -25,6 +25,8 @@ import { VersionHistoryModule } from './versionhistory/versionhistory.module';
 import { EmailTemplateModule } from './email-template/email-template.module';
 import { EditEmailTemplateModule } from './email-template/edit-email-template.module';
 import { UserModule } from './user-profile/manage-user.module';
+import { ConfigurationSettingsModule } from './configuration-settings/configuration-settings.module';
+import { DocAdvanceSearchModule } from './doc-advance-search/doc-advance-search.module';
 @NgModule({
     declarations: [
         AppComponent,
@@ -51,7 +53,9 @@ import { UserModule } from './user-profile/manage-user.module';
         VersionHistoryModule,
         EmailTemplateModule,
         EditEmailTemplateModule,
-        UserModule
+        UserModule,
+        ConfigurationSettingsModule,
+        DocAdvanceSearchModule
     ],
     providers: [
         AuthGuard,
