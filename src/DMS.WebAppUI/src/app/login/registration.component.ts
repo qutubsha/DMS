@@ -27,7 +27,7 @@ export class RegistrationComponent {
 
     ngOnInit(){
         this.userreg = {
-            UserID: 0,
+            UserId: 0,
             UserName: '',
             Password: '',
             RepeatPassword: '',
@@ -44,7 +44,7 @@ export class RegistrationComponent {
 
     submitForm(event: Event): void {
         debugger
-        let saveUser: UserRegistration = new UserRegistration(this.userreg.UserID, '', this.userreg.Password, this.userreg.RepeatPassword, '', '', this.userreg.Email);
+        let saveUser: UserRegistration = new UserRegistration(this.userreg.UserId, '', this.userreg.Password, this.userreg.RepeatPassword, '', '', this.userreg.Email);
         this.busy = this._userService.addUser(saveUser).subscribe(
             data => {
                 if (data.Result != null) {

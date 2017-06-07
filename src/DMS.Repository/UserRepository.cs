@@ -7,7 +7,11 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+<<<<<<< HEAD
 using System.Collections.Generic;
+=======
+using System.Linq;
+>>>>>>> 44f87d5bc9c7040532663d30985cfc543f27444d
 using System.Threading.Tasks;
 
 
@@ -79,7 +83,10 @@ namespace DMS.Repository
                 var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
                 if (null == objUser)
                 {
+                    // To Do: demo purpose - to be improved
+                    var maxUserId = _context.Users.AsQueryable().Max(p => p.UserId);
                     user.IsActive = true;
+                    user.UserId = ++maxUserId; 
                     await _context.Users.InsertOneAsync(user);
 
                     //await EmailService.SendMail(objUser.Email, emailConfig.SenderMail,CommonEnums.EmailTemplates.WelComeUser.ToString(),

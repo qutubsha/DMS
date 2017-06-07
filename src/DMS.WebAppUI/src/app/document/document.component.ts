@@ -65,12 +65,12 @@ export class DocumentComponent {
     }
 
     GetAllDocuments() {
-        this.busy = this._documentservice.getDocuments(this.loggedInUser.UserID)
+        this.busy = this._documentservice.getDocuments(this.loggedInUser.UserId)
             .subscribe(data => {
                 this.data = data;
 
                 this.filteredData = data;
-            },
+            },  
             error => {
                 this.errorMessage = <any>error;
                 this.notificationTitle = this.errorMessage;
@@ -115,7 +115,7 @@ export class DocumentComponent {
     }
 
     LockDoc(docid: number) {
-        this.busy = this._documentservice.CheckinCheckOutDocument(docid, this.loggedInUser.UserID)
+        this.busy = this._documentservice.CheckinCheckOutDocument(docid, this.loggedInUser.UserId)
             .subscribe(data => {
 
             },
@@ -148,7 +148,7 @@ export class DocumentComponent {
                 formData.append('uploadFile', file, file.name);
             }
             event.srcElement.value = "";
-            this.busy = this._documentservice.uploadFile(formData, this.loggedInUser.UserID)
+            this.busy = this._documentservice.uploadFile(formData, this.loggedInUser.UserId)
                 .subscribe(data => {
                     this.modal.close();
                     this.GetAllDocuments();
@@ -171,7 +171,7 @@ export class DocumentComponent {
     }
 
     DeleteDoc() {
-        this.busy = this._documentservice.deleteDocument(this.selectedDocId, 1)
+        this.busy = this._documentservice.deleteDocument(this.selectedDocId, this.loggedInUser.UserId)
             .subscribe(data => {
                 this.modal.close();
                 this.GetAllDocuments();

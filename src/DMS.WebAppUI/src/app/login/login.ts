@@ -1,7 +1,7 @@
 ﻿
 export interface IUser {
 
-    UserID: number;
+    UserId: number;
     Email: string;
     Password: string;
     FirstName: string;
@@ -10,7 +10,7 @@ export interface IUser {
 }
 export class User implements IUser {
     constructor(
-        public UserID: number,
+        public UserId: number,
         public Email: string,
         public Password: string,
         public FirstName: string,
@@ -21,7 +21,7 @@ export class User implements IUser {
 }
 
 export interface IUserRegistration {
-    UserID: number;
+    UserId: number;
     UserName: string;
     Password: string;
     RepeatPassword: string;
@@ -31,7 +31,7 @@ export interface IUserRegistration {
 }
 export class UserRegistration implements IUserRegistration {
     constructor(
-        public UserID: number,
+        public UserId: number,
         public UserName: string,
         public Password: string,
         public RepeatPassword: string,
