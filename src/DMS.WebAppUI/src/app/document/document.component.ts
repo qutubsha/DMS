@@ -143,17 +143,19 @@ export class DocumentComponent {
         let fileList: FileList = event.target.files;
         if (fileList.length > 0) {
             let formData: FormData = new FormData();
+            formData.append("userId~" + this.loggedInUser.UserId, 1);
             for (let i = 0; i < fileList.length; i++) {
                 let file: File = fileList[i];
                 formData.append('uploadFile', file, file.name);
             }
             event.srcElement.value = "";
-            this.busy = this._documentservice.uploadFile(formData, this.loggedInUser.UserId)
+            this.busy = this._documentservice.uploadFile(formData)
                 .subscribe(data => {
                     this.modal.close();
                     this.GetAllDocuments();
                 },
                 error => {
+                    this.modal.close();
                     this.errorMessage = <any>error;
                     this.notificationTitle = this.errorMessage;
                     this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
