@@ -69,7 +69,7 @@ namespace DMS
                                         isNewRevision, file, fileName, extension, loginId);
         }
 
-        public async Task<List<Document>> GetAllDocuments(bool isShared, int loginId)
+        public async Task<List<Document>> GetAllDocuments(bool? isShared, int loginId)
         {
             return await _repository.GetAllDocuments(isShared, loginId);            
         }

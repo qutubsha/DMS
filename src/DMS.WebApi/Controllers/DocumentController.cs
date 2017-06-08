@@ -40,9 +40,9 @@ namespace DMS.WebApi.Controllers
 
         [HttpGet]
         [GenerateAntiforgeryTokenCookieForAjax]
-        public IActionResult Get(int loginId)
+        public IActionResult Get(int loginId,bool? showShared)
         {
-            return Execute(() => Ok(_documentService.GetAllDocuments(false, loginId).Result));
+            return Execute(() => Ok(_documentService.GetAllDocuments(showShared, loginId).Result));
         }
 
         //[HttpGet("id/durationInHours")]
