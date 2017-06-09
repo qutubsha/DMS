@@ -40,7 +40,7 @@ export class DocumentComponent {
     private filters: IDictionary[];
     private selectedDocId: number;
     private loggedInUser: IUser;
-    private docType: DocType = DocType.All;
+    private docType: DocType = DocType.Personal;
     private currentRowPrevValue: string = '';
 
     busy: Subscription;
@@ -68,11 +68,11 @@ export class DocumentComponent {
                         case "personal":
                             this.docType = DocType.Personal;
                             break;
-                        case "shared":
-                            this.docType = DocType.Shared;
+                        case "public":
+                            this.docType = DocType.Public;
                             break;
                         default:
-                            this.docType = DocType.All;
+                            this.docType = DocType.Personal;
                             break;
                     }
                     this.GetAllDocuments();
@@ -82,36 +82,23 @@ export class DocumentComponent {
 
     GetAllDocuments() {
         let showShared: boolean;
-        if (this.docType === DocType.All) {
-            this.busy = this._documentservice.getDocuments(this.loggedInUser.UserId)
-                .subscribe(data => {
-                    this.data = data;
-                    this.filteredData = data;
-                },
-                error => {
-                    this.errorMessage = <any>error;
-                    this.notificationTitle = this.errorMessage;
-                    //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
-                });
+
+        if (this.docType === DocType.Personal) {
+            showShared = false;
         }
-        else {
-            if (this.docType === DocType.Personal) {
-                showShared = false;
-            }
-            else if (this.docType === DocType.Shared) {
-                showShared = true;
-            }
-            this.busy = this._documentservice.getDocuments(this.loggedInUser.UserId, showShared)
-                .subscribe(data => {
-                    this.data = data;
-                    this.filteredData = data;
-                },
-                error => {
-                    this.errorMessage = <any>error;
-                    this.notificationTitle = this.errorMessage;
-                    //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
-                });
+        else if (this.docType === DocType.Public) {
+            showShared = true;
         }
+        this.busy = this._documentservice.getDocuments(this.loggedInUser.UserId, showShared)
+            .subscribe(data => {
+                this.data = data;
+                this.filteredData = data;
+            },
+            error => {
+                this.errorMessage = <any>error;
+                this.notificationTitle = this.errorMessage;
+                //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            });
     }
 
     filterDocuments() {

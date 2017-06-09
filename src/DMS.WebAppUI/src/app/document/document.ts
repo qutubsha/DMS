@@ -46,7 +46,6 @@ export class Document implements IDocument {
 }
 
 export enum DocType {
-    All,
     Personal,
-    Shared
+    Public
 }

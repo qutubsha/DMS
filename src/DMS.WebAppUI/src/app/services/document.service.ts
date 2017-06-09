@@ -14,25 +14,16 @@ export class DocumentService {
     constructor(private _http: Http, private _pathfinder: PathFinder, private router: Router) { }
 
 
-    getDocuments(loginId: number, showShared?: boolean): Observable<IDocument[]> {
+    getDocuments(loginId: number, showShared: boolean): Observable<IDocument[]> {
         //let headers = new Headers();
         //headers.append('Accept', 'application/json');
         //headers.append('Content-Type', 'application/json; charset=utf-8');
         //headers.append('Access-Control-Allow-Origin', ' *');
         ////let body = JSON.stringify(username);
         //let options = new RequestOptions({ headers: headers });
-        if (showShared != null || typeof (showShared) != undefined) {
-            return this._http.get(this._pathfinder.documentUrl + "?loginId=" + loginId + "&showShared=" + showShared, this._pathfinder.getheaderWithoutJWT())
-                .map((response: Response) => <IDocument>response.json())
-                .catch(err => this.handleError(err));
-        }
-        else {
-            if (showShared != null || typeof (showShared) != undefined) {
-                return this._http.get(this._pathfinder.documentUrl + "?loginId=" + loginId + "&showShared=" + showShared, this._pathfinder.getheaderWithoutJWT())
-                    .map((response: Response) => <IDocument>response.json())
-                    .catch(err => this.handleError(err));
-            }
-        }
+        return this._http.get(this._pathfinder.documentUrl + "?loginId=" + loginId + "&showShared=" + showShared, this._pathfinder.getheaderWithoutJWT())
+            .map((response: Response) => <IDocument>response.json())
+            .catch(err => this.handleError(err));
     }
 
     getAccessHistory(documentId: number): Observable<IAccessHistory[]> {
