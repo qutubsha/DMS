@@ -227,5 +227,20 @@ export class DocumentComponent {
                 this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
             });
     }
+
+    onDocTagInputBlur(event, id) {
+        let tag: string = event.target.outerText.toString();
+        if (event.target.outerText.toString() !== "") {
+            this.busy = this._documentservice.tagDocument(id, this.loggedInUser.UserId, tag)
+                .subscribe(data => {
+                },
+                error => {
+                    this.errorMessage = <any>error;
+                    this.notificationTitle = this.errorMessage;
+                    //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                });
+        }
+
+    }
 }
 

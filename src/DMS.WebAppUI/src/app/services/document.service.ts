@@ -56,7 +56,7 @@ export class DocumentService {
     uploadFile(formData): any {
         let headers = new Headers()
         //headers.append('Content-Type', 'json');  
-        headers.append('Accept', 'text/plain');  
+        headers.append('Accept', 'text/plain');
         let options = new RequestOptions({ headers: headers });
         return this._http.post(this._pathfinder.documentUrl + "/UploadFiles", formData, options)
             .map(res => res.json())
@@ -71,6 +71,12 @@ export class DocumentService {
         return this._http.delete(this._pathfinder.documentUrl + "?id=" + documentId + "&loginid=" + loginId, this._pathfinder.getheaderWithoutJWT())
             .map(res => res.json())
             .catch(error => Observable.throw(error));
+    }
+
+    tagDocument(id: number, loginId: number, tags: string): any {
+        return this._http.put(this._pathfinder.documentUrl + "/TagDocument/" + id + "?loginId=" + loginId + "&tags=" + tags, this._pathfinder.getheaderWithoutJWT())
+            .map((response: Response) => <IAccessHistory>response.json())
+            .catch(err => this.handleError(err));
     }
 
     //Error Handling
