@@ -55,7 +55,7 @@
                                         <td>{{item.CreatedByName}}</td>
                                         <td>{{item.CreatedOn | date: 'shortDate' }}</td>
                                         <td>{{item.LockedByName}}</td>
-                                        <td contenteditable="true" (blur)="onDocTagInputBlur($event, item.DocumentId)">{{item.DocumentTags}}</td>
+                                        <td contenteditable="true" (focus)="onDocTagInputFocus($event, item.DocumentId)" (blur)="onDocTagInputBlur($event, item.DocumentId)">{{item.DocumentTags}}</td>
                                         <td>
                                             <a (click)="DownloadDoc();" style="cursor:pointer" title="download"><span class="glyphicon glyphicon-download"></span></a>
                                             <a (click)="showDlteCOnfirm(item.DocumentId);" style="cursor:pointer" title="delete"><span class="glyphicon glyphicon-remove"></span></a>

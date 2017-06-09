@@ -41,6 +41,7 @@ export class DocumentComponent {
     private selectedDocId: number;
     private loggedInUser: IUser;
     private docType: DocType = DocType.All;
+    private currentRowPrevValue: string = '';
 
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
@@ -230,7 +231,7 @@ export class DocumentComponent {
 
     onDocTagInputBlur(event, id) {
         let tag: string = event.target.outerText.toString();
-        if (event.target.outerText.toString() !== "") {
+        if ((tag !== "") && (tag !== null) && (tag !== this.currentRowPrevValue)) {
             this.busy = this._documentservice.tagDocument(id, this.loggedInUser.UserId, tag)
                 .subscribe(data => {
                 },
@@ -241,6 +242,10 @@ export class DocumentComponent {
                 });
         }
 
+    }
+
+    onDocTagInputFocus(event, id) {
+        this.currentRowPrevValue = event.target.outerText.toString();
     }
 }
 
