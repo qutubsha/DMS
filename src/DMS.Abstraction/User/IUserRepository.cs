@@ -47,6 +47,13 @@ namespace DMS.Abstraction
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<User> UpdateUserDetailsByAdmin(User user);
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="eMail"></param>
         /// <param name="emailConfig"></param>
         /// <returns></returns>
