@@ -12,6 +12,7 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { IUser, User } from '../login/login';
 //import * as $ from 'jquery'
 //window['$'] = window['jQuery'] = $;
+import { saveAs as importedSaveAs } from 'file-saver';
 
 @Component({
     templateUrl: './document.component.html',
@@ -40,6 +41,8 @@ export class DocumentComponent {
     private filters: IDictionary[];
     private selectedDocId: number;
     private loggedInUser: IUser;
+    private downloadUrl: string;
+    private downloadFileName: string;
 
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
@@ -201,6 +204,36 @@ export class DocumentComponent {
                 this.notificationTitle = 'Document deleted successfully.';
                 this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
             });
+    }
+
+    DownloadDoc(id, fileName) {
+        debugger;
+        this._documentservice.downloadF().subscribe(blob => {
+            debugger;
+            //importedSaveAs(blob, '1.docx');
+            var url = URL.createObjectURL(blob);
+            this.downloadUrl = url;
+            this.downloadFileName = '1.docx';
+            //var linkElement = document.createElement('a');
+            //linkElement.setAttribute('id', 'aDownload');
+            //linkElement.setAttribute('href', url);
+            //linkElement.setAttribute("download", '1.docx');
+            document.getElementById('aDownload').click();
+
+            //var downloadUrl = URL.createObjectURL(blob);
+            //window.open(downloadUrl);
+        });
+
+
+        //this._documentservice.downloadFile().subscribe(blob => {
+        //    debugger;
+        //    var downloadUrl = URL.createObjectURL(blob);
+        //    window.open(downloadUrl);
+        //});
+            //.subscribe(blob => {
+            //    debugger;
+            //    importedSaveAs(blob, fileName);
+            //});
     }
 }
 

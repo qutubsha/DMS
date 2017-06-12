@@ -1,6 +1,8 @@
 ﻿<div class="main_cantent_inner">
     <h2>Documents</h2>
     <div class="row">
+        <a id="aDownload" [href]="downloadUrl" [download]="downloadFileName" hidden="hidden"></a>
+
         <a class="btn" (click)="modal.open();" style="cursor:pointer;float:left">
             Upload Multiple Documents
         </a>
@@ -57,7 +59,7 @@
                                         <td>{{item.LockedByName}}</td>
                                         <td>{{item.DocumentTags}}</td>
                                         <td>
-                                            <a (click)="DownloadDoc();" style="cursor:pointer" title="download"><span class="glyphicon glyphicon-download"></span></a>
+                                            <a (click)="DownloadDoc(item.DocumentId, item.FileName);" style="cursor:pointer" title="download"><span class="glyphicon glyphicon-download"></span></a>
                                             <a (click)="showDlteCOnfirm(item.DocumentId);" style="cursor:pointer" title="delete"><span class="glyphicon glyphicon-remove"></span></a>
                                             <a (click)="LockDoc(item.DocumentId);" style="cursor:pointer" [title]="item.LockStatus">
                                                 <span *ngIf="item.IsDocCheckedOut" class="fa fa-unlock">
@@ -113,7 +115,6 @@
         </div>
     </div>
 </div>
-
 
 <modal #modal class="modal">
     <modal-header [show-close]="true" class="modalheaderCal" id="modalPwdHeader">

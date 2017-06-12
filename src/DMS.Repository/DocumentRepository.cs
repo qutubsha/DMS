@@ -88,7 +88,7 @@ namespace DMS.Repository
                 //TODO : check permission if user is allowed to check out document and document is not check out
 
                 // check if document is checked out or not
-                if (document.LockedBy == null || document.LockedBy == -2)
+                if (document.LockedBy == null || document.LockedBy == -2 || document.LockedBy == 0)
                 {
                     //Lock document with current user
                     var update = Builders<Document>.Update.Set(s => s.LockedBy, loginId);
