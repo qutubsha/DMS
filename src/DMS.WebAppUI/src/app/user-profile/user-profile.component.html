@@ -20,13 +20,16 @@
         <div class="row">
             <form #userprofileform="ngForm" novalidate (ngSubmit)="userprofileform.submitted && userprofileform.valid && submitForm($event)">
                 <div class="col-lg-3">
-                    <!--<div class="text-center">
-                        <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                    <div class="text-center">
+                        <!--<img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
                         <h6>Upload a different photo...</h6>
 
-                        <input type="file" class="form-control">
-                    </div>-->
+                        <input type="file" class="form-control">-->
+                        <img *ngIf="imageContent" name="empImage" [src]="imageContent" class="img-responsive" alt="" form="userprofileform" />
+                        <input type="file" id="fileMugshot" (change)="changeImageSrc($event)" form="userprofileform">
+                     </div>
                 </div>
+               
                 <div class="col-lg-6">
                         <div class="form-group">
                             <label>First name:</label>
