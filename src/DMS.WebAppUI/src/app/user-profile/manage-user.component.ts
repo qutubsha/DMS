@@ -17,7 +17,6 @@ export class UserComponent {
    
     private edituserprofile: IUserDetails;
 
-    private userdetailsdata: IUserDetails[];
     private userdetails: IUserDetails;
 
     private notificationTitle: string = '';
