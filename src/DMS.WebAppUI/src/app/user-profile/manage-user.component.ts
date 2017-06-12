@@ -1,6 +1,7 @@
 ﻿import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IUserRegistration, EditUserDetails, IUser, IUserDetails} from '../login/login';
+
+import { IUserRegistration, UserRegistration, EditUserDetails, IUser, IUserDetails} from '../login/login';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
@@ -11,9 +12,14 @@ import { GlobalVariable, IDictionary } from '../shared/global';
 })
 export class UserComponent {
 
+
     private userdetailsdata: IUserDetails[];
    
     private edituserprofile: IUserDetails;
+
+    private userdetailsdata: IUserDetails[];
+    private userdetails: IUserDetails;
+
     private notificationTitle: string = '';
     private notificationContent: string = '';
     private errorMessage: string;
@@ -24,7 +30,9 @@ export class UserComponent {
     private sortBy = 'Email';
     private sortOrder = 'asc';
     private activePage = 1;
+
     private isEditManageUser= false;
+
     @ViewChild('mf') mf: DataTable;
     constructor(
         private router: Router,
@@ -39,7 +47,10 @@ export class UserComponent {
         //    LastName: '',
         //    Email: '',
         //};
+
         this.isEditManageUser = false;
+
+
         this.GetUserdetails();
     }
 
@@ -56,6 +67,7 @@ export class UserComponent {
             },
             error => this.errorMessage = <any>error);
     }
+
 
     edituserdetails(Email: any) {
        
@@ -75,7 +87,7 @@ export class UserComponent {
         }
     }
     submitForm(event: Event): void {
-        debugger;
+       
         let upUserpro: EditUserDetails = new EditUserDetails(this.edituserprofile.Roles, this.edituserprofile.UserId, this.edituserprofile.UserName, '', '', this.edituserprofile.FirstName, this.edituserprofile.LastName, this.edituserprofile.Email, this.edituserprofile.IsActive, this.edituserprofile.IsDeleted, '');
         this.busy = this._userService.updateuserByAdmin(upUserpro).subscribe(
             data => {
@@ -96,4 +108,5 @@ export class UserComponent {
             });
 
     }
+
 }
