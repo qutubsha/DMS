@@ -104,6 +104,7 @@
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\configuration-settings\configuration-settings.component.html" />
     <Content Include="src\app\dashboard\dashboard.component.html" />
+    <Content Include="src\app\doc-advance-search\doc-advance-search.component.html" />
     <Content Include="src\app\document\document.component.html" />
     <Content Include="src\app\email-template\edit-email-template.component.html" />
     <Content Include="src\app\email-template\email-template.component.html" />
@@ -165,6 +166,8 @@
     <TypeScriptCompile Include="src\app\configuration-settings\configuration-settings.module.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.module.ts" />
+    <TypeScriptCompile Include="src\app\doc-advance-search\doc-advance-search.component.ts" />
+    <TypeScriptCompile Include="src\app\doc-advance-search\doc-advance-search.module.ts" />
     <TypeScriptCompile Include="src\app\document\document.component.ts" />
     <TypeScriptCompile Include="src\app\document\document.module.ts" />
     <TypeScriptCompile Include="src\app\document\document.ts" />
@@ -190,6 +193,7 @@
     <TypeScriptCompile Include="src\app\roles\roles.module.ts" />
     <TypeScriptCompile Include="src\app\roles\roles.ts" />
     <TypeScriptCompile Include="src\app\services\configuration-settings.service.ts" />
+    <TypeScriptCompile Include="src\app\services\doc-advance-search.service.ts" />
     <TypeScriptCompile Include="src\app\services\document.service.ts" />
     <TypeScriptCompile Include="src\app\services\email-template.service.ts" />
     <TypeScriptCompile Include="src\app\services\roles.service.ts" />

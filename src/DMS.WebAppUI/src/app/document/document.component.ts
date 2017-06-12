@@ -1,6 +1,6 @@
 ﻿import { Component, Input, OnInit, ViewChild, trigger, transition, style, animate, state } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IDocument, Document } from './document';
+import { IDocument, Document, DocType } from './document';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { DocumentService } from '../services/document.service';
@@ -40,6 +40,8 @@ export class DocumentComponent {
     private filters: IDictionary[];
     private selectedDocId: number;
     private loggedInUser: IUser;
+    private docType: DocType = DocType.Personal;
+    private currentRowPrevValue: string = '';
 
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
@@ -49,37 +51,48 @@ export class DocumentComponent {
     dlteDocmodal: ModalComponent;
     constructor(
         private _sharedService: SharedService,
-        private router: Router, private _documentservice: DocumentService) {
+        private router: Router, private _documentservice: DocumentService, private _route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
-
         this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
         if (this.loggedInUser == null) {
             localStorage.removeItem('currentUser');
             this.router.navigate(['/login']);
         }
         else {
-            this.GetAllDocuments();
+            this._route.params.subscribe(
+                params => {
+                    let type: string = params['type'];
+                    switch (type) {
+                        case "personal":
+                            this.docType = DocType.Personal;
+                            break;
+                        case "public":
+                            this.docType = DocType.Public;
+                            break;
+                        default:
+                            this.docType = DocType.Personal;
+                            break;
+                    }
+                    this.GetAllDocuments();
+                });
         }
     }
 
     GetAllDocuments() {
-        this.busy = this._documentservice.getDocuments(this.loggedInUser.UserId)
+        let showShared: boolean;
+
+        if (this.docType === DocType.Personal) {
+            showShared = false;
+        }
+        else if (this.docType === DocType.Public) {
+            showShared = true;
+        }
+        this.busy = this._documentservice.getDocuments(this.loggedInUser.UserId, showShared)
             .subscribe(data => {
                 this.data = data;
-
-                for (var i = 0; i < this.data.length; i++) {
-                    if (this.data[i].LockedByName != null && this.data[i].LockedByName != "") {
-                        this.data[i].LockStatus = "Check In";
-                        this.data[i].IsDocCheckedOut = true;
-                    }
-                    else {
-                        this.data[i].LockStatus = "Check Out";
-                        this.data[i].IsDocCheckedOut = false;
-                    }
-                }
-                this.filteredData = this.data;
+                this.filteredData = data;
             },
             error => {
                 this.errorMessage = <any>error;
@@ -201,6 +214,25 @@ export class DocumentComponent {
                 this.notificationTitle = 'Document deleted successfully.';
                 this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
             });
+    }
+
+    onDocTagInputBlur(event, id) {
+        let tag: string = event.target.outerText.toString();
+        if ((tag !== "") && (tag !== null) && (tag !== this.currentRowPrevValue)) {
+            this.busy = this._documentservice.tagDocument(id, this.loggedInUser.UserId, tag)
+                .subscribe(data => {
+                },
+                error => {
+                    this.errorMessage = <any>error;
+                    this.notificationTitle = this.errorMessage;
+                    //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                });
+        }
+
+    }
+
+    onDocTagInputFocus(event, id) {
+        this.currentRowPrevValue = event.target.outerText.toString();
     }
 }
 

@@ -17,6 +17,7 @@ export const SECURE_ROUTES: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'userprofile', component: UserProfileComponent, canActivate: [AuthGuard] },
     { path: 'document', component: DocumentComponent, canActivate: [AuthGuard] },
+    { path: 'document/:type', component: DocumentComponent, canActivate: [AuthGuard] },
     { path: 'docaccesshistory/:id', component: AccessHistoryComponent, canActivate: [AuthGuard] },
     { path: 'roles', component: RolesComponent, canActivate: [AuthGuard] },
     { path: 'rights', component: RightsComponent, canActivate: [AuthGuard] },
