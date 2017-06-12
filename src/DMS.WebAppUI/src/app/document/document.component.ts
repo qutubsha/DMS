@@ -12,6 +12,7 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { IUser, User } from '../login/login';
 //import * as $ from 'jquery'
 //window['$'] = window['jQuery'] = $;
+import { saveAs as importedSaveAs } from 'file-saver';
 
 @Component({
     templateUrl: './document.component.html',
@@ -42,6 +43,8 @@ export class DocumentComponent {
     private loggedInUser: IUser;
     private docType: DocType = DocType.Personal;
     private currentRowPrevValue: string = '';
+    private downloadUrl: string;
+    private downloadFileName: string;
 
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
@@ -92,7 +95,17 @@ export class DocumentComponent {
         this.busy = this._documentservice.getDocuments(this.loggedInUser.UserId, showShared)
             .subscribe(data => {
                 this.data = data;
-                this.filteredData = data;
+                for (var i = 0; i < this.data.length; i++) {
+                    if (this.data[i].LockedByName != null && this.data[i].LockedByName != "") {
+                        this.data[i].LockStatus = "Check In";
+                        this.data[i].IsDocCheckedOut = true;
+                    }
+                    else {
+                        this.data[i].LockStatus = "Check Out";
+                        this.data[i].IsDocCheckedOut = false;
+                    }
+                }
+                this.filteredData = this.data;
             },
             error => {
                 this.errorMessage = <any>error;
@@ -233,6 +246,36 @@ export class DocumentComponent {
 
     onDocTagInputFocus(event, id) {
         this.currentRowPrevValue = event.target.outerText.toString();
+    }
+
+    DownloadDoc(id, fileName) {
+        debugger;
+        this._documentservice.downloadF().subscribe(blob => {
+            debugger;
+            //importedSaveAs(blob, '1.docx');
+            var url = URL.createObjectURL(blob);
+            this.downloadUrl = url;
+            this.downloadFileName = '1.docx';
+            //var linkElement = document.createElement('a');
+            //linkElement.setAttribute('id', 'aDownload');
+            //linkElement.setAttribute('href', url);
+            //linkElement.setAttribute("download", '1.docx');
+            document.getElementById('aDownload').click();
+
+            //var downloadUrl = URL.createObjectURL(blob);
+            //window.open(downloadUrl);
+        });
+
+
+        //this._documentservice.downloadFile().subscribe(blob => {
+        //    debugger;
+        //    var downloadUrl = URL.createObjectURL(blob);
+        //    window.open(downloadUrl);
+        //});
+        //.subscribe(blob => {
+        //    debugger;
+        //    importedSaveAs(blob, fileName);
+        //});
     }
 }
 

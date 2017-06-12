@@ -129,6 +129,7 @@
     <Content Include="src\assets\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="src\assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="src\assets\images\edit1.png" />
+    <Content Include="src\assets\images\please_upload.gif" />
     <Content Include="src\assets\js\bootstrap.js" />
     <Content Include="src\assets\js\bootstrap.min.js" />
     <Content Include="src\assets\js\jquery.js" />

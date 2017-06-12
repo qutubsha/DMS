@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Http.Features;
 using System.Text;
 using System.Globalization;
+using System.Threading;
+//using System.Net;
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DMS.WebApi.Controllers
@@ -29,6 +31,7 @@ namespace DMS.WebApi.Controllers
     public class DocumentController : BaseController<DocumentController>
     {
         readonly DocumentService _documentService;
+        public static string fileUploadPath;
         private static readonly FormOptions _defaultFormOptions = new FormOptions();
 
         public DocumentController(ILogger<DocumentController> logger, IOptions<Settings> settings) : base(logger)
@@ -36,6 +39,7 @@ namespace DMS.WebApi.Controllers
             var repository = new DocumentRepository(settings);
             var accessrepository = new DocumentAccessHistoryRepository(settings);
             _documentService = new DocumentService(repository, accessrepository);
+            fileUploadPath = settings.Value.FileUploadPath;
         }
 
         [HttpGet]
@@ -291,6 +295,134 @@ namespace DMS.WebApi.Controllers
                 FilePath = ""
             };
             return Json(uploadedData);
+        }
+
+        [HttpGet("Docu")]
+        public async Task<IActionResult> DownloadF(int documentId, int userId)
+        {
+            //var stream = await { { __get_stream_here__} }
+            Task<Document> document = _documentService.GetDocumentById(documentId, userId);
+            Document doc = document.Result;
+            // To Do: Set Version Id and Revision Id dynamic foe getting the file from Uploaded path.
+            string filePath = fileUploadPath + "\\" + documentId + "\\" + "1" + "\\" + "1" + doc.Extension;
+            var stream = new MemoryStream();
+            using (var file = System.IO.File.OpenRead(filePath))
+            {
+                file.CopyTo(stream);
+            }
+            stream.Position = 0;
+
+            var response = File(stream, "application/octet-stream"); // FileStreamResult
+            return response;
+        }
+
+        [HttpPost("DownloadFile")]
+        public HttpResponseMessage DownloadFile(int documentId, int userId)
+        {
+            //var response = Request.CreateResponse(HttpStatusCode.OK);
+            //response.Content = new StreamContent(stream);
+            //// ...
+            //// stream.Write(...);
+            //// ...
+            //return response;
+
+            //string targetFilePath = Path.GetTempPath() + "\\";// + contentDisposition.FileName.Replace("\"", "");
+            //File
+            //using ()
+            //{
+            //    await section.Body.CopyToAsync(targetStream);
+            //}
+
+            //var targetStream = System.IO.File.ReadAllBytes("d:\\file.txt");
+            //FileStream file = new FileStream("d:\\file.txt", FileMode.Create, FileAccess.Write);
+            //var streamReader = new StreamReader("d:\\file.txt", Encoding.UTF8);
+            //response.Content = new StreamContent(file);
+            //return response;
+
+            //HttpResponseMessage objResponse = new HttpResponseMessage();
+            //Task<Document> document = _documentService.GetDocumentById(documentId, userId);
+            //Document doc = document.Result;
+            //if (doc != null)
+            //{
+            //    // To Do: Set Version Id and Revision Id dynamic foe getting the file from Uploaded path.
+            //    string filePath = fileUploadPath + "\\" + documentId + "\\" + "1" + "\\" + "1" + doc.Extension;
+            //    objResponse.Content = new StreamContent(new FileStream(filePath, FileMode.Open, FileAccess.Read));
+            //    objResponse.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            //    objResponse.Content.Headers.ContentDisposition.FileName = doc.FileName + doc.Extension;
+            //}
+            //return objResponse;
+
+            HttpResponseMessage response = new HttpResponseMessage();
+            Task<Document> document = _documentService.GetDocumentById(documentId, userId);
+            Document doc = document.Result;
+            if (doc != null)
+            {
+                // To Do: Set Version Id and Revision Id dynamic foe getting the file from Uploaded path.
+                string filePath = fileUploadPath + "\\" + documentId + "\\" + "1" + "\\" + "1" + doc.Extension;
+                var stream = new MemoryStream();
+                using (var file = System.IO.File.OpenRead(filePath))
+                {
+                    file.CopyTo(stream);
+                }
+                stream.Position = 0;
+
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                response.Content = new ByteArrayContent(stream.ToArray());
+                response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(MimeMapping.MimeTypes.GetMimeMapping(doc.FileName + doc.Extension));
+                response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+                response.Content.Headers.ContentDisposition.FileName = doc.FileName + doc.Extension;
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("down")]
+        public ByteArrayContent Download(int documentId, int userId)
+        {
+            HttpResponseMessage httpResponseMessage = new HttpResponseMessage();
+            ByteArrayContent result = null;
+            try
+            {
+                Task<Document> document = _documentService.GetDocumentById(documentId, userId);
+                Document doc = document.Result;
+                // To Do: Set Version Id and Revision Id dynamic foe getting the file from Uploaded path.
+                string filePath = fileUploadPath + "\\" + documentId + "\\" + "1" + "\\" + "1" + doc.Extension;
+
+                var stream = new MemoryStream();
+                using (var file = System.IO.File.OpenRead(filePath))
+                {
+                    file.CopyTo(stream);
+                }
+                stream.Position = 0;
+
+                result = new ByteArrayContent(stream.ToArray());
+
+                //using (MemoryStream ms = new MemoryStream())
+                //{
+                //    using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                //    {
+                //        byte[] bytes = new byte[file.Length];
+                //        file.Read(bytes, 0, (int)file.Length);
+                //        ms.Write(bytes, 0, (int)file.Length);
+
+
+
+                //        //result = new ByteArrayContent(bytes.ToArray());
+
+
+                //        //httpResponseMessage.Content.Headers.Add("x-filename", doc.FileName + doc.Extension);
+                //        //httpResponseMessage.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                //        //httpResponseMessage.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+                //        //httpResponseMessage.Content.Headers.ContentDisposition.FileName = doc.FileName + doc.Extension;
+                //        //httpResponseMessage.StatusCode = System.Net.HttpStatusCode.OK;
+                //    }
+                //}
+            }
+            catch (Exception ex)
+            {
+                //return this.Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+            return result;
         }
 
         private static Encoding GetEncoding(MultipartSection section)
