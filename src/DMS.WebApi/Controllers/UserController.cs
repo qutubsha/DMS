@@ -111,13 +111,26 @@ namespace DMS.WebApi.Controllers
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
 
         [HttpGet("GetUserlist")]
         public List<IUser> GetUserList()
         {
             return _userService.GetUserList();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPut("UpdateUserDetailsByAdmin")]
+        public IActionResult UpdateUserDetailsByAdmin([FromBody]User user)
+        {
+            return Execute(() => Ok(_userService.UpdateUserDetailsByAdmin(user)));
 
+        }
     }
 }

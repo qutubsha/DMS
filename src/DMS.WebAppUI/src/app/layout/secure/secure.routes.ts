@@ -13,6 +13,7 @@ import { VersionHistoryComponent } from '../../versionhistory/versionhistory.com
 import { UserComponent } from '../../user-profile/manage-user.component';
 import { ConfigurationSettingsComponent } from '../../configuration-settings/configuration-settings.component';
 import { DocAdvanceSearchComponent } from '../../doc-advance-search/doc-advance-search.component';
+import { SharedDocumentComponent } from '../../shared-document/shared-document.component';
 export const SECURE_ROUTES: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'userprofile', component: UserProfileComponent, canActivate: [AuthGuard] },
@@ -27,5 +28,6 @@ export const SECURE_ROUTES: Routes = [
     { path: 'edit-email-template', component: EditEmailTemplateComponent, canActivate: [AuthGuard] },
     { path: 'userdetails', component: UserComponent, canActivate: [AuthGuard] },
     { path: 'configurationsettings', component: ConfigurationSettingsComponent, canActivate: [AuthGuard] },
-    { path: 'doc-advance-search', component: DocAdvanceSearchComponent, canActivate: [AuthGuard] }
+    { path: 'doc-advance-search', component: DocAdvanceSearchComponent, canActivate: [AuthGuard] },
+    { path: 'shared-documents/:type', component: SharedDocumentComponent, canActivate: [AuthGuard] }
 ];

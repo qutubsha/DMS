@@ -88,7 +88,7 @@ namespace DMS.Repository
         /// <returns></returns>
         public IEmailTemplate GetEmailTemplate(string templateName)
         {
-            var filter = Builders<EmailTemplate>.Filter.Eq("EmailTemplateName", templateName);
+            var filter = Builders<EmailTemplate>.Filter.Eq("EmailTemplateName", templateName) & Builders<EmailTemplate>.Filter.Eq("IsActive", true);
             var emailTemp =  _context.EmailTemplate.Find(filter).FirstOrDefault();
             var emailTemplate = new EmailTemplate()
             {

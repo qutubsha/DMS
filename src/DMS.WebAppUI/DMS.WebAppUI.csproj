@@ -115,6 +115,7 @@
     <Content Include="src\app\modal\modal.component.html" />
     <Content Include="src\app\roles\rights.component.html" />
     <Content Include="src\app\roles\roles.component.html" />
+    <Content Include="src\app\shared-document\shared-document.component.html" />
     <Content Include="src\app\user-profile\change-password.component.html" />
     <Content Include="src\app\user-profile\manage-user.component.html" />
     <Content Include="src\app\user-profile\user-profile.component.html" />
@@ -197,7 +198,10 @@
     <TypeScriptCompile Include="src\app\services\document.service.ts" />
     <TypeScriptCompile Include="src\app\services\email-template.service.ts" />
     <TypeScriptCompile Include="src\app\services\roles.service.ts" />
+    <TypeScriptCompile Include="src\app\services\shared-documents.service.ts" />
     <TypeScriptCompile Include="src\app\services\user.service.ts" />
+    <TypeScriptCompile Include="src\app\shared-document\shared-document.component.ts" />
+    <TypeScriptCompile Include="src\app\shared-document\shared-document.module.ts" />
     <TypeScriptCompile Include="src\app\shared\appequal-validator.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\auth.guard.ts" />
     <TypeScriptCompile Include="src\app\shared\compare-validator.directive.spec.ts" />
