@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import { AppSettings } from '../appsettings';
-import { IUser, User, IUserRegistration, IUserDetails} from '../login/login';
+import { IUser, User, IUserRegistration, IUserDetails, IUserImage} from '../login/login';
 import { PathFinder } from '../path-finder';
 
 @Injectable()
@@ -51,6 +51,14 @@ export class UserService {
         // ?UserName = admin & Password=123
         return this._http.put(this._pathfinder.loginUrl + "/UpdatePassword" + "/" + upUser.eMail +"/"+ upUser.oldPwd +"/"+ upUser.newPwd , body, options)
             .map((response: Response) => <any>response.json())
+            .catch(err => this.handleError(err));
+    }
+
+    
+
+    getUserImage(Email: string): Observable<IUserImage> {
+        return this._http.get(this._pathfinder.loginUrl + "/GetEmployeeImage/" + Email, this._pathfinder.getJWT())
+            .map((response: Response) => <IUserImage>response.json())
             .catch(err => this.handleError(err));
     }
 

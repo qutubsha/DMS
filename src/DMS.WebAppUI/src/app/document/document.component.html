@@ -40,11 +40,11 @@
                                     </tr>
                                     <tr class="filters">
                                         <th><input type="text" class="form-control" [(ngModel)]="FileNameFilter" (ngModelChange)="filterDocuments()"></th>
-                                        <th><input type="text" class="form-control" [(ngModel)]="ExtensionFilter" (ngModelChange)="filterDocuments()"></th>
+                                        <th width="70"><input type="text" class="form-control" [(ngModel)]="ExtensionFilter" (ngModelChange)="filterDocuments()"></th>
                                         <th><input type="text" class="form-control" [(ngModel)]="CreatedByFilter" (ngModelChange)="filterDocuments()"></th>
                                         <th><input type="text" class="form-control" [(ngModel)]="CreatedOnFilter" (ngModelChange)="filterDocuments()"></th>
                                         <th><input type="text" class="form-control" [(ngModel)]="LockedByFilter" (ngModelChange)="filterDocuments()"></th>
-                                        <th><input type="text" class="form-control" [(ngModel)]="DocumentTagFilter" (ngModelChange)="filterDocuments()"></th>
+                                        <th width="200"><input type="text" class="form-control" [(ngModel)]="DocumentTagFilter" (ngModelChange)="filterDocuments()"></th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -57,7 +57,7 @@
                                         <td>{{item.CreatedByName}}</td>
                                         <td>{{item.CreatedOn | date: 'shortDate' }}</td>
                                         <td>{{item.LockedByName}}</td>
-                                        <td>{{item.DocumentTags}}</td>
+                                        <td contenteditable="true" (focus)="onDocTagInputFocus($event, item.DocumentId)" (blur)="onDocTagInputBlur($event, item.DocumentId)">{{item.DocumentTags}}</td>
                                         <td>
                                             <a (click)="DownloadDoc(item.DocumentId, item.FileName);" style="cursor:pointer" title="download"><span class="glyphicon glyphicon-download"></span></a>
                                             <a (click)="showDlteCOnfirm(item.DocumentId);" style="cursor:pointer" title="delete"><span class="glyphicon glyphicon-remove"></span></a>
@@ -67,8 +67,8 @@
                                                 <span *ngIf="!item.IsDocCheckedOut" class="glyphicon glyphicon-lock">
                                                 </span>
                                             </a>
-                                            <a (click)="ViewAccessHistory(item.DocumentId);" title="Access history"><span class="fa fa-history"></span></a>
-                                            <a (click)="ViewVersionHistory(item.DocumentId);" title="Version history"><span class="fa fa-file-text"></span></a>
+                                            <a (click)="ViewAccessHistory(item.DocumentId);" title="access history"><span class="fa fa-history"></span></a>
+                                            <a (click)="ViewVersionHistory(item.DocumentId);" title="version history"><span class="fa fa-file-text"></span></a>
                                         </td>
 
                                     </tr>

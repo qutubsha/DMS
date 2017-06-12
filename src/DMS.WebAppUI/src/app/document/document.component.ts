@@ -1,6 +1,6 @@
 ﻿import { Component, Input, OnInit, ViewChild, trigger, transition, style, animate, state } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IDocument, Document } from './document';
+import { IDocument, Document, DocType } from './document';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { DocumentService } from '../services/document.service';
@@ -12,7 +12,6 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { IUser, User } from '../login/login';
 //import * as $ from 'jquery'
 //window['$'] = window['jQuery'] = $;
-import { saveAs as importedSaveAs } from 'file-saver';
 
 @Component({
     templateUrl: './document.component.html',
@@ -41,8 +40,8 @@ export class DocumentComponent {
     private filters: IDictionary[];
     private selectedDocId: number;
     private loggedInUser: IUser;
-    private downloadUrl: string;
-    private downloadFileName: string;
+    private docType: DocType = DocType.Personal;
+    private currentRowPrevValue: string = '';
 
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
@@ -52,37 +51,48 @@ export class DocumentComponent {
     dlteDocmodal: ModalComponent;
     constructor(
         private _sharedService: SharedService,
-        private router: Router, private _documentservice: DocumentService) {
+        private router: Router, private _documentservice: DocumentService, private _route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
-
         this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
         if (this.loggedInUser == null) {
             localStorage.removeItem('currentUser');
             this.router.navigate(['/login']);
         }
         else {
-            this.GetAllDocuments();
+            this._route.params.subscribe(
+                params => {
+                    let type: string = params['type'];
+                    switch (type) {
+                        case "personal":
+                            this.docType = DocType.Personal;
+                            break;
+                        case "public":
+                            this.docType = DocType.Public;
+                            break;
+                        default:
+                            this.docType = DocType.Personal;
+                            break;
+                    }
+                    this.GetAllDocuments();
+                });
         }
     }
 
     GetAllDocuments() {
-        this.busy = this._documentservice.getDocuments(this.loggedInUser.UserId)
+        let showShared: boolean;
+
+        if (this.docType === DocType.Personal) {
+            showShared = false;
+        }
+        else if (this.docType === DocType.Public) {
+            showShared = true;
+        }
+        this.busy = this._documentservice.getDocuments(this.loggedInUser.UserId, showShared)
             .subscribe(data => {
                 this.data = data;
-
-                for (var i = 0; i < this.data.length; i++) {
-                    if (this.data[i].LockedByName != null && this.data[i].LockedByName != "") {
-                        this.data[i].LockStatus = "Check In";
-                        this.data[i].IsDocCheckedOut = true;
-                    }
-                    else {
-                        this.data[i].LockStatus = "Check Out";
-                        this.data[i].IsDocCheckedOut = false;
-                    }
-                }
-                this.filteredData = this.data;
+                this.filteredData = data;
             },
             error => {
                 this.errorMessage = <any>error;
@@ -206,34 +216,23 @@ export class DocumentComponent {
             });
     }
 
-    DownloadDoc(id, fileName) {
-        debugger;
-        this._documentservice.downloadF().subscribe(blob => {
-            debugger;
-            //importedSaveAs(blob, '1.docx');
-            var url = URL.createObjectURL(blob);
-            this.downloadUrl = url;
-            this.downloadFileName = '1.docx';
-            //var linkElement = document.createElement('a');
-            //linkElement.setAttribute('id', 'aDownload');
-            //linkElement.setAttribute('href', url);
-            //linkElement.setAttribute("download", '1.docx');
-            document.getElementById('aDownload').click();
+    onDocTagInputBlur(event, id) {
+        let tag: string = event.target.outerText.toString();
+        if ((tag !== "") && (tag !== null) && (tag !== this.currentRowPrevValue)) {
+            this.busy = this._documentservice.tagDocument(id, this.loggedInUser.UserId, tag)
+                .subscribe(data => {
+                },
+                error => {
+                    this.errorMessage = <any>error;
+                    this.notificationTitle = this.errorMessage;
+                    //this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                });
+        }
 
-            //var downloadUrl = URL.createObjectURL(blob);
-            //window.open(downloadUrl);
-        });
+    }
 
-
-        //this._documentservice.downloadFile().subscribe(blob => {
-        //    debugger;
-        //    var downloadUrl = URL.createObjectURL(blob);
-        //    window.open(downloadUrl);
-        //});
-            //.subscribe(blob => {
-            //    debugger;
-            //    importedSaveAs(blob, fileName);
-            //});
+    onDocTagInputFocus(event, id) {
+        this.currentRowPrevValue = event.target.outerText.toString();
     }
 }
 

@@ -87,6 +87,33 @@ export interface IRole {
    
 }
 
+export interface IUserImage {
+    ImageID: number;
+    Image1: any;
+    ContentType: string;
+    FileName: string;
+    CreatedOn: string;
+    ConvertedImage: string;
+}
+
+export class UserImage implements IUserImage {
+    constructor(
+        public ImageID: number,
+        public Image1: any,
+        public ContentType: string,
+        public FileName: string,
+        public CreatedOn: string,
+        public ConvertedImage: string
+    ) { }
+}
+
+export interface FileReaderEventTarget extends EventTarget {
+    result: string
+}
+export interface FileReaderEvent extends Event {
+    target: FileReaderEventTarget;
+    getMessage(): string;
+}
 //export interface IUser {
 
 //    userid: number;
