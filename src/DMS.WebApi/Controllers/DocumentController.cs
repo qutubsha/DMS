@@ -17,7 +17,6 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Http.Features;
 using System.Text;
-using System.Collections.Generic;
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DMS.WebApi.Controllers
@@ -38,8 +37,6 @@ namespace DMS.WebApi.Controllers
         }
 
         [HttpGet]
-
-        [GenerateAntiforgeryTokenCookieForAjax]
         public IActionResult Get(int loginId, bool showShared)
         {
             return Execute(() => Ok(_documentService.GetAllDocuments(showShared, loginId).Result));
@@ -207,129 +204,6 @@ namespace DMS.WebApi.Controllers
             return response;
         }
 
-
-        [HttpPost("DownloadFile")]
-        public HttpResponseMessage DownloadFile(int documentId, int userId)
-        {
-            //var response = Request.CreateResponse(HttpStatusCode.OK);
-            //response.Content = new StreamContent(stream);
-            //// ...
-            //// stream.Write(...);
-            //// ...
-            //return response;
-
-            //string targetFilePath = Path.GetTempPath() + "\\";// + contentDisposition.FileName.Replace("\"", "");
-            //File
-            //using ()
-            //{
-            //    await section.Body.CopyToAsync(targetStream);
-            //}
-
-            //var targetStream = System.IO.File.ReadAllBytes("d:\\file.txt");
-            //FileStream file = new FileStream("d:\\file.txt", FileMode.Create, FileAccess.Write);
-            //var streamReader = new StreamReader("d:\\file.txt", Encoding.UTF8);
-            //response.Content = new StreamContent(file);
-            //return response;
-
-            //HttpResponseMessage objResponse = new HttpResponseMessage();
-            //Task<Document> document = _documentService.GetDocumentById(documentId, userId);
-            //Document doc = document.Result;
-            //if (doc != null)
-            //{
-            //    // To Do: Set Version Id and Revision Id dynamic foe getting the file from Uploaded path.
-            //    string filePath = fileUploadPath + "\\" + documentId + "\\" + "1" + "\\" + "1" + doc.Extension;
-            //    objResponse.Content = new StreamContent(new FileStream(filePath, FileMode.Open, FileAccess.Read));
-            //    objResponse.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-            //    objResponse.Content.Headers.ContentDisposition.FileName = doc.FileName + doc.Extension;
-            //}
-            //return objResponse;
-
-            HttpResponseMessage response = new HttpResponseMessage();
-            Task<Document> document = _documentService.GetDocumentById(documentId, userId);
-            Document doc = document.Result;
-            if (doc != null)
-            {
-                // To Do: Set Version Id and Revision Id dynamic foe getting the file from Uploaded path.
-                string filePath = fileUploadPath + "\\" + documentId + "\\" + "1" + "\\" + "1" + doc.Extension;
-                var stream = new MemoryStream();
-                using (var file = System.IO.File.OpenRead(filePath))
-                {
-                    file.CopyTo(stream);
-                }
-                stream.Position = 0;
-
-                response.StatusCode = System.Net.HttpStatusCode.OK;
-                response.Content = new ByteArrayContent(stream.ToArray());
-                response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(MimeMapping.MimeTypes.GetMimeMapping(doc.FileName + doc.Extension));
-                response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-                response.Content.Headers.ContentDisposition.FileName = doc.FileName + doc.Extension;
-            }
-            return response;
-        }
-
-        [HttpPost]
-        [Route("down")]
-        public ByteArrayContent Download(int documentId, int userId)
-        {
-            HttpResponseMessage httpResponseMessage = new HttpResponseMessage();
-            ByteArrayContent result = null;
-            try
-            {
-                Task<Document> document = _documentService.GetDocumentById(documentId, userId);
-                Document doc = document.Result;
-                // To Do: Set Version Id and Revision Id dynamic foe getting the file from Uploaded path.
-                string filePath = fileUploadPath + "\\" + documentId + "\\" + "1" + "\\" + "1" + doc.Extension;
-
-                var stream = new MemoryStream();
-                using (var file = System.IO.File.OpenRead(filePath))
-                {
-                    file.CopyTo(stream);
-                }
-                stream.Position = 0;
-
-                result = new ByteArrayContent(stream.ToArray());
-
-                //using (MemoryStream ms = new MemoryStream())
-                //{
-                //    using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                //    {
-                //        byte[] bytes = new byte[file.Length];
-                //        file.Read(bytes, 0, (int)file.Length);
-                //        ms.Write(bytes, 0, (int)file.Length);
-
-
-
-                //        //result = new ByteArrayContent(bytes.ToArray());
-
-
-                //        //httpResponseMessage.Content.Headers.Add("x-filename", doc.FileName + doc.Extension);
-                //        //httpResponseMessage.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-                //        //httpResponseMessage.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-                //        //httpResponseMessage.Content.Headers.ContentDisposition.FileName = doc.FileName + doc.Extension;
-                //        //httpResponseMessage.StatusCode = System.Net.HttpStatusCode.OK;
-                //    }
-                //}
-            }
-            catch (Exception ex)
-            {
-                //return this.Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
-            }
-            return result;
-        }
-
-        private static Encoding GetEncoding(MultipartSection section)
-        {
-            MediaTypeHeaderValue mediaType;
-            var hasMediaTypeHeader = MediaTypeHeaderValue.TryParse(section.ContentType, out mediaType);
-            // UTF-7 is insecure and should not be honored. UTF-8 will succeed in 
-            // most cases.
-            if (!hasMediaTypeHeader || Encoding.UTF7.Equals(mediaType.Encoding))
-            {
-                return Encoding.UTF8;
-            }
-            return mediaType.Encoding;
-        }
-
         [HttpPost("uploadCheckedInFile")]
         //[DisableFormValueModelBinding]
         //[ValidateAntiForgeryToken]
@@ -435,50 +309,6 @@ namespace DMS.WebApi.Controllers
                 FilePath = ""
             };
             return Json(uploadedData);
-        }
-
-    }
-
-    public class GenerateAntiforgeryTokenCookieForAjaxAttribute : ActionFilterAttribute
-    {
-        public override void OnActionExecuted(ActionExecutedContext context)
-        {
-            var antiforgery = context.HttpContext.RequestServices.GetService<IAntiforgery>();
-
-            // We can send the request token as a JavaScript-readable cookie, 
-            // and Angular will use it by default.
-            var tokens = antiforgery.GetAndStoreTokens(context.HttpContext);
-            context.HttpContext.Response.Cookies.Append(
-                "XSRF-TOKEN",
-                tokens.RequestToken,
-                new CookieOptions() { HttpOnly = false });
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class DisableFormValueModelBindingAttribute : Attribute, IResourceFilter
-    {
-        public void OnResourceExecuting(ResourceExecutingContext context)
-        {
-            var formValueProviderFactory = context.ValueProviderFactories
-                .OfType<FormValueProviderFactory>()
-                .FirstOrDefault();
-            if (formValueProviderFactory != null)
-            {
-                context.ValueProviderFactories.Remove(formValueProviderFactory);
-            }
-
-            var jqueryFormValueProviderFactory = context.ValueProviderFactories
-                .OfType<JQueryFormValueProviderFactory>()
-                .FirstOrDefault();
-            if (jqueryFormValueProviderFactory != null)
-            {
-                context.ValueProviderFactories.Remove(jqueryFormValueProviderFactory);
-            }
-        }
-
-        public void OnResourceExecuted(ResourceExecutedContext context)
-        {
         }
 
     }
