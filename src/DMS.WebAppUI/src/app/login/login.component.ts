@@ -9,6 +9,7 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { NotificationsService, SimpleNotificationsComponent, PushNotificationsService } from 'angular2-notifications';
 import { GlobalVariable } from '../shared/global';
 import { RecaptchaLoaderService } from 'ng2-recaptcha';
+import { BusyModule, BusyConfig } from 'angular2-busy';
 @Component({
     templateUrl: './login.component.html',
     providers: [UserService, SharedService, RecaptchaLoaderService, NotificationsService]

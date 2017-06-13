@@ -124,6 +124,7 @@
     <Content Include="src\assets\css\bootstrap-rtl.min.css" />
     <Content Include="src\assets\css\bootstrap.css" />
     <Content Include="src\assets\css\bootstrap.min.css" />
+    <Content Include="src\assets\css\busy.css" />
     <Content Include="src\assets\css\plugins\morris.css" />
     <Content Include="src\assets\css\sb-admin-rtl.css" />
     <Content Include="src\assets\css\sb-admin.css" />
