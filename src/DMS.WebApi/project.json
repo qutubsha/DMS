@@ -4,19 +4,16 @@
     "preserveCompilationContext": true
   },
   "dependencies": {
-    "Microsoft.NETCore.App": {
-      "version": "1.0.1",
-      "type": "platform"
-    },
+    "Microsoft.NETCore.App": "1.1.2",
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
-    "Microsoft.AspNetCore.Mvc": "1.0.1",
-    "Microsoft.AspNetCore.Routing": "1.0.1",
-    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
-    "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
+    "Microsoft.AspNetCore.Mvc": "1.1.2",
+    "Microsoft.AspNetCore.Routing": "1.1.2",
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.1.2",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.1.2",
+    "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.1.2",
     "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
     "Microsoft.Extensions.Configuration.Json": "1.0.0",
-    "Microsoft.Extensions.Logging": "1.0.0",
+    "Microsoft.Extensions.Logging": "1.1.2",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
@@ -25,7 +22,7 @@
     "DMS.Repository": "1.0.0-*",
     "NLog.Web.AspNetCore": "4.4.0",
     "Swashbuckle.AspNetCore": "1.0.0",
-    "Microsoft.AspNetCore.Cors": "1.0.0",
+    "Microsoft.AspNetCore.Cors": "1.1.2",
     "System.Runtime": "4.3.0"
   },
   "frameworks": {
@@ -49,6 +46,9 @@
     "configProperties": {
       "System.GC.Server": true
     }
+  },
+  "runtimes": {
+    "win10-x64": {}
   },
   "scripts": {
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
