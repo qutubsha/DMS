@@ -166,6 +166,7 @@
     <TypeScriptCompile Include="src\app\appSettings.ts" />
     <TypeScriptCompile Include="src\app\configuration-settings\configuration-settings.component.ts" />
     <TypeScriptCompile Include="src\app\configuration-settings\configuration-settings.module.ts" />
+    <TypeScriptCompile Include="src\app\configuration-settings\configuration-settings.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.module.ts" />
     <TypeScriptCompile Include="src\app\doc-advance-search\doc-advance-search.component.ts" />

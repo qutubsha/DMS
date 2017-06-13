@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using DMS.Abstraction;
 using DMS.Abstraction.Revisions;
 using DMS.Abstraction.EmailTemplate;
+using DMS.Abstraction.ConfigurationSettings;
 
 namespace DMS.Repository
 {
@@ -83,6 +84,14 @@ namespace DMS.Repository
             get
             {
                 return _database.GetCollection<EmailTemplate>("EmailTemplate");
+            }
+        }
+
+        public IMongoCollection<ConfigurationSetting> ConfigurationSettings
+        {
+            get
+            {
+                return _database.GetCollection<ConfigurationSetting>("ConfigurationSettings");
             }
         }
     }
