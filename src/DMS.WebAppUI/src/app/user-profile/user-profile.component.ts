@@ -33,7 +33,7 @@ export class UserProfileComponent {
             LastName: '',
             Email: '',
         };
-        debugger
+        
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.editUserProfile(this.currentUser.Email);
         this.getEmployeeImage();

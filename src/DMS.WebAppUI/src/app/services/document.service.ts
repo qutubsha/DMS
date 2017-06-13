@@ -2,7 +2,7 @@
 import { IDocument, Document } from '../document/document';
 import { IAccessHistory, AccessHistory } from '../accesshistory/accesshistory';
 import { IVersionHistory, VersionHistory } from '../versionhistory/versionhistory';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Http, Response, Headers, RequestOptions, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { PathFinder } from '../path-finder';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -54,6 +54,16 @@ export class DocumentService {
             .catch(error => Observable.throw(error));
     }
 
+    uploadCheckedInFile(formData): any {
+        let headers = new Headers()
+        //headers.append('Content-Type', 'json');  
+        headers.append('Accept', 'text/plain');
+        let options = new RequestOptions({ headers: headers });
+        return this._http.post(this._pathfinder.documentUrl + "/uploadCheckedInFile", formData, options)
+            .map(res => res.json())
+            .catch(error => Observable.throw(error));
+    }
+
     deleteDocument(documentId: number, loginId: number): any {
         let headers = new Headers()
         //headers.append('Content-Type', 'json');  
@@ -68,6 +78,18 @@ export class DocumentService {
         return this._http.put(this._pathfinder.documentUrl + "/TagDocument/" + id + "?loginId=" + loginId + "&tags=" + tags, this._pathfinder.getheaderWithoutJWT())
             .map((response: Response) => <IAccessHistory>response.json())
             .catch(err => this.handleError(err));
+    }
+
+    downloadFile(documentId: number, currentVersion: number, currentRevision: number, userId: number): Observable<File> {
+        let options = new RequestOptions({ responseType: ResponseContentType.Blob });
+        return this._http.get(this._pathfinder.documentUrl + '/DownloadFile?documentId=' + documentId + '&versionId=' + currentVersion + '&revisionId=' + currentRevision + '&userId=' + userId, options)
+            .map(this.extractContent)
+            .catch(this.handleError);
+    }
+
+    private extractContent(res: Response) {
+        let blob: Blob = res.blob();
+        return blob;
     }
 
     //Error Handling

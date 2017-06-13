@@ -6,7 +6,62 @@
             </h1>
         </div>
     </div>
-    <div  class="row">
-        UNDER DEVELOPMENT
+    <div class="row" [ngBusy]="busy">
+        <div class="col-lg-12">
+            <div class="row form-group panel panel-default">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+
+                    <form #confSettingForm="ngForm" name="confSettingForm" (ngSubmit)="UpdateConfigSetting()">
+                        <div class="row">
+                            <div class="col-lg-16 col-md-6">
+                                <div class="form-group" [ngClass]="(EncryptionKey.errors && (EncryptionKey.dirty || EncryptionKey.touched))?'has-error':''">
+                                    <label class="control-label">Encryption Key</label>
+                                    <input type="text" required [(ngModel)]="singleConfigSetting.EncryptionKey" #EncryptionKey="ngModel" maxlength="255" class="form-control" name="EncryptionKey" />
+                                    <span class="help-block">
+                                        <span *ngIf="EncryptionKey.errors && (EncryptionKey.dirty || EncryptionKey.touched)">
+                                            <span [hidden]="!EncryptionKey.errors.required">
+                                                Please enter Encryption Key
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-16 col-md-6">
+                                <div class="form-group" [ngClass]="(Repository.errors && (Repository.dirty || Repository.touched))?'has-error':''">
+                                    <label class="control-label">Repository</label>
+                                    <input type="text" required [(ngModel)]="singleConfigSetting.Repository" #Repository="ngModel" maxlength="255" class="form-control" name="Repository" />
+                                    <span class="help-block">
+                                        <span *ngIf="Repository.errors && (Repository.dirty || Repository.touched)">
+                                            <span [hidden]="!Repository.errors.required">
+                                                Please enter Repository
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-16 col-md-6">
+                                <div class="form-group" [ngClass]="(Size.errors && (Size.dirty || Size.touched))?'has-error':''">
+                                    <label class="control-label">Size</label>
+                                    <input type="number" required [(ngModel)]="singleConfigSetting.Size" #Size="ngModel" maxlength="10" class="form-control" name="Size" />
+                                    <span class="help-block">
+                                        <span *ngIf="Size.errors && (Size.dirty || Size.touched)">
+                                            <span [hidden]="!Size.errors.required">
+                                                Please enter Size
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Update" />
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

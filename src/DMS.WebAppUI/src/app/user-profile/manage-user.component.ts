@@ -1,6 +1,7 @@
 ﻿import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IUserRegistration, UserRegistration, IUser, IUserDetails } from '../login/login';
+
+import { IUserRegistration, UserRegistration, EditUserDetails, IUser, IUserDetails} from '../login/login';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
@@ -10,8 +11,14 @@ import { GlobalVariable, IDictionary } from '../shared/global';
     templateUrl: './manage-user.component.html',
 })
 export class UserComponent {
+
+
     private userdetailsdata: IUserDetails[];
+   
+    private edituserprofile: IUserDetails;
+
     private userdetails: IUserDetails;
+
     private notificationTitle: string = '';
     private notificationContent: string = '';
     private errorMessage: string;
@@ -22,13 +29,16 @@ export class UserComponent {
     private sortBy = 'Email';
     private sortOrder = 'asc';
     private activePage = 1;
+
+    private isEditManageUser= false;
+
     @ViewChild('mf') mf: DataTable;
     constructor(
         private router: Router,
         private _userService: UserService
     ) { }
 
-    ngOnInit() {
+    ngOnInit(){
         //this.userdetailsdata= {
         //     ,
         //    Password: '',
@@ -36,6 +46,10 @@ export class UserComponent {
         //    LastName: '',
         //    Email: '',
         //};
+
+        this.isEditManageUser = false;
+
+
         this.GetUserdetails();
     }
 
@@ -48,17 +62,50 @@ export class UserComponent {
         this.busy = this._userService.getuserlist()
             .subscribe(data => {
                 this.userdetailsdata = data;
-                this.data = data;
+               this.data = data;
             },
             error => this.errorMessage = <any>error);
     }
 
 
+    edituserdetails(Email: any) {
+       
+        if (Email != null && Email != 0) {
+            this.busy = this._userService.getUserById(Email)
+                .subscribe(data => {                   
+                    if (data.Result != null) {
+                        this.edituserprofile = data.Result;
+                        this.isEditManageUser = true;
+                        
+                    }
+                }, error => {
+                    this.errorMessage = <any>error;
+                    this.notificationTitle = 'Error in getting User details.';
+                    
+                });
+        }
+    }
+    submitForm(event: Event): void {
+       
+        let upUserpro: EditUserDetails = new EditUserDetails(this.edituserprofile.Roles, this.edituserprofile.UserId, this.edituserprofile.UserName, '', '', this.edituserprofile.FirstName, this.edituserprofile.LastName, this.edituserprofile.Email, this.edituserprofile.IsActive, this.edituserprofile.IsDeleted, '');
+        this.busy = this._userService.updateuserByAdmin(upUserpro).subscribe(
+            data => {
+                this.isEditManageUser = false;
+                this.GetUserdetails();
+                this.router.navigate(['/userdetails']);
+                
+            },
+            error => {
+                this.errorMessage = <any>error;
+                this.notificationTitle = 'Error in Updating User.';
+                //  this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            },
+            () => {
+                this.isEditManageUser = false;
+                this.notificationTitle = 'User Updated successfully.';
+                //  this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
+            });
 
-}
+    }
 
-export function Calculate(no) {
-    if (no > 0)
-        return no + 1;
-    else return 0;
 }

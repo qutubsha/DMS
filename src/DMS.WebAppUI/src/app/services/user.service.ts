@@ -28,7 +28,7 @@ export class UserService {
 
 
     addUser(saveUser: any) {
-        debugger
+        
         ///AddUser
         let headers = new Headers();
         headers.append('Accept', 'application/json');
@@ -42,7 +42,7 @@ export class UserService {
     }
     // Passess data to WebAPI and updates existing  User by User Id
     updatepassword(upUser: any) {
-        debugger
+        
         let headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/json; charset=utf-8');
@@ -63,7 +63,7 @@ export class UserService {
     }
 
     updateuser(upUserpro: any) {
-        debugger
+        
         let headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/json; charset=utf-8');
@@ -75,9 +75,22 @@ export class UserService {
             .catch(err => this.handleError(err));
     }
 
+    updateuserByAdmin(upUserpro: any) {
+
+        let headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+        let body = JSON.stringify(upUserpro);
+        let options = new RequestOptions({ headers: headers });
+        // ?UserName = admin & Password=123
+        return this._http.put(this._pathfinder.loginUrl + "/UpdateUserDetailsByAdmin", body, options)
+            .map((response: Response) => <any>response.json())
+            .catch(err => this.handleError(err));
+    }
+
     // Calls Get User Web API to fetch the user by the ID
     getUserById(Email: string): Observable<any> {
-        debugger
+        
         let headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/json; charset=utf-8');
@@ -110,7 +123,7 @@ export class UserService {
     //}
 
     SendMailOnForgotPassword(forgotpass: string): Observable<IUser[]> {
-        debugger
+        
         let headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/json; charset=utf-8');

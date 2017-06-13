@@ -115,6 +115,7 @@
     <Content Include="src\app\modal\modal.component.html" />
     <Content Include="src\app\roles\rights.component.html" />
     <Content Include="src\app\roles\roles.component.html" />
+    <Content Include="src\app\shared-document\shared-document.component.html" />
     <Content Include="src\app\user-profile\change-password.component.html" />
     <Content Include="src\app\user-profile\manage-user.component.html" />
     <Content Include="src\app\user-profile\user-profile.component.html" />
@@ -123,6 +124,7 @@
     <Content Include="src\assets\css\bootstrap-rtl.min.css" />
     <Content Include="src\assets\css\bootstrap.css" />
     <Content Include="src\assets\css\bootstrap.min.css" />
+    <Content Include="src\assets\css\busy.css" />
     <Content Include="src\assets\css\plugins\morris.css" />
     <Content Include="src\assets\css\sb-admin-rtl.css" />
     <Content Include="src\assets\css\sb-admin.css" />
@@ -164,6 +166,7 @@
     <TypeScriptCompile Include="src\app\appSettings.ts" />
     <TypeScriptCompile Include="src\app\configuration-settings\configuration-settings.component.ts" />
     <TypeScriptCompile Include="src\app\configuration-settings\configuration-settings.module.ts" />
+    <TypeScriptCompile Include="src\app\configuration-settings\configuration-settings.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.module.ts" />
     <TypeScriptCompile Include="src\app\doc-advance-search\doc-advance-search.component.ts" />
@@ -197,7 +200,10 @@
     <TypeScriptCompile Include="src\app\services\document.service.ts" />
     <TypeScriptCompile Include="src\app\services\email-template.service.ts" />
     <TypeScriptCompile Include="src\app\services\roles.service.ts" />
+    <TypeScriptCompile Include="src\app\services\shared-documents.service.ts" />
     <TypeScriptCompile Include="src\app\services\user.service.ts" />
+    <TypeScriptCompile Include="src\app\shared-document\shared-document.component.ts" />
+    <TypeScriptCompile Include="src\app\shared-document\shared-document.module.ts" />
     <TypeScriptCompile Include="src\app\shared\appequal-validator.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\auth.guard.ts" />
     <TypeScriptCompile Include="src\app\shared\compare-validator.directive.spec.ts" />

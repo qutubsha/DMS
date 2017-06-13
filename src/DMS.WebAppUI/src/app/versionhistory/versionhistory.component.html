@@ -1,7 +1,9 @@
 ﻿<div class="main_cantent_inner">
     <h2>Document Version History</h2>
-    <a class="pull-right" (click)="NavigateToDocuments();" title="back to documents" style="cursor:pointer;"><span class="fa fa-long-arrow-left">Back</span></a>
-    <div class="row">
+    <div class="row" [ngBusy]="busy">
+        <a class="pull-right" (click)="NavigateToDocuments();" title="Back to Document List" style="cursor:pointer; font-size:medium; margin-bottom:1%;">
+            <span class="fa fa-long-arrow-left">Back to Document List</span>
+        </a>
         <div class="col-lg-12 col_padding">
             <div class="row">
                 <div class="view_department">
@@ -31,7 +33,9 @@
                                         </th>
                                         <th class="td-width-35">
                                             <mfDefaultSorter by="Why">Why</mfDefaultSorter>
-
+                                        </th>
+                                        <th class="td-width-15">
+                                            Action
                                         </th>
                                     </tr>
                                     <tr class="filters">
@@ -54,6 +58,9 @@
                                         <td>{{item.Extension}}</td>
                                         <td>{{item.What}}</td>
                                         <td>{{item.Why}}</td>
+                                        <td>
+                                            <a (click)="DownloadDoc(item.FileName, item.Extension, item.VersionId, item.RevisionId);" style="cursor:pointer" title="Download File"><span class="glyphicon glyphicon-download"></span></a>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <tfoot>

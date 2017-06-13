@@ -133,12 +133,10 @@ namespace DMS.Repository
                     string filePath = CreateDocumentPath(basePath, document.DocumentId, versionId,
                                     revisionId, document.Extension);
                     //TODO : check if filepath is null
+
                     Revision revision = CreateRevision(documentId, fileName, extension, loginId,
                         revisionId, versionId, what, why, filePath);
 
-                    await _context.Revisions.InsertOneAsync(revision);
-
-                    // TODO : Save file on this path 
                     //Update document table accordingly
                     var update = Builders<Document>.Update.Set(s => s.FileName, fileName)
                                                       .Set(s => s.Extension, extension)
@@ -147,6 +145,10 @@ namespace DMS.Repository
                                                       .Set(s => s.LockedBy, null);
 
                     await _context.Documents.UpdateOneAsync(filter, update);
+
+
+                    File.Move(Path.GetTempPath() + "\\" + document.FileName + document.Extension, filePath);
+                    await _context.Revisions.InsertOneAsync(revision);
                 }
             }
             return document;
@@ -232,6 +234,30 @@ namespace DMS.Repository
                 //path += Path.DirectorySeparatorChar + revisionId.ToString() + "." + extension;
             }
             return path;
+        }
+
+        public async Task<List<Document>> SearchDocument(string fileName, string Extension, DateTime fromDate,
+                                        DateTime toDate)
+        {
+            List<Document> list;
+            //TODO : Get documents on which user has rights and  are not deleted
+            var doclist = _context.Documents.AsQueryable()
+                             .Where(x => x.IsDeleted.Equals(false));
+
+            if (!string.IsNullOrEmpty(fileName))
+                doclist = doclist.AsQueryable().Where(x => x.FileName.Contains(fileName));
+
+            if (!string.IsNullOrEmpty(Extension))
+                doclist = doclist.AsQueryable().Where(x => x.Extension.Contains(Extension));
+
+            if (fromDate != null)
+                doclist = doclist.AsQueryable().Where(x => x.CreatedOn >= fromDate);
+
+            if (toDate != null && fromDate != DateTime.MinValue)
+                doclist = doclist.AsQueryable().Where(x => x.CreatedOn <= (toDate.AddDays(1)));
+
+            list = doclist.ToList();
+            return list;
         }
     }
 }

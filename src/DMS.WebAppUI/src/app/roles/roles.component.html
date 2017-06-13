@@ -17,7 +17,7 @@
                             <div class="col-lg-4 col-md-4">
                                 <div class="form-group" [ngClass]="(RoleName.errors && (RoleName.dirty || RoleName.touched))?'has-error':''">
                                     <label class="control-label">Role Name</label>
-                                    <input type="text" required [(ngModel)]="singleRole.RoleName" #RoleName="ngModel" class="form-control" name="RoleName" />
+                                    <input type="text" required [(ngModel)]="singleRole.RoleName" #RoleName="ngModel" maxlength="255" class="form-control" name="RoleName" />
                                     <span class="help-block">
                                         <span *ngIf="RoleName.errors && (RoleName.dirty || RoleName.touched)">
                                             <span [hidden]="!RoleName.errors.required">

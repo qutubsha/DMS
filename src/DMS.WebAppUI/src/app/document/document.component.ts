@@ -12,6 +12,9 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { IUser, User } from '../login/login';
 //import * as $ from 'jquery'
 //window['$'] = window['jQuery'] = $;
+import { saveAs as importedSaveAs } from 'file-saver';
+import { PathFinder } from '../path-finder';
+import { FileUpload } from 'primeng/primeng';
 
 @Component({
     templateUrl: './document.component.html',
@@ -42,6 +45,17 @@ export class DocumentComponent {
     private loggedInUser: IUser;
     private docType: DocType = DocType.Personal;
     private currentRowPrevValue: string = '';
+    private downloadUrl: string;
+    private downloadFileName: string;
+
+    private VersionRevision: number = 1;;
+    private txtWhat: string;
+    private txtWhy: string;
+
+
+    uploadedFiles: any[] = [];
+    fileUploadUrl = this._pathfinder.documentUrl + "/UploadFiles";
+    userDetails = '';
 
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
@@ -50,6 +64,7 @@ export class DocumentComponent {
     @ViewChild('dlteDocmodal')
     dlteDocmodal: ModalComponent;
     constructor(
+        private _pathfinder: PathFinder,
         private _sharedService: SharedService,
         private router: Router, private _documentservice: DocumentService, private _route: ActivatedRoute) {
     }
@@ -61,6 +76,7 @@ export class DocumentComponent {
             this.router.navigate(['/login']);
         }
         else {
+            this.userDetails = "userId~" + this.loggedInUser.UserId;
             this._route.params.subscribe(
                 params => {
                     let type: string = params['type'];
@@ -92,7 +108,17 @@ export class DocumentComponent {
         this.busy = this._documentservice.getDocuments(this.loggedInUser.UserId, showShared)
             .subscribe(data => {
                 this.data = data;
-                this.filteredData = data;
+                for (var i = 0; i < this.data.length; i++) {
+                    if (this.data[i].LockedByName != null && this.data[i].LockedByName != "") {
+                        this.data[i].LockStatus = "Check In";
+                        this.data[i].IsDocCheckedOut = true;
+                    }
+                    else {
+                        this.data[i].LockStatus = "Check Out";
+                        this.data[i].IsDocCheckedOut = false;
+                    }
+                }
+                this.filteredData = this.data;
             },
             error => {
                 this.errorMessage = <any>error;
@@ -193,6 +219,67 @@ export class DocumentComponent {
                 });
         }
     }
+    
+    private upFilesData: FormData;
+    private DocumentId: number;
+
+    CheckInfileChange(event) {
+        let fileList: FileList = event.target.files;
+        if (fileList.length > 0) {
+            let formData: FormData = new FormData();
+            formData.append("userId~" + this.loggedInUser.UserId, 1);
+            formData.append("documentId~" + this.DocumentId, 1);
+            formData.append("What~" + this.txtWhat, 1);
+            formData.append("Why~" + this.txtWhy, 1);
+            formData.append("revision~" + this.VersionRevision, 1);
+            for (let i = 0; i < fileList.length; i++) {
+                let file: File = fileList[i];
+                formData.append('uploadFile', file, file.name);
+            }
+        //    event.srcElement.value = "";
+            this.upFilesData = formData;
+        }
+    }
+
+    SetdocumentId(docid) {
+        this.DocumentId = docid;
+        this.txtWhat = '';
+        this.txtWhy = '';
+    }
+
+    SaveRevision() {
+
+        this.busy = this._documentservice.uploadCheckedInFile(this.upFilesData)
+            .subscribe(data => {
+
+                this.modal.close();
+                this.GetAllDocuments();
+            },
+            error => {
+                this.modal.close();
+                this.errorMessage = <any>error;
+                this.notificationTitle = this.errorMessage;
+                this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            },
+            () => {
+                this.notificationTitle = 'Files checked in successfully.';
+                this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
+            });
+    }
+    onUpload(event) {
+        for (let file of event.files) {
+            this.uploadedFiles.push(file);
+        }
+        this.GetAllDocuments();
+        this.notificationTitle = 'Files uploaded successfully.';
+        this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
+    }
+
+    onError(event) {
+        this.notificationTitle = 'Error in uploading files';
+        this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+
+    }
 
     showDlteCOnfirm(docid: number) {
         this.selectedDocId = docid;
@@ -233,6 +320,48 @@ export class DocumentComponent {
 
     onDocTagInputFocus(event, id) {
         this.currentRowPrevValue = event.target.outerText.toString();
+    }
+
+    //DownloadDoc(id, fileName) {
+
+    //    this._documentservice.downloadFile().subscribe(blob => {
+
+    //        //importedSaveAs(blob, '1.docx');
+    //        var url = URL.createObjectURL(blob);
+    //        this.downloadUrl = url;
+    //        this.downloadFileName = '1.docx';
+    //        //var linkElement = document.createElement('a');
+    //        //linkElement.setAttribute('id', 'aDownload');
+    //        //linkElement.setAttribute('href', url);
+    //        //linkElement.setAttribute("download", '1.docx');
+    //        document.getElementById('aDownload').click();
+
+    //        //var downloadUrl = URL.createObjectURL(blob);
+    //        //window.open(downloadUrl);
+    //    });
+
+
+    //    //this._documentservice.downloadFile().subscribe(blob => {
+    //    //    debugger;
+    //    //    var downloadUrl = URL.createObjectURL(blob);
+    //    //    window.open(downloadUrl);
+    //    //});
+    //    //.subscribe(blob => {
+    //    //    debugger;
+    //    //    importedSaveAs(blob, fileName);
+    //    //});
+    //}
+    DownloadDoc(id, fileName, extension, currentVersion, currentRevision) {
+        this.busy = this._documentservice.downloadFile(id, currentVersion, currentRevision, this.loggedInUser.UserId)
+            .subscribe(blob => {
+                importedSaveAs(blob, fileName + extension);
+            },
+            error => {
+                this.errorMessage = <any>error;
+                this.notificationTitle = this.errorMessage;
+                this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            });
+
     }
 }
 

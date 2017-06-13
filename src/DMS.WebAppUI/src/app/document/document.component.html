@@ -1,12 +1,20 @@
 ﻿<div class="main_cantent_inner">
     <h2>Documents</h2>
-    <div class="row">
-        <a id="aDownload" [href]="downloadUrl" [download]="downloadFileName" hidden="hidden"></a>
-
-        <a class="btn" (click)="modal.open();" style="cursor:pointer;float:left">
+    <div class="row" [ngBusy]="busy">
+        <!--<a id="aDownload" [href]="downloadUrl" [download]="downloadFileName" hidden="hidden"></a>-->
+        <!--<a class="btn" (click)="modal.open();" style="cursor:pointer;float:left">
             Upload Multiple Documents
-        </a>
-        <div class="col-lg-12 col_padding">
+        </a>-->
+        <p-fileUpload [name]="userDetails" [url]="fileUploadUrl" (onUpload)="onUpload($event)" (onError)="onError($event)"
+                      multiple="multiple">
+            <template pTemplate="content">
+                <ul *ngIf="uploadedFiles.length">
+                    <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                </ul>
+            </template>
+        </p-fileUpload>
+
+        <div class="col-lg-12 col_padding" style="margin-top:2%;">
             <div class="row">
                 <div class="view_department">
                     <div class="panel panel-primary filterable ">
@@ -59,16 +67,23 @@
                                         <td>{{item.LockedByName}}</td>
                                         <td contenteditable="true" (focus)="onDocTagInputFocus($event, item.DocumentId)" (blur)="onDocTagInputBlur($event, item.DocumentId)">{{item.DocumentTags}}</td>
                                         <td>
-                                            <a (click)="DownloadDoc(item.DocumentId, item.FileName);" style="cursor:pointer" title="download"><span class="glyphicon glyphicon-download"></span></a>
-                                            <a (click)="showDlteCOnfirm(item.DocumentId);" style="cursor:pointer" title="delete"><span class="glyphicon glyphicon-remove"></span></a>
+                                            <a (click)="DownloadDoc(item.DocumentId, item.FileName, item.Extension, item.CurrentVersion, item.CurrentRevision);" style="cursor:pointer" title="Download File"><span class="glyphicon glyphicon-download"></span></a>
+                                            <a (click)="showDlteCOnfirm(item.DocumentId);" style="cursor:pointer" title="Delete File"><span class="glyphicon glyphicon-remove"></span></a>
                                             <a (click)="LockDoc(item.DocumentId);" style="cursor:pointer" [title]="item.LockStatus">
-                                                <span *ngIf="item.IsDocCheckedOut" class="fa fa-unlock">
-                                                </span>
                                                 <span *ngIf="!item.IsDocCheckedOut" class="glyphicon glyphicon-lock">
                                                 </span>
                                             </a>
-                                            <a (click)="ViewAccessHistory(item.DocumentId);" title="access history"><span class="fa fa-history"></span></a>
-                                            <a (click)="ViewVersionHistory(item.DocumentId);" title="version history"><span class="fa fa-file-text"></span></a>
+
+                                            <a (click)="SetdocumentId(item.DocumentId);modalCheckIn.open();" style="cursor:pointer" [title]="item.LockStatus">
+                                                <span *ngIf="item.IsDocCheckedOut" class="fa fa-unlock">
+                                                </span>
+                                            </a>
+                                            <!--<a (click)="ViewAccessHistory(item.DocumentId);" title="access history"><span class="fa fa-history"></span></a>
+                                            <a (click)="ViewVersionHistory(item.DocumentId);" title="version history"><span class="fa fa-file-text"></span></a>-->
+
+                                            <a (click)="ViewAccessHistory(item.DocumentId);" style="cursor:pointer" title="View Access History"><span class="fa fa-history"></span></a>
+                                            <a (click)="ViewVersionHistory(item.DocumentId);" style="cursor:pointer" title="View Version History"><span class="fa fa-file-text"></span></a>
+
                                         </td>
 
                                     </tr>
@@ -119,7 +134,7 @@
 <modal #modal class="modal">
     <modal-header [show-close]="true" class="modalheaderCal" id="modalPwdHeader">
         <div>
-            <h4 class="modal-title popup_header">Uplaod Multiple Files </h4>
+            <h4 class="modal-title popup_header">Upload Multiple Files </h4>
         </div>
     </modal-header>
     <modal-body>
@@ -128,5 +143,58 @@
     </modal-body>
 
 </modal>
+
+<modal #modalCheckIn class="modal">
+    <modal-header [show-close]="true" class="modalheaderCal" id="modalPwdHeader">
+        <div>
+            <h4 class="modal-title popup_header">Upload Document</h4>
+        </div>
+    </modal-header>
+    <modal-body>
+        <div class="row " style="padding-bottom: 5px;">
+            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+                <label for="version" style="width: 30%;float:left;">Version/Revision</label>
+                <select id="ddlVersion" name="version" class="form-control" [(ngModel)]="VersionRevision" style="width: 40%;">
+                    <!--<option value="0">select</option>-->
+                    <option value="1">Version</option>
+                    <option value="2">Revision</option>
+                </select>
+                <!--<small *ngIf="(Department.value == 0 || Department.value == '' ) && IdpopupEditClick" class="text-danger">Please select Department.</small>-->
+            </div>
+        </div>
+        <div class="row " style="padding-bottom: 5px;">
+            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+                <label for="txtWhat" style="width: 30%;float:left;">What</label>
+                <input type="text" class="form-control" name="txtWhat" [(ngModel)]="txtWhat" style="width: 40%;"/>
+                <!--<small *ngIf="(Department.value == 0 || Department.value == '' ) && IdpopupEditClick" class="text-danger">Please select Department.</small>-->
+            </div>
+        </div>
+        <div class="row " style="padding-bottom: 5px;">
+            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12" >
+                <label for="txtWhy" style="width: 30%;float:left;">Why</label>
+                <input type="text" class="form-control" name="txtWhy" [(ngModel)]="txtWhy" style="width: 40%;"/>
+                <!--<small *ngIf="(Department.value == 0 || Department.value == '' ) && IdpopupEditClick" class="text-danger">Please select Department.</small>-->
+            </div>
+        </div>
+
+        <div class="row " style="padding-bottom: 5px;">
+            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12" >
+                <label for="txtFile" style="width: 30%;float:left;">Select File</label>
+                <input type="file" class="form-control"  id="btnCheckIn" value="Upload" (change)="CheckInfileChange($event)" class="upload" style="width: 40%;"  />
+            </div>
+        </div>
+
+        <div class="row " style="padding-top: 5px;">
+            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+                <button id="btnUploadRev" type="button" (click)="SaveRevision();modalCheckIn.close();" class="btn-primary" style="margin-left:20%;margin-right">Upload</button>
+                <button id="btnUploadRevClose" [hidden]="true" type="button" (click)="modalCheckIn.close();" class="btn-primary">close button</button>
+                <button id="btnclosemdl" type="button" (click)="modalCheckIn.close();" class="btn-primary">Cancel</button>
+            </div>
+        </div>
+        <!--<input type="file" ng2FileSelect [uploader]="uploader" multiple />--><br />
+    </modal-body>
+
+</modal>
+
 
 <ai-modal #dlteDocmodal modalTitle="Delete Documents" modalContent="Are sure you wish to delete document?" showCancel="true" (modalClicked)='DeleteDoc(id);'></ai-modal>
