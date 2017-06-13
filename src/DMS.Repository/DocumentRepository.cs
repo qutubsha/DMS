@@ -235,5 +235,29 @@ namespace DMS.Repository
             }
             return path;
         }
+
+        public async Task<List<Document>> SearchDocument(string fileName, string Extension, DateTime fromDate,
+                                        DateTime toDate)
+        {
+            List<Document> list;
+            //TODO : Get documents on which user has rights and  are not deleted
+            var doclist = _context.Documents.AsQueryable()
+                             .Where(x => x.IsDeleted.Equals(false));
+
+            if (!string.IsNullOrEmpty(fileName))
+                doclist = doclist.AsQueryable().Where(x => x.FileName.Contains(fileName));
+
+            if (!string.IsNullOrEmpty(Extension))
+                doclist = doclist.AsQueryable().Where(x => x.Extension.Contains(Extension));
+
+            if (fromDate != null)
+                doclist = doclist.AsQueryable().Where(x => x.CreatedOn >= fromDate);
+
+            if (toDate != null && fromDate != DateTime.MinValue)
+                doclist = doclist.AsQueryable().Where(x => x.CreatedOn <= (toDate.AddDays(1)));
+
+            list = doclist.ToList();
+            return list;
+        }
     }
 }

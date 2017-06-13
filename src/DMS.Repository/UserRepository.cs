@@ -160,6 +160,26 @@ namespace DMS.Repository
             return null;
         }
 
+        public async Task<User> UpdateUserDetailsByAdmin(User user)
+        {
+            if (null != user)
+            {
+                if (!string.IsNullOrEmpty(user.FirstName) && !string.IsNullOrEmpty(user.LastName))
+                {
+                    var filter = Builders<User>.Filter.Eq("Email", user.Email);
+                    var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
+                    if (null != objUser)
+                    {
+                        var update = Builders<User>.Update.Set("FirstName", user.FirstName).Set("LastName", user.LastName).Set("IsActive",user.IsActive).Set("IsDeleted", user.IsDeleted);
+                        await _context.Users.UpdateOneAsync(filter, update);
+                        return objUser;
+                    }
+                    return null;
+                }
+            }
+            return null;
+        }
+
         private async Task<User> AuthenticUserLocked(string eMail, string password)
         {
             var filter = Builders<User>.Filter.Eq("Email", eMail);

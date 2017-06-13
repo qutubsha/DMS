@@ -156,5 +156,22 @@ namespace DMS
             return _repository.GetUserList();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<User> UpdateUserDetailsByAdmin(User user)
+        {
+            // Throws null exception if user value is null
+            if (null == user) throw new ArgumentNullException(nameof(user), "User should not be null");
+
+            // Validate user before saving it to database
+
+
+            // returns new user
+            return await _repository.UpdateUserDetailsByAdmin(user);
+        }
+
     }
 }

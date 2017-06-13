@@ -2,7 +2,7 @@
 import { IDocument, Document } from '../document/document';
 import { IAccessHistory, AccessHistory } from '../accesshistory/accesshistory';
 import { IVersionHistory, VersionHistory } from '../versionhistory/versionhistory';
-import { Http, Response, Headers, RequestOptions, ResponseContentType} from '@angular/http';
+import { Http, Response, Headers, RequestOptions, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { PathFinder } from '../path-finder';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -80,119 +80,16 @@ export class DocumentService {
             .catch(err => this.handleError(err));
     }
 
-    //downloadFile(id): Observable<Blob> {
-    //    debugger;
-    //    let options = new RequestOptions({ responseType: ResponseContentType.Blob });
-    //    return this._http.get(this._pathfinder.documentUrl + '/DownloadFile?documentId=1&userId=1', options)
-    //        .map(res => res.blob())
-    //        .catch(this.handleError)
-    //}
-
-    private headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
-
-    //downloadFile(id) {
-    //    //debugger;
-    //    //return this._http.get(this._pathfinder.documentUrl + '/DownloadFile?documentId=1&userId=1', { headers: this.headers })
-    //    //    .map(this.processBlob)
-    //    //    .catch(this.handleError);
-
-    //    let headers = new Headers();
-    //    headers.append('Content-Type', 'application/json');
-    //    headers.append('responseType', 'blob');
-
-    //    return this._http.get(this._pathfinder.documentUrl + '/DownloadFile?documentId=1&userId=1', { headers: headers })
-    //        .map(response => {
-    //            debugger;
-
-    //            if (response.status == 400) {
-    //                this.handleError;
-    //            } else if (response.status == 200) {
-    //                debugger;
-    //                var contentType = response.headers.keys["ContentType"];
-    //                var blob = new Blob([(<any>response)._body], { type: contentType });            // size is 89KB instead of 52KB
-    //                //                    var blob = new Blob([(<any>response).arrayBuffer()], { type: contentType });  // size is 98KB instead of 52KB
-    //                //                    var blob = new Blob([(<any>response).blob()], { type: contentType });         // received Error: The request body isn't either a blob or an array buffer
-    //                return blob;
-    //            }
-    //        })
-    //        .catch(this.handleError);
-    //}
-
-    downloadFile(): Observable<Object[]> {
-        return Observable.create(observer => {
-
-            let xhr = new XMLHttpRequest();
-
-            xhr.open('POST', this._pathfinder.documentUrl + '/DownloadFile?documentId=1&userId=1', true);
-            xhr.setRequestHeader('Content-type', 'application/json');
-            xhr.responseType = 'blob';
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        debugger
-                        var contentType = { type: 'application/pdf' }; //xhr.response.headers.keys["ContentType"];
-                        var blob = new Blob([xhr.response], contentType);
-                        observer.next(blob);
-                        observer.complete();
-                    } else {
-                        observer.error(xhr.response);
-                    }
-                }
-            }
-            xhr.send();
-
-        });
-    }
-
-    down() {
+    downloadFile(documentId: number, currentVersion: number, currentRevision: number, userId: number): Observable<File> {
         let options = new RequestOptions({ responseType: ResponseContentType.Blob });
-        return this._http.get(this._pathfinder.documentUrl + '/down?documentId=1&userId=1', options)
-            .map(this.extractData)
-            //.map((response: Response) => {
-            //    var filename = response.headers['x-filename'];
-            //    var contentType = response.headers['content-type'];
-            //    var blob = new Blob([response], { type: contentType });
-
-            //    <IVersionHistory>response.json()
-            //})
-            .catch(err => this.handleError(err));
-    }
-
-    downloadF(): Observable<File> {
-        //let headers = new Headers({ 'Content-Type': 'application/json', 'MyApp-Application': 'AppName', 'Accept': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });		
-        let options = new RequestOptions({ responseType: ResponseContentType.Blob });
-        return this._http.get(this._pathfinder.documentUrl + '/Docu?documentId=1&userId=1', options)
+        return this._http.get(this._pathfinder.documentUrl + '/DownloadFile?documentId=' + documentId + '&versionId=' + currentVersion + '&revisionId=' + currentRevision + '&userId=' + userId, options)
             .map(this.extractContent)
             .catch(this.handleError);
     }
+
     private extractContent(res: Response) {
-        debugger;
         let blob: Blob = res.blob();
         return blob;
-        //window['saveAs'](blob, 'test.docx');		
-    }
-    private extractData(response: Response): any {
-        debugger;
-        var filename = response.headers['x-filename'];
-        var contentType = response.headers['content-type'];
-        var blob = new Blob([response.blob()], {
-            type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        });
-        return blob;
-    }
-    protected processBlob(response: Response): any {
-        const responseBlob = response.arrayBuffer();
-        const status = response.status;
-        if (status === 200) {
-            let result200: any = null;
-            let resultData200 = responseBlob;
-            result200 = resultData200 !== undefined ? resultData200 : null;
-            return result200;
-        } else if (status !== 200 && status !== 204) {
-            //this.errorHandler.throwException("An unexpected server error occurred.", status, responseBlob);		
-        }
-        return null;
     }
 
     //Error Handling

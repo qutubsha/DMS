@@ -28,5 +28,8 @@ namespace DMS.Abstraction.Documents
         Task<Document> GetDocumentById(int documentId, int loginId);
 
         Task<Document> TagDocument(int documentId, int loginId, string tags);
+
+        Task<List<Document>> SearchDocument(string fileName, string Extension, DateTime fromDate,
+                                        DateTime toDate);
     }
 }

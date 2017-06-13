@@ -21,7 +21,7 @@ export class SecureComponent {
     ) { }
 
     ngOnInit(): void {
-        
+       
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         console.log(this.currentUser.Email)
 

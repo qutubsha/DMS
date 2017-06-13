@@ -76,7 +76,22 @@ export interface IUserDetails {
 
 
 }
+export class EditUserDetails implements IUserDetails {
+    constructor(
+        public Roles: IRole[],
+        public UserId: number,
+        public UserName: string,
+        public Password: string,
+        public RepeatPassword: string,
+        public FirstName: string,
+        public LastName: string,
+        public Email: string,        
+        public IsActive: boolean,
+        public IsDeleted: boolean,
+        public CreatedBy: string
 
+    ) { }
+}
 
 export interface IRole {
     RoleId: number;

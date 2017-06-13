@@ -13,6 +13,8 @@ import { IUser, User } from '../login/login';
 //import * as $ from 'jquery'
 //window['$'] = window['jQuery'] = $;
 import { saveAs as importedSaveAs } from 'file-saver';
+import { PathFinder } from '../path-finder';
+import { FileUpload } from 'primeng/primeng';
 
 @Component({
     templateUrl: './document.component.html',
@@ -45,9 +47,15 @@ export class DocumentComponent {
     private currentRowPrevValue: string = '';
     private downloadUrl: string;
     private downloadFileName: string;
+
     private VersionRevision: number = 1;;
     private txtWhat: string;
     private txtWhy: string;
+
+
+    uploadedFiles: any[] = [];
+    fileUploadUrl = this._pathfinder.documentUrl + "/UploadFiles";
+    userDetails = '';
 
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
@@ -56,6 +64,7 @@ export class DocumentComponent {
     @ViewChild('dlteDocmodal')
     dlteDocmodal: ModalComponent;
     constructor(
+        private _pathfinder: PathFinder,
         private _sharedService: SharedService,
         private router: Router, private _documentservice: DocumentService, private _route: ActivatedRoute) {
     }
@@ -67,6 +76,7 @@ export class DocumentComponent {
             this.router.navigate(['/login']);
         }
         else {
+            this.userDetails = "userId~" + this.loggedInUser.UserId;
             this._route.params.subscribe(
                 params => {
                     let type: string = params['type'];
@@ -209,7 +219,7 @@ export class DocumentComponent {
                 });
         }
     }
-
+    
     private upFilesData: FormData;
     private DocumentId: number;
 
@@ -238,10 +248,10 @@ export class DocumentComponent {
     }
 
     SaveRevision() {
-        
+
         this.busy = this._documentservice.uploadCheckedInFile(this.upFilesData)
             .subscribe(data => {
-               
+
                 this.modal.close();
                 this.GetAllDocuments();
             },
@@ -255,6 +265,20 @@ export class DocumentComponent {
                 this.notificationTitle = 'Files checked in successfully.';
                 this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
             });
+    }
+    onUpload(event) {
+        for (let file of event.files) {
+            this.uploadedFiles.push(file);
+        }
+        this.GetAllDocuments();
+        this.notificationTitle = 'Files uploaded successfully.';
+        this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
+    }
+
+    onError(event) {
+        this.notificationTitle = 'Error in uploading files';
+        this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+
     }
 
     showDlteCOnfirm(docid: number) {
@@ -298,34 +322,46 @@ export class DocumentComponent {
         this.currentRowPrevValue = event.target.outerText.toString();
     }
 
-    DownloadDoc(id, fileName) {
-        
-        this._documentservice.downloadF().subscribe(blob => {
-        
-            //importedSaveAs(blob, '1.docx');
-            var url = URL.createObjectURL(blob);
-            this.downloadUrl = url;
-            this.downloadFileName = '1.docx';
-            //var linkElement = document.createElement('a');
-            //linkElement.setAttribute('id', 'aDownload');
-            //linkElement.setAttribute('href', url);
-            //linkElement.setAttribute("download", '1.docx');
-            document.getElementById('aDownload').click();
+    //DownloadDoc(id, fileName) {
 
-            //var downloadUrl = URL.createObjectURL(blob);
-            //window.open(downloadUrl);
-        });
+    //    this._documentservice.downloadFile().subscribe(blob => {
+
+    //        //importedSaveAs(blob, '1.docx');
+    //        var url = URL.createObjectURL(blob);
+    //        this.downloadUrl = url;
+    //        this.downloadFileName = '1.docx';
+    //        //var linkElement = document.createElement('a');
+    //        //linkElement.setAttribute('id', 'aDownload');
+    //        //linkElement.setAttribute('href', url);
+    //        //linkElement.setAttribute("download", '1.docx');
+    //        document.getElementById('aDownload').click();
+
+    //        //var downloadUrl = URL.createObjectURL(blob);
+    //        //window.open(downloadUrl);
+    //    });
 
 
-        //this._documentservice.downloadFile().subscribe(blob => {
-        //    debugger;
-        //    var downloadUrl = URL.createObjectURL(blob);
-        //    window.open(downloadUrl);
-        //});
-        //.subscribe(blob => {
-        //    debugger;
-        //    importedSaveAs(blob, fileName);
-        //});
+    //    //this._documentservice.downloadFile().subscribe(blob => {
+    //    //    debugger;
+    //    //    var downloadUrl = URL.createObjectURL(blob);
+    //    //    window.open(downloadUrl);
+    //    //});
+    //    //.subscribe(blob => {
+    //    //    debugger;
+    //    //    importedSaveAs(blob, fileName);
+    //    //});
+    //}
+    DownloadDoc(id, fileName, extension, currentVersion, currentRevision) {
+        this.busy = this._documentservice.downloadFile(id, currentVersion, currentRevision, this.loggedInUser.UserId)
+            .subscribe(blob => {
+                importedSaveAs(blob, fileName + extension);
+            },
+            error => {
+                this.errorMessage = <any>error;
+                this.notificationTitle = this.errorMessage;
+                this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            });
+
     }
 }
 
