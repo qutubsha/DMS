@@ -44,7 +44,7 @@ namespace DMS.WebApi.Controllers
 
         [HttpGet]
         [GenerateAntiforgeryTokenCookieForAjax]
-        public IActionResult Get(int loginId,bool showShared)
+        public IActionResult Get(int loginId, bool showShared)
         {
             return Execute(() => Ok(_documentService.GetAllDocuments(showShared, loginId).Result));
         }
@@ -437,6 +437,114 @@ namespace DMS.WebApi.Controllers
             }
             return mediaType.Encoding;
         }
+
+        [HttpPost("uploadCheckedInFile")]
+        //[DisableFormValueModelBinding]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> uploadCheckedInFile()
+        {
+            try
+            {
+                int createdBy = 1;
+                int DocumentId = 1;
+                bool IsRevision = false;
+                string What = "";
+                string Why = "";
+
+                if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
+                {
+                    return BadRequest($"Expected a multipart request, but got {Request.ContentType}");
+                }
+
+                // Used to accumulate all the form url encoded key value pairs in the 
+                // request.
+                var formAccumulator = new KeyValueAccumulator();
+                string targetFilePath = null;
+
+                var boundary = MultipartRequestHelper.GetBoundary(
+                    MediaTypeHeaderValue.Parse(Request.ContentType),
+                    _defaultFormOptions.MultipartBoundaryLengthLimit);
+                var reader = new MultipartReader(boundary, HttpContext.Request.Body);
+
+                var section = await reader.ReadNextSectionAsync();
+                while (section != null)
+                {
+                    ContentDispositionHeaderValue contentDisposition;
+                    var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out contentDisposition);
+
+                    string contentName = contentDisposition.Name.Replace("\"", "");
+                    if (contentName.Contains("userId"))
+                    {
+                        createdBy = Convert.ToInt32(contentName.Split('~')[1].ToString());
+                    }
+                    if (contentName.Contains("documentId"))
+                    {
+                        DocumentId = Convert.ToInt32(contentName.Split('~')[1].ToString());
+                    }
+                    if (contentName.Contains("What"))
+                    {
+                        What = Convert.ToString(contentName.Split('~')[1]);
+                    }
+                    if (contentName.Contains("Why"))
+                    {
+                        Why = Convert.ToString(contentName.Split('~')[1]);
+                    }
+                    if (contentName.Contains("revision"))
+                    {
+                        if (Convert.ToInt32(contentName.Split('~')[1].ToString()) == 1)
+                        {
+                            IsRevision = false;
+                        }
+                        else if (Convert.ToInt32(contentName.Split('~')[1].ToString()) == 2)
+                        {
+                            IsRevision = true;
+                        }
+
+                    }
+
+                    if (hasContentDispositionHeader)
+                    {
+                        if (MultipartRequestHelper.HasFileContentDisposition(contentDisposition))
+                        {
+                            targetFilePath = Path.GetTempPath() + "\\" + contentDisposition.FileName.Replace("\"", "");
+                            using (var targetStream = System.IO.File.Create(targetFilePath))
+                            {
+                                await section.Body.CopyToAsync(targetStream);
+                            }
+
+                            // Saves document details in database
+                            //Document document, [FromBody]byte[] file
+                            byte[] file = new byte[100];
+                            var Extension = Path.GetExtension(targetFilePath);
+                            var FileName = Path.GetFileNameWithoutExtension(targetFilePath);
+
+                            Execute(() => Ok(_documentService.CheckInDocument(DocumentId, Why, What, IsRevision, file, FileName, Extension, createdBy).Status));
+                            //var myTask = _documentService.AddDocument(document, file); // call your method which will return control once it hits await
+                            //string result = myTask.Status.ToString();
+                        }
+
+                    }
+
+                    section = await reader.ReadNextSectionAsync();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            var uploadedData = new UploadedData()
+            {
+                Name = "",
+                Age = 0,
+                Zipcode = 0,
+                FilePath = ""
+            };
+            return Json(uploadedData);
+        }
+
     }
 
     public class GenerateAntiforgeryTokenCookieForAjaxAttribute : ActionFilterAttribute

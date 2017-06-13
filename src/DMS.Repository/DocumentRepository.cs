@@ -133,12 +133,10 @@ namespace DMS.Repository
                     string filePath = CreateDocumentPath(basePath, document.DocumentId, versionId,
                                     revisionId, document.Extension);
                     //TODO : check if filepath is null
+
                     Revision revision = CreateRevision(documentId, fileName, extension, loginId,
                         revisionId, versionId, what, why, filePath);
 
-                    await _context.Revisions.InsertOneAsync(revision);
-
-                    // TODO : Save file on this path 
                     //Update document table accordingly
                     var update = Builders<Document>.Update.Set(s => s.FileName, fileName)
                                                       .Set(s => s.Extension, extension)
@@ -147,6 +145,10 @@ namespace DMS.Repository
                                                       .Set(s => s.LockedBy, null);
 
                     await _context.Documents.UpdateOneAsync(filter, update);
+
+
+                    File.Move(Path.GetTempPath() + "\\" + document.FileName + document.Extension, filePath);
+                    await _context.Revisions.InsertOneAsync(revision);
                 }
             }
             return document;

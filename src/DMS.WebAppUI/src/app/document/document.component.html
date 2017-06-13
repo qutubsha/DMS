@@ -62,9 +62,11 @@
                                             <a (click)="DownloadDoc(item.DocumentId, item.FileName);" style="cursor:pointer" title="download"><span class="glyphicon glyphicon-download"></span></a>
                                             <a (click)="showDlteCOnfirm(item.DocumentId);" style="cursor:pointer" title="delete"><span class="glyphicon glyphicon-remove"></span></a>
                                             <a (click)="LockDoc(item.DocumentId);" style="cursor:pointer" [title]="item.LockStatus">
-                                                <span *ngIf="item.IsDocCheckedOut" class="fa fa-unlock">
-                                                </span>
                                                 <span *ngIf="!item.IsDocCheckedOut" class="glyphicon glyphicon-lock">
+                                                </span>
+                                            </a>
+                                            <a (click)="SetdocumentId(item.DocumentId);modalCheckIn.open();" style="cursor:pointer" [title]="item.LockStatus">
+                                                <span *ngIf="item.IsDocCheckedOut" class="fa fa-unlock">
                                                 </span>
                                             </a>
                                             <a (click)="ViewAccessHistory(item.DocumentId);" title="access history"><span class="fa fa-history"></span></a>
@@ -119,7 +121,7 @@
 <modal #modal class="modal">
     <modal-header [show-close]="true" class="modalheaderCal" id="modalPwdHeader">
         <div>
-            <h4 class="modal-title popup_header">Uplaod Multiple Files </h4>
+            <h4 class="modal-title popup_header">Upload Multiple Files </h4>
         </div>
     </modal-header>
     <modal-body>
@@ -128,5 +130,58 @@
     </modal-body>
 
 </modal>
+
+<modal #modalCheckIn class="modal">
+    <modal-header [show-close]="true" class="modalheaderCal" id="modalPwdHeader">
+        <div>
+            <h4 class="modal-title popup_header">Upload Document</h4>
+        </div>
+    </modal-header>
+    <modal-body>
+        <div class="row " style="padding-bottom: 5px;">
+            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+                <label for="version" style="width: 30%;float:left;">Version/Revision</label>
+                <select id="ddlVersion" name="version" class="form-control" [(ngModel)]="VersionRevision" style="width: 40%;">
+                    <!--<option value="0">select</option>-->
+                    <option value="1">Version</option>
+                    <option value="2">Revision</option>
+                </select>
+                <!--<small *ngIf="(Department.value == 0 || Department.value == '' ) && IdpopupEditClick" class="text-danger">Please select Department.</small>-->
+            </div>
+        </div>
+        <div class="row " style="padding-bottom: 5px;">
+            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+                <label for="txtWhat" style="width: 30%;float:left;">What</label>
+                <input type="text" class="form-control" name="txtWhat" [(ngModel)]="txtWhat" style="width: 40%;"/>
+                <!--<small *ngIf="(Department.value == 0 || Department.value == '' ) && IdpopupEditClick" class="text-danger">Please select Department.</small>-->
+            </div>
+        </div>
+        <div class="row " style="padding-bottom: 5px;">
+            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12" >
+                <label for="txtWhy" style="width: 30%;float:left;">Why</label>
+                <input type="text" class="form-control" name="txtWhy" [(ngModel)]="txtWhy" style="width: 40%;"/>
+                <!--<small *ngIf="(Department.value == 0 || Department.value == '' ) && IdpopupEditClick" class="text-danger">Please select Department.</small>-->
+            </div>
+        </div>
+
+        <div class="row " style="padding-bottom: 5px;">
+            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12" >
+                <label for="txtFile" style="width: 30%;float:left;">Select File</label>
+                <input type="file" class="form-control" id="btnCheckIn" value="Upload" (change)="CheckInfileChange($event)" class="upload" style="width: 40%;"  />
+            </div>
+        </div>
+
+        <div class="row " style="padding-top: 5px;">
+            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+                <button id="btnUploadRev" type="button" (click)="SaveRevision();modalCheckIn.close();" class="fr-btn" style="margin-left:20%;margin-right">Upload</button>
+                <button id="btnUploadRevClose" [hidden]="true" type="button" (click)="modalCheckIn.close();" class="fr-btn">close button</button>
+                <button id="btnclosemdl" type="button" (click)="modalCheckIn.close();" class="fr-btn">Cancel</button>
+            </div>
+        </div>
+        <!--<input type="file" ng2FileSelect [uploader]="uploader" multiple />--><br />
+    </modal-body>
+
+</modal>
+
 
 <ai-modal #dlteDocmodal modalTitle="Delete Documents" modalContent="Are sure you wish to delete document?" showCancel="true" (modalClicked)='DeleteDoc(id);'></ai-modal>

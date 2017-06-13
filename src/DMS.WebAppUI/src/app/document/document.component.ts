@@ -45,6 +45,9 @@ export class DocumentComponent {
     private currentRowPrevValue: string = '';
     private downloadUrl: string;
     private downloadFileName: string;
+    private VersionRevision: number = 1;;
+    private txtWhat: string;
+    private txtWhy: string;
 
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
@@ -207,6 +210,53 @@ export class DocumentComponent {
         }
     }
 
+    private upFilesData: FormData;
+    private DocumentId: number;
+
+    CheckInfileChange(event) {
+        let fileList: FileList = event.target.files;
+        if (fileList.length > 0) {
+            let formData: FormData = new FormData();
+            formData.append("userId~" + this.loggedInUser.UserId, 1);
+            formData.append("documentId~" + this.DocumentId, 1);
+            formData.append("What~" + this.txtWhat, 1);
+            formData.append("Why~" + this.txtWhy, 1);
+            formData.append("revision~" + this.VersionRevision, 1);
+            for (let i = 0; i < fileList.length; i++) {
+                let file: File = fileList[i];
+                formData.append('uploadFile', file, file.name);
+            }
+        //    event.srcElement.value = "";
+            this.upFilesData = formData;
+        }
+    }
+
+    SetdocumentId(docid) {
+        this.DocumentId = docid;
+        this.txtWhat = '';
+        this.txtWhy = '';
+    }
+
+    SaveRevision() {
+        
+        this.busy = this._documentservice.uploadCheckedInFile(this.upFilesData)
+            .subscribe(data => {
+               
+                this.modal.close();
+                this.GetAllDocuments();
+            },
+            error => {
+                this.modal.close();
+                this.errorMessage = <any>error;
+                this.notificationTitle = this.errorMessage;
+                this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            },
+            () => {
+                this.notificationTitle = 'Files checked in successfully.';
+                this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
+            });
+    }
+
     showDlteCOnfirm(docid: number) {
         this.selectedDocId = docid;
         this.dlteDocmodal.open();
@@ -249,9 +299,9 @@ export class DocumentComponent {
     }
 
     DownloadDoc(id, fileName) {
-        debugger;
+        
         this._documentservice.downloadF().subscribe(blob => {
-            debugger;
+        
             //importedSaveAs(blob, '1.docx');
             var url = URL.createObjectURL(blob);
             this.downloadUrl = url;
