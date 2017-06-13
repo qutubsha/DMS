@@ -23,6 +23,7 @@
         "assets/css/bootstrap.min.css",
         "assets/css/sb-admin.css",
         "assets/css/plugins/morris.css",
+        "assets/css/busy.css",
         "../node_modules/primeng/resources/primeng.min.css",
         "../node_modules/quill/dist/quill.core.css",
         "../node_modules/quill/dist/quill.snow.css",

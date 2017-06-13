@@ -159,7 +159,7 @@
                 <h1 class="logo-text">Document Management System</h1>
             </div>
         </div>
-        <div class="row main">
+        <div class="row main"  [ngBusy]="busy">
             <div class="main-login main-center">
                 <form #form="ngForm" novalidate (ngSubmit)="form.submitted && form.valid && submitForm($event)">
                     <div class="form-group">
