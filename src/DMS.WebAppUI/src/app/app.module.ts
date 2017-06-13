@@ -27,6 +27,7 @@ import { EditEmailTemplateModule } from './email-template/edit-email-template.mo
 import { UserModule } from './user-profile/manage-user.module';
 import { ConfigurationSettingsModule } from './configuration-settings/configuration-settings.module';
 import { DocAdvanceSearchModule } from './doc-advance-search/doc-advance-search.module';
+import { SharedDocumentModule } from './shared-document/shared-document.module';
 @NgModule({
     declarations: [
         AppComponent,
@@ -55,7 +56,8 @@ import { DocAdvanceSearchModule } from './doc-advance-search/doc-advance-search.
         EditEmailTemplateModule,
         UserModule,
         ConfigurationSettingsModule,
-        DocAdvanceSearchModule
+        DocAdvanceSearchModule,
+        SharedDocumentModule
     ],
     providers: [
         AuthGuard,

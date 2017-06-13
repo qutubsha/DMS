@@ -26,7 +26,9 @@
     "NLog.Web.AspNetCore": "4.4.0",
     "Swashbuckle.AspNetCore": "1.0.0",
     "Microsoft.AspNetCore.Cors": "1.0.0",
-    "System.Runtime": "4.3.0"
+    "System.Runtime": "4.3.0",
+    "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.0.1",
+    "MimeMapping": "0.1.5"
   },
   "frameworks": {
     "netcoreapp1.0": {

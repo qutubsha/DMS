@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DMS.Validator;
 using DMS.Abstraction;
 using DMS.Abstraction.Roles;
 
@@ -9,6 +8,8 @@ namespace DMS
 {
     public class RoleService : IRoleService
     {
+        private static RoleValidator RoleValidator { get; } = new RoleValidator();
+
         /// <summary>
         /// Private IRoleRepository variable
         /// </summary>
@@ -34,11 +35,21 @@ namespace DMS
 
         public IRole AddRole(Role role)
         {
+            // Throws null exception if role value is null
+            if (role == null) throw new ArgumentNullException(nameof(role), "Role should not be null");
+
+            // Validate Role before saving it to database
+            RoleValidator.IsValid(role);
             return _roleRepository.AddRole(role);
         }
 
         public IRole UpdateRole(Role role)
         {
+            // Throws null exception if role value is null
+            if (role == null) throw new ArgumentNullException(nameof(role), "Role should not be null");
+
+            // Validate Role before saving it to database
+            RoleValidator.IsValid(role);
             return _roleRepository.UpdateRole(role);
         }
 

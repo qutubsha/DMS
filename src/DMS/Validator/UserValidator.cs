@@ -14,7 +14,7 @@ namespace DMS.Validator
         /// </summary>
         public UserValidator()
         {
-            RuleFor(p => p.Email).NotEmpty();
+            RuleFor(p => p.Email).NotNull().NotEmpty();
            // RuleFor(p => p.UserName).NotEmpty();
           // RuleFor(p => p.UserName).Length(1, 5);
             RuleFor(p => p.Password).NotEmpty();
@@ -28,7 +28,13 @@ namespace DMS.Validator
         public void IsValid(IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            this.ValidateAndThrow(user);
+            var result=this.Validate(user);
+            if(result.Errors.Count > 0)
+            {
+                throw new Exception(result.Errors[0].ErrorMessage);
+            }
+            //this.ValidateAndThrow(user);
+            //this.ValidateAndThrowAsync(user);
         }
 
     }

@@ -70,5 +70,12 @@ namespace DMS.Abstraction
         /// <returns></returns>
         List<IUser> GetUserList();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<User> UpdateUserDetailsByAdmin(User user);
+
     }
 }

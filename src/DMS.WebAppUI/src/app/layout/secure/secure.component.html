@@ -25,6 +25,7 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
+                <li style="color:white;padding-top:15px;">{{currentUser.FirstName}} {{currentUser.LastName}}</li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
                     <ul class="dropdown-menu message-dropdown">
@@ -137,19 +138,16 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#dm"><i class="fa fa-fw fa-file-text-o"></i> Document Mgmt <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="dm" class="collapse">
                             <li>
-                                <a routerLink="/document" routerLinkActive="active">Document List(All)</a>
-                            </li>
-                            <li>
                                 <a routerLink="/document/personal" routerLinkActive="active">Personal Documents</a>
                             </li>
                             <li>
-                                <a routerLink="/document/shared" routerLinkActive="active">Shared Documents</a>
+                                <a routerLink="/document/public" routerLinkActive="active">Public Documents</a>
                             </li>
                             <li>
-                                <a href="#">Shared With Me</a>
+                                <a routerLink="/shared-documents/mine" routerLinkActive="active">Shared With Me</a>
                             </li>
                             <li>
-                                <a href="#">Shared By Me</a>
+                                <a routerLink="/shared-documents/others" routerLinkActive="active">Shared By Me</a>
                             </li>
                         </ul>
                     </li>

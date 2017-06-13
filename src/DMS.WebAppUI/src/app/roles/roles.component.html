@@ -17,7 +17,7 @@
                             <div class="col-lg-4 col-md-4">
                                 <div class="form-group" [ngClass]="(RoleName.errors && (RoleName.dirty || RoleName.touched))?'has-error':''">
                                     <label class="control-label">Role Name</label>
-                                    <input type="text" required [(ngModel)]="singleRole.RoleName" #RoleName="ngModel" class="form-control" name="RoleName" />
+                                    <input type="text" required [(ngModel)]="singleRole.RoleName" #RoleName="ngModel" maxlength="255" class="form-control" name="RoleName" />
                                     <span class="help-block">
                                         <span *ngIf="RoleName.errors && (RoleName.dirty || RoleName.touched)">
                                             <span [hidden]="!RoleName.errors.required">
@@ -93,7 +93,7 @@
                                         <td>{{item.CreatedOn | date: 'shortDate' }}</td>
                                         <td>
                                             <a (click)="EditRole(item);" style="cursor:pointer">
-                                                <span class="glyphicon glyphicon-edit" title="Edit"></span>
+                                                <span class="glyphicon glyphicon-edit" title="edit"></span>
                                             </a>
                                         </td>
                                     </tr>

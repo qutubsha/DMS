@@ -76,7 +76,22 @@ export interface IUserDetails {
 
 
 }
+export class EditUserDetails implements IUserDetails {
+    constructor(
+        public Roles: IRole[],
+        public UserId: number,
+        public UserName: string,
+        public Password: string,
+        public RepeatPassword: string,
+        public FirstName: string,
+        public LastName: string,
+        public Email: string,        
+        public IsActive: boolean,
+        public IsDeleted: boolean,
+        public CreatedBy: string
 
+    ) { }
+}
 
 export interface IRole {
     RoleId: number;
@@ -87,6 +102,33 @@ export interface IRole {
    
 }
 
+export interface IUserImage {
+    ImageID: number;
+    Image1: any;
+    ContentType: string;
+    FileName: string;
+    CreatedOn: string;
+    ConvertedImage: string;
+}
+
+export class UserImage implements IUserImage {
+    constructor(
+        public ImageID: number,
+        public Image1: any,
+        public ContentType: string,
+        public FileName: string,
+        public CreatedOn: string,
+        public ConvertedImage: string
+    ) { }
+}
+
+export interface FileReaderEventTarget extends EventTarget {
+    result: string
+}
+export interface FileReaderEvent extends Event {
+    target: FileReaderEventTarget;
+    getMessage(): string;
+}
 //export interface IUser {
 
 //    userid: number;

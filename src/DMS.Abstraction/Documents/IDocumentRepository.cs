@@ -21,7 +21,7 @@ namespace DMS.Abstraction.Documents
                                         bool isNewRevision, byte[] file,
                                         string fileName, string extension, int loginId);
 
-        Task<List<Document>> GetAllDocuments(bool? IsShared, int loginId);
+        Task<List<Document>> GetAllDocuments(bool IsShared, int loginId);
 
         Task<List<Revision>> GetVersionDetails(int IsShared, int loginId);
 

@@ -61,7 +61,6 @@ export class AdvanceSearch implements IAdvanceSearch {
 }
 
 export enum DocType {
-    All,
     Personal,
-    Shared
+    Public
 }
