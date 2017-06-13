@@ -45,6 +45,21 @@ export class Document implements IDocument {
 
 }
 
+export interface IAdvanceSearch {
+    FileName: string;
+    Extension: string;  
+    FromDate: Date;
+    ToDate: Date;
+}
+export class AdvanceSearch implements IAdvanceSearch {
+    constructor(
+        public FileName: string,
+        public Extension: string,
+        public FromDate: Date,
+        public ToDate : Date
+    ) { }
+}
+
 export enum DocType {
     All,
     Personal,

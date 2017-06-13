@@ -84,6 +84,13 @@ namespace DMS.WebApi.Controllers
             return Execute(() => Ok(_documentService.GetDocumentById(id, loginId).Result));
         }
 
+        [HttpGet("searchdocuments")]
+        public IActionResult GetDocumentById(string fileName, string Extension,DateTime fromDate, DateTime toDate)
+        {
+            //TODO : Check permission, validate request
+            return Execute(() => Ok(_documentService.SearchDocument(fileName, Extension, fromDate, toDate).Result));
+        }
+
         [HttpPost("versions/add")]
         public IActionResult CheckInDocument(int documentId, string why, string what,
                                         bool isNewRevision, [FromBody]byte[] file, string fileName,

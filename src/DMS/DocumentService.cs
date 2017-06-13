@@ -103,5 +103,10 @@ namespace DMS
 
             return accessHistory;
         }
+        public async Task<List<Document>> SearchDocument(string fileName, string Extension, DateTime fromDate,
+                                        DateTime toDate)
+        {
+            return await _repository.SearchDocument(fileName, Extension, fromDate, toDate);
+        }
     }
 }
