@@ -1,28 +1,28 @@
-﻿/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+﻿///* tslint:disable:no-unused-variable */
+//import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+//import { By } from '@angular/platform-browser';
+//import { DebugElement } from '@angular/core';
 
-import { ModalComponent } from './modal.component';
+//import { CommonModalComponent } from './modal.component';
 
-describe('ModalComponent', () => {
-    let component: ModalComponent;
-    let fixture: ComponentFixture<ModalComponent>;
+//describe('ModalComponent', () => {
+//    let component: CommonModalComponent;
+//    let fixture: ComponentFixture<CommonModalComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [ModalComponent]
-        })
-            .compileComponents();
-    }));
+//    beforeEach(async(() => {
+//        TestBed.configureTestingModule({
+//            declarations: [CommonModalComponent]
+//        })
+//            .compileComponents();
+//    }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(ModalComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+//    beforeEach(() => {
+//        fixture = TestBed.createComponent(CommonModalComponent);
+//        component = fixture.componentInstance;
+//        fixture.detectChanges();
+//    });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
-    });
-});
+//    it('should create', () => {
+//        expect(component).toBeTruthy();
+//    });
+//});

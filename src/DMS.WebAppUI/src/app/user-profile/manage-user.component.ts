@@ -1,6 +1,6 @@
 ﻿import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IUserRegistration, UserRegistration, IUser, IUserDetails} from '../login/login';
+import { IUserRegistration, UserRegistration, IUser, IUserDetails } from '../login/login';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
@@ -28,7 +28,7 @@ export class UserComponent {
         private _userService: UserService
     ) { }
 
-    ngOnInit(){
+    ngOnInit() {
         //this.userdetailsdata= {
         //     ,
         //    Password: '',
@@ -48,9 +48,17 @@ export class UserComponent {
         this.busy = this._userService.getuserlist()
             .subscribe(data => {
                 this.userdetailsdata = data;
-               this.data = data;
+                this.data = data;
             },
             error => this.errorMessage = <any>error);
     }
 
+
+
+}
+
+export function Calculate(no) {
+    if (no > 0)
+        return no + 1;
+    else return 0;
 }
