@@ -6,9 +6,13 @@ import { Subscription } from 'rxjs';
 import { DocumentService } from '../services/document.service';
 import {DataTable } from "angular2-datatable";
 import { GlobalVariable, IDictionary } from '../shared/global';
-
+import { saveAs as importedSaveAs } from 'file-saver';
+import { IUser, User } from '../login/login';
+import { SharedService } from '../shared/shared.service';
+    
 @Component({
     templateUrl: './versionhistory.component.html',
+    providers: [SharedService]
 })
 
 export class VersionHistoryComponent {
@@ -31,24 +35,32 @@ export class VersionHistoryComponent {
     private whyFilter = '';
     private filters: IDictionary[];
     private docid: number;
+    private loggedInUser: IUser;
 
     //private currentUser: IUser;
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
 
     // default constructor of the AccessHistory class, initiate Document service here
-    constructor(private router: Router, private _documentservice: DocumentService, private _route: ActivatedRoute) {
+    constructor(private _sharedService: SharedService, private router: Router, private _documentservice: DocumentService, private _route: ActivatedRoute) {
     }
 
     // onInit method for the AccessHistory class, initialize AccessHistory data used for binding UI form fields, 
     // call getAccessHistorys service for binding list AccessHistory 
     ngOnInit(): void {
-        this._route.params.subscribe(
-            params => {
-                let id = +params['id'];
-                this.docid = id;
-            });
-        this.getVersionHistory();
+        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (this.loggedInUser == null) {
+            localStorage.removeItem('currentUser');
+            this.router.navigate(['/login']);
+        }
+        else {
+            this._route.params.subscribe(
+                params => {
+                    let id = +params['id'];
+                    this.docid = id;
+                });
+            this.getVersionHistory();
+        }
     }
 
     getVersionHistory() {
@@ -104,6 +116,18 @@ export class VersionHistoryComponent {
 
     public resetPagination() {
         this.mf.setPage(1, this.mf.rowsOnPage);
+    }
+
+    DownloadDoc(fileName, extension, currentVersion, currentRevision) {
+        this.busy = this._documentservice.downloadFile(this.docid, currentVersion, currentRevision, this.loggedInUser.UserId)
+            .subscribe(blob => {
+                importedSaveAs(blob, fileName + extension);
+            },
+            error => {
+                this.errorMessage = <any>error;
+                this.notificationTitle = this.errorMessage;
+                this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            });
     }
 }
 

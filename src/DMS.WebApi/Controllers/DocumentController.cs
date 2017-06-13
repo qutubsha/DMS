@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using DMS.WebApi.Class;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using DMS.Repository;
-using DMS.Abstraction.Documents;
 using DMS.Abstraction;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +17,7 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Http.Features;
 using System.Text;
-using System.Globalization;
+using System.Collections.Generic;
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DMS.WebApi.Controllers
@@ -29,6 +26,7 @@ namespace DMS.WebApi.Controllers
     public class DocumentController : BaseController<DocumentController>
     {
         readonly DocumentService _documentService;
+        public static string fileUploadPath;
         private static readonly FormOptions _defaultFormOptions = new FormOptions();
 
         public DocumentController(ILogger<DocumentController> logger, IOptions<Settings> settings) : base(logger)
@@ -36,11 +34,11 @@ namespace DMS.WebApi.Controllers
             var repository = new DocumentRepository(settings);
             var accessrepository = new DocumentAccessHistoryRepository(settings);
             _documentService = new DocumentService(repository, accessrepository);
+            fileUploadPath = settings.Value.FileUploadPath;
         }
 
         [HttpGet]
-        [GenerateAntiforgeryTokenCookieForAjax]
-        public IActionResult Get(int loginId,bool? showShared)
+        public IActionResult Get(int loginId,bool showShared)
         {
             return Execute(() => Ok(_documentService.GetAllDocuments(showShared, loginId).Result));
         }
@@ -115,70 +113,15 @@ namespace DMS.WebApi.Controllers
             return Execute(() => Ok(_documentService.GetVersionDetails(id, loginId).Result));
         }
 
-        //[HttpPost("UploadFiles")]
-        //public HttpResponseMessage UploadJsonFile(int userId)
-        //{
-        //    HttpResponseMessage response = new HttpResponseMessage();
-
-        //    var httpRequest = HttpContext.Request;
-        //    if (httpRequest.Form.Files.Count > 0)
-        //    {
-        //        long size = httpRequest.Form.Files.Sum(f => f.Length);
-        //        foreach (var formFile in httpRequest.Form.Files)
-        //        {
-        //            IFormFile postedFile = httpRequest.Form.Files[formFile.Name];
-        //            var filePath1 = Path.GetTempPath() + "\\" + formFile.FileName;
-        //            if (formFile.Length > 0)
-        //            {
-        //                using (var stream = new FileStream(filePath1, FileMode.Create))
-        //                {
-        //                    formFile.CopyToAsync(stream);
-        //                }
-
-        //                // Saves document details in database
-        //                //Document document, [FromBody]byte[] file
-        //                byte[] file = new byte[100];
-        //                var document = new Document()
-        //                {
-        //                    CreatedBy = userId,
-        //                    CurrentRevision = 1,
-        //                    CurrentVersion = 1,
-        //                    Extension = Path.GetExtension(filePath1),
-        //                    FileName = Path.GetFileNameWithoutExtension(filePath1),
-        //                };
-        //                var myTask = _documentService.AddDocument(document, file); // call your method which will return control once it hits await
-        //                string result = myTask.Status.ToString();
-        //            }
-        //        }
-        //    }
-        //    return response;
-        //}
-
-        // 1. Disable the form value model binding here to take control of handling 
-        //    potentially large files.
-        // 2. Typically antiforgery tokens are sent in request body, but since we 
-        //    do not want to read the request body early, the tokens are made to be 
-        //    sent via headers. The antiforgery token filter first looks for tokens
-        //    in the request header and then falls back to reading the body.
-
-
         [HttpPost("UploadFiles")]
-        //[DisableFormValueModelBinding]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadJsonFile()
         {
             try
             {
                 int createdBy = 1;
-
                 if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
-                {
                     return BadRequest($"Expected a multipart request, but got {Request.ContentType}");
-                }
 
-                // Used to accumulate all the form url encoded key value pairs in the 
-                // request.
-                var formAccumulator = new KeyValueAccumulator();
                 string targetFilePath = null;
 
                 var boundary = MultipartRequestHelper.GetBoundary(
@@ -194,9 +137,7 @@ namespace DMS.WebApi.Controllers
 
                     string contentName = contentDisposition.Name.Replace("\"", "");
                     if (contentName.Contains("userId"))
-                    {
                         createdBy = Convert.ToInt32(contentName.Split('~')[1].ToString());
-                    }
 
                     if (hasContentDispositionHeader)
                     {
@@ -209,7 +150,6 @@ namespace DMS.WebApi.Controllers
                             }
 
                             // Saves document details in database
-                            //Document document, [FromBody]byte[] file
                             byte[] file = new byte[100];
                             var document = new Document()
                             {
@@ -220,67 +160,16 @@ namespace DMS.WebApi.Controllers
                                 FileName = Path.GetFileNameWithoutExtension(targetFilePath),
                             };
                             Execute(() => Ok(_documentService.AddDocument(document, file).Status));
-                            //var myTask = _documentService.AddDocument(document, file); // call your method which will return control once it hits await
-                            //string result = myTask.Status.ToString();
                         }
-                        //else if (MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition))
-                        //{
-                        //    // Content-Disposition: form-data; name="key"
-                        //    //
-                        //    // value
-
-                        //    // Do not limit the key name length here because the 
-                        //    // multipart headers length limit is already in effect.
-                        //    var key = HeaderUtilities.RemoveQuotes(contentDisposition.Name);
-                        //    var encoding = GetEncoding(section);
-                        //    using (var streamReader = new StreamReader(
-                        //        section.Body,
-                        //        encoding,
-                        //        detectEncodingFromByteOrderMarks: true,
-                        //        bufferSize: 1024,
-                        //        leaveOpen: true))
-                        //    {
-                        //        // The value length limit is enforced by MultipartBodyLengthLimit
-                        //        var value = await streamReader.ReadToEndAsync();
-                        //        if (String.Equals(value, "undefined", StringComparison.OrdinalIgnoreCase))
-                        //        {
-                        //            value = String.Empty;
-                        //        }
-                        //        formAccumulator.Append(key, value);
-
-                        //        if (formAccumulator.ValueCount > _defaultFormOptions.ValueCountLimit)
-                        //        {
-                        //            throw new InvalidDataException($"Form key count limit {_defaultFormOptions.ValueCountLimit} exceeded.");
-                        //        }
-                        //    }
-                        //}
                     }
 
                     // Drains any remaining section body that has not been consumed and
                     // reads the headers for the next section.
                     section = await reader.ReadNextSectionAsync();
                 }
-
-                // Bind form data to a model
-                //var user = new User();
-                //var formValueProvider = new FormValueProvider(
-                //    BindingSource.Form,
-                //    new FormCollection(formAccumulator.GetResults()),
-                //    CultureInfo.CurrentCulture);
-
-                //var bindingSuccessful = await TryUpdateModelAsync(user, prefix: "",
-                //    valueProvider: formValueProvider);
-                //if (!bindingSuccessful)
-                //{
-                //    if (!ModelState.IsValid)
-                //    {
-                //        return BadRequest(ModelState);
-                //    }
-                //}
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             var uploadedData = new UploadedData()
@@ -293,60 +182,20 @@ namespace DMS.WebApi.Controllers
             return Json(uploadedData);
         }
 
-        private static Encoding GetEncoding(MultipartSection section)
+        [HttpGet("DownloadFile")]
+        public async Task<IActionResult> DownloadFile(int documentId, int versionId, int revisionId, int userId)
         {
-            MediaTypeHeaderValue mediaType;
-            var hasMediaTypeHeader = MediaTypeHeaderValue.TryParse(section.ContentType, out mediaType);
-            // UTF-7 is insecure and should not be honored. UTF-8 will succeed in 
-            // most cases.
-            if (!hasMediaTypeHeader || Encoding.UTF7.Equals(mediaType.Encoding))
+            Document document = await _documentService.GetDocumentById(documentId, userId);
+            string filePath = fileUploadPath + "\\" + documentId + "\\" + versionId + "\\" + revisionId + document.Extension;
+            var stream = new MemoryStream();
+            using (var file = System.IO.File.OpenRead(filePath))
             {
-                return Encoding.UTF8;
+                file.CopyTo(stream);
             }
-            return mediaType.Encoding;
-        }
-    }
+            stream.Position = 0;
 
-    public class GenerateAntiforgeryTokenCookieForAjaxAttribute : ActionFilterAttribute
-    {
-        public override void OnActionExecuted(ActionExecutedContext context)
-        {
-            var antiforgery = context.HttpContext.RequestServices.GetService<IAntiforgery>();
-
-            // We can send the request token as a JavaScript-readable cookie, 
-            // and Angular will use it by default.
-            var tokens = antiforgery.GetAndStoreTokens(context.HttpContext);
-            context.HttpContext.Response.Cookies.Append(
-                "XSRF-TOKEN",
-                tokens.RequestToken,
-                new CookieOptions() { HttpOnly = false });
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class DisableFormValueModelBindingAttribute : Attribute, IResourceFilter
-    {
-        public void OnResourceExecuting(ResourceExecutingContext context)
-        {
-            var formValueProviderFactory = context.ValueProviderFactories
-                .OfType<FormValueProviderFactory>()
-                .FirstOrDefault();
-            if (formValueProviderFactory != null)
-            {
-                context.ValueProviderFactories.Remove(formValueProviderFactory);
-            }
-
-            var jqueryFormValueProviderFactory = context.ValueProviderFactories
-                .OfType<JQueryFormValueProviderFactory>()
-                .FirstOrDefault();
-            if (jqueryFormValueProviderFactory != null)
-            {
-                context.ValueProviderFactories.Remove(jqueryFormValueProviderFactory);
-            }
-        }
-
-        public void OnResourceExecuted(ResourceExecutedContext context)
-        {
+            var response = File(stream, "application/octet-stream"); // FileStreamResult
+            return response;
         }
     }
 

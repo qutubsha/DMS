@@ -11,13 +11,15 @@ import { MultiselectDropdownModule } from './multiselect-dropdown';
 import { MultiselectListModule } from './multiselect-list';
 import { RecaptchaModule } from 'ng2-recaptcha';
 import { CommonModalComponent } from '../modal/modal.component';
+import { FileUploadModule } from 'primeng/primeng';
 
 @NgModule({
     imports: [
         Ng2Bs3ModalModule,
         CommonModule,
         SimpleNotificationsModule,
-        RecaptchaModule.forRoot()
+        RecaptchaModule.forRoot(),
+        FileUploadModule
     ],
     declarations: [EqualValidator, CommonModalComponent],
     exports: [
@@ -32,7 +34,8 @@ import { CommonModalComponent } from '../modal/modal.component';
         MultiselectDropdownModule,
         MultiselectListModule,
         RecaptchaModule,
-        CommonModalComponent
+        CommonModalComponent,
+        FileUploadModule
     ]
 })
 export class SharedModule {
