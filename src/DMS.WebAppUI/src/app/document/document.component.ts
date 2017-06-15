@@ -47,9 +47,16 @@ export class DocumentComponent {
     private currentRowPrevValue: string = '';
     private downloadUrl: string;
     private downloadFileName: string;
+
+    private VersionRevision: number = 1;;
+    private txtWhat: string;
+    private txtWhy: string;
+
+
     uploadedFiles: any[] = [];
     fileUploadUrl = this._pathfinder.documentUrl + "/UploadFiles";
     userDetails = '';
+
     busy: Subscription;
     @ViewChild('mf') mf: DataTable;
     @ViewChild('modal')
@@ -212,7 +219,53 @@ export class DocumentComponent {
                 });
         }
     }
+    
+    private upFilesData: FormData;
+    private DocumentId: number;
 
+    CheckInfileChange(event) {
+        let fileList: FileList = event.target.files;
+        if (fileList.length > 0) {
+            let formData: FormData = new FormData();
+            formData.append("userId~" + this.loggedInUser.UserId, 1);
+            formData.append("documentId~" + this.DocumentId, 1);
+            formData.append("What~" + this.txtWhat, 1);
+            formData.append("Why~" + this.txtWhy, 1);
+            formData.append("revision~" + this.VersionRevision, 1);
+            for (let i = 0; i < fileList.length; i++) {
+                let file: File = fileList[i];
+                formData.append('uploadFile', file, file.name);
+            }
+        //    event.srcElement.value = "";
+            this.upFilesData = formData;
+        }
+    }
+
+    SetdocumentId(docid) {
+        this.DocumentId = docid;
+        this.txtWhat = '';
+        this.txtWhy = '';
+    }
+
+    SaveRevision() {
+
+        this.busy = this._documentservice.uploadCheckedInFile(this.upFilesData)
+            .subscribe(data => {
+
+                this.modal.close();
+                this.GetAllDocuments();
+            },
+            error => {
+                this.modal.close();
+                this.errorMessage = <any>error;
+                this.notificationTitle = this.errorMessage;
+                this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            },
+            () => {
+                this.notificationTitle = 'Files checked in successfully.';
+                this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
+            });
+    }
     onUpload(event) {
         for (let file of event.files) {
             this.uploadedFiles.push(file);
@@ -225,6 +278,7 @@ export class DocumentComponent {
     onError(event) {
         this.notificationTitle = 'Error in uploading files';
         this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+
     }
 
     showDlteCOnfirm(docid: number) {
@@ -268,6 +322,35 @@ export class DocumentComponent {
         this.currentRowPrevValue = event.target.outerText.toString();
     }
 
+    //DownloadDoc(id, fileName) {
+
+    //    this._documentservice.downloadFile().subscribe(blob => {
+
+    //        //importedSaveAs(blob, '1.docx');
+    //        var url = URL.createObjectURL(blob);
+    //        this.downloadUrl = url;
+    //        this.downloadFileName = '1.docx';
+    //        //var linkElement = document.createElement('a');
+    //        //linkElement.setAttribute('id', 'aDownload');
+    //        //linkElement.setAttribute('href', url);
+    //        //linkElement.setAttribute("download", '1.docx');
+    //        document.getElementById('aDownload').click();
+
+    //        //var downloadUrl = URL.createObjectURL(blob);
+    //        //window.open(downloadUrl);
+    //    });
+
+
+    //    //this._documentservice.downloadFile().subscribe(blob => {
+    //    //    debugger;
+    //    //    var downloadUrl = URL.createObjectURL(blob);
+    //    //    window.open(downloadUrl);
+    //    //});
+    //    //.subscribe(blob => {
+    //    //    debugger;
+    //    //    importedSaveAs(blob, fileName);
+    //    //});
+    //}
     DownloadDoc(id, fileName, extension, currentVersion, currentRevision) {
         this.busy = this._documentservice.downloadFile(id, currentVersion, currentRevision, this.loggedInUser.UserId)
             .subscribe(blob => {
@@ -278,6 +361,7 @@ export class DocumentComponent {
                 this.notificationTitle = this.errorMessage;
                 this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
             });
+
     }
 }
 

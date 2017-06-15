@@ -54,6 +54,16 @@ export class DocumentService {
             .catch(error => Observable.throw(error));
     }
 
+    uploadCheckedInFile(formData): any {
+        let headers = new Headers()
+        //headers.append('Content-Type', 'json');  
+        headers.append('Accept', 'text/plain');
+        let options = new RequestOptions({ headers: headers });
+        return this._http.post(this._pathfinder.documentUrl + "/uploadCheckedInFile", formData, options)
+            .map(res => res.json())
+            .catch(error => Observable.throw(error));
+    }
+
     deleteDocument(documentId: number, loginId: number): any {
         let headers = new Headers()
         //headers.append('Content-Type', 'json');  

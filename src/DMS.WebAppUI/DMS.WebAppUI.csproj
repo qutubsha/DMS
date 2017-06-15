@@ -168,6 +168,7 @@
     <TypeScriptCompile Include="src\app\appSettings.ts" />
     <TypeScriptCompile Include="src\app\configuration-settings\configuration-settings.component.ts" />
     <TypeScriptCompile Include="src\app\configuration-settings\configuration-settings.module.ts" />
+    <TypeScriptCompile Include="src\app\configuration-settings\configuration-settings.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\dashboard\dashboard.module.ts" />
     <TypeScriptCompile Include="src\app\doc-advance-search\doc-advance-search.component.ts" />
@@ -220,6 +221,7 @@
     <TypeScriptCompile Include="src\app\shared\shared.service.ts" />
     <TypeScriptCompile Include="src\app\user-profile\change-password.component.ts" />
     <TypeScriptCompile Include="src\app\user-profile\change-password.module.ts" />
+    <TypeScriptCompile Include="src\app\user-profile\manage-user.component.spec.ts" />
     <TypeScriptCompile Include="src\app\user-profile\manage-user.component.ts" />
     <TypeScriptCompile Include="src\app\user-profile\manage-user.module.ts" />
     <TypeScriptCompile Include="src\app\user-profile\user-profile.component.ts" />
