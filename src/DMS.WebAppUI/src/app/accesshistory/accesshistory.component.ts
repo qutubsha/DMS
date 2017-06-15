@@ -57,7 +57,7 @@ export class AccessHistoryComponent {
         if (ActionFilter != null)
             this.filters.push({ key: 'Action', value: ActionFilter });
         if (PerformedByFilter != null)
-            this.filters.push({ key: 'PerformedBy', value: PerformedByFilter });
+            this.filters.push({ key: 'PerformedByName', value: PerformedByFilter });
         if (PerformedOnFilter != null)
             this.filters.push({ key: 'PerformedOn', value: PerformedOnFilter });
 

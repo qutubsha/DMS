@@ -5,6 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { IUser, User } from '../login/login';
 import { Routes, RouterModule } from '@angular/router';
+import { TagModule } from '../document/tag.module';
+import { TagComponent} from '../document/tag.component';
 
 @Component({
     templateUrl: './dashboard.component.html',

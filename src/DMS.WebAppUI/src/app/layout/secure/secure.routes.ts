@@ -14,6 +14,8 @@ import { UserComponent } from '../../user-profile/manage-user.component';
 import { ConfigurationSettingsComponent } from '../../configuration-settings/configuration-settings.component';
 import { DocAdvanceSearchComponent } from '../../doc-advance-search/doc-advance-search.component';
 import { SharedDocumentComponent } from '../../shared-document/shared-document.component';
+import { TagComponent } from '../../document/tag.component';
+
 export const SECURE_ROUTES: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'userprofile', component: UserProfileComponent, canActivate: [AuthGuard] },
@@ -29,5 +31,6 @@ export const SECURE_ROUTES: Routes = [
     { path: 'userdetails', component: UserComponent, canActivate: [AuthGuard] },
     { path: 'configurationsettings', component: ConfigurationSettingsComponent, canActivate: [AuthGuard] },
     { path: 'doc-advance-search', component: DocAdvanceSearchComponent, canActivate: [AuthGuard] },
-    { path: 'shared-documents/:type', component: SharedDocumentComponent, canActivate: [AuthGuard] }
+    { path: 'shared-documents/:type', component: SharedDocumentComponent, canActivate: [AuthGuard] },
+    { path: 'tagcloud', component: TagComponent, canActivate: [AuthGuard] }
 ];

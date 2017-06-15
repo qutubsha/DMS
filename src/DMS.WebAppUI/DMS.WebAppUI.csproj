@@ -105,7 +105,9 @@
     <Content Include="src\app\configuration-settings\configuration-settings.component.html" />
     <Content Include="src\app\dashboard\dashboard.component.html" />
     <Content Include="src\app\doc-advance-search\doc-advance-search.component.html" />
+    <Content Include="src\app\document\tag.component.html" />
     <Content Include="src\app\document\document.component.html" />
+    <Content Include="src\app\document\Tag.css" />
     <Content Include="src\app\email-template\edit-email-template.component.html" />
     <Content Include="src\app\email-template\email-template.component.html" />
     <Content Include="src\app\layout\public\public.component.html" />
@@ -170,7 +172,10 @@
     <TypeScriptCompile Include="src\app\dashboard\dashboard.module.ts" />
     <TypeScriptCompile Include="src\app\doc-advance-search\doc-advance-search.component.ts" />
     <TypeScriptCompile Include="src\app\doc-advance-search\doc-advance-search.module.ts" />
+    <TypeScriptCompile Include="src\app\document\tag.ts" />
+    <TypeScriptCompile Include="src\app\document\tag.component.ts" />
     <TypeScriptCompile Include="src\app\document\document.component.ts" />
+    <TypeScriptCompile Include="src\app\document\tag.module.ts" />
     <TypeScriptCompile Include="src\app\document\document.module.ts" />
     <TypeScriptCompile Include="src\app\document\document.ts" />
     <TypeScriptCompile Include="src\app\email-template\edit-email-template.component.ts" />
