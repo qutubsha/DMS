@@ -18,6 +18,8 @@ namespace DMS.Abstraction
         public int PerformedBy { get; set; }
 
         public string Action { get; set; }
+
+        public string PerformedByName { get; set; }
     }
     public enum AccessLog
     {

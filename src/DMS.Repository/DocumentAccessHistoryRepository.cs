@@ -21,7 +21,13 @@ namespace DMS.Repository
         public async Task<List<DocumentAccessHistory>> GetDocumentAccessHistory(int documentId)
         {
             var filter = Builders<DocumentAccessHistory>.Filter.Eq("DocumentId", documentId);
-            return await _context.AccessHistory.Find(filter).ToListAsync();
+            List<DocumentAccessHistory> docAccessHistory = _context.AccessHistory.Find(filter).ToList();
+            foreach (DocumentAccessHistory history in docAccessHistory)
+            {
+                User performedByUser = (history.PerformedBy > 0) ? _context.Users.AsQueryable().Where(x => x.UserId.Equals(history.PerformedBy)).FirstOrDefault() : null;      
+                history.PerformedByName = (performedByUser != null) ? string.Join(" ", performedByUser.FirstName, performedByUser.LastName) : string.Empty; 
+            }
+            return docAccessHistory;
         }
 
         public async Task InsertDocumentAccessLog(DocumentAccessHistory documentAccessHistory)

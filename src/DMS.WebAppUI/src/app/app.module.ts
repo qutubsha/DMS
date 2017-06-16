@@ -28,6 +28,8 @@ import { UserModule } from './user-profile/manage-user.module';
 import { ConfigurationSettingsModule } from './configuration-settings/configuration-settings.module';
 import { DocAdvanceSearchModule } from './doc-advance-search/doc-advance-search.module';
 import { SharedDocumentModule } from './shared-document/shared-document.module';
+import { TagModule } from './document/tag.module';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -57,7 +59,8 @@ import { SharedDocumentModule } from './shared-document/shared-document.module';
         UserModule,
         ConfigurationSettingsModule,
         DocAdvanceSearchModule,
-        SharedDocumentModule
+        SharedDocumentModule,
+        TagModule
     ],
     providers: [
         AuthGuard,

@@ -5,6 +5,7 @@ export interface IAccessHistory {
     DocumentId: number;
     PerformedOn: string;
     PerformedBy: number;
+    PerformedByName: string;
     Action: string
 }
 
@@ -14,6 +15,7 @@ export class AccessHistory implements IAccessHistory {
         public DocumentId: number,
         public PerformedOn: string,
         public PerformedBy: number,
+        public PerformedByName: string,
         public Action: string       
     ) { }
 }
