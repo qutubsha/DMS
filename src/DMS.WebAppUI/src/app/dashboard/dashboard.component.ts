@@ -5,13 +5,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { IUser, User } from '../login/login';
 import { Routes, RouterModule } from '@angular/router';
-<<<<<<< .merge_file_a01684
 import { NotificationsService, SimpleNotificationsComponent, PushNotificationsService } from 'angular2-notifications';
 import { SharedService } from '../shared/shared.service';
-=======
 import { TagModule } from '../document/tag.module';
 import { TagComponent} from '../document/tag.component';
->>>>>>> .merge_file_a05884
 
 @Component({
     templateUrl: './dashboard.component.html',
