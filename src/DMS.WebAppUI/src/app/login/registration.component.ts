@@ -1,7 +1,7 @@
 ﻿
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IUserRegistration, UserRegistration} from './login';
+import { IUserRegistration, UserRegistration, IUser} from './login';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
@@ -13,6 +13,7 @@ import { GlobalVariable } from '../shared/global';
     providers: [UserService, SharedService, NotificationsService]
 })
 export class RegistrationComponent {
+    private user: IUser;
     private userreg: IUserRegistration;
     private notificationTitle: string = '';
     private notificationContent: string = '';
@@ -48,7 +49,10 @@ export class RegistrationComponent {
         this.busy = this._userService.addUser(saveUser).subscribe(
             data => {
                 if (data.Result != null) {
-                    this.router.navigate(['/login']);
+                    debugger
+                    this.user = data.Result;
+                    localStorage.setItem('currentUser', JSON.stringify(this.user));
+                    this.router.navigate(['/userprofile']);
                     return true;
                 } else
                 {
