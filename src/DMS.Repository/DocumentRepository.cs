@@ -130,7 +130,7 @@ namespace DMS.Repository
                         revisionId = 1;
                     }
 
-                    string filePath = CreateDocumentPath(basePath, document.DocumentId, versionId,
+                    string filePath = CreateDocumentPath(fileUploadPath, document.DocumentId, versionId,
                                     revisionId, document.Extension);
                     //TODO : check if filepath is null
 
