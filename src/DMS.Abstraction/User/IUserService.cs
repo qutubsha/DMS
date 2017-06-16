@@ -76,6 +76,12 @@ namespace DMS.Abstraction
         /// <param name="user"></param>
         /// <returns></returns>
         Task<User> UpdateUserDetailsByAdmin(User user);
-
+        /// <summary>
+        /// Check and returns the permitted rights list of user out of provided semicolon separated rights string
+        /// </summary>
+        /// <param name="Rights">Semicolon separated rights to be checked for a specific page</param>
+        /// <param name="UserId">Loggedin User Id</param>
+        /// <returns></returns>
+        List<string> CheckPermissions(string Rights, int UserId);
     }
 }

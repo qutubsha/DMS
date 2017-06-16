@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 import { AppSettings } from '../appsettings';
 import { IUser, User, IUserRegistration, IUserDetails, IUserImage} from '../login/login';
 import { PathFinder } from '../path-finder';
+import { List, Enumerable } from '../shared/linq';
 
 @Injectable()
 export class UserService {
@@ -131,6 +132,12 @@ export class UserService {
        let options = new RequestOptions({ headers: headers });
        return this._http.get(this._pathfinder.userUrl + "/ForgotPassword/" + forgotpass, options)
             .map((response: Response) => <IUser>response.json())
+            .catch(err => this.handleError(err));
+    }
+
+    getPermissions(rights: string, UserId: number): Observable<string[]> {
+        return this._http.get(this._pathfinder.loginUrl + "/GetPermissions?Rights=" + rights + "&UserId=" + UserId, this._pathfinder.getheaderWithoutJWT())
+            .map((response: Response) => <string[]>response.json())
             .catch(err => this.handleError(err));
     }
 

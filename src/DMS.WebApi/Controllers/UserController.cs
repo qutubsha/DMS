@@ -132,5 +132,11 @@ namespace DMS.WebApi.Controllers
             return Execute(() => Ok(_userService.UpdateUserDetailsByAdmin(user)));
 
         }
+
+        [HttpGet("GetPermissions")]
+        public IActionResult CheckPermissions(string Rights, int UserId)
+        {
+            return Execute(() => Ok(_userService.CheckPermissions(Rights, UserId)));
+        }
     }
 }
