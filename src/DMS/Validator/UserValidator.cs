@@ -28,12 +28,15 @@ namespace DMS.Validator
         public void IsValid(IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            var result=this.Validate(user);
-            if(result.Errors.Count > 0)
-            {
-                throw new Exception(result.Errors[0].ErrorMessage);
-            }
-            //this.ValidateAndThrow(user);
+
+            //var result=this.Validate(user);
+            //if(result.Errors.Count > 0)
+            //{
+            //    throw new Exception(result.Errors[0].ErrorMessage);
+            //}
+
+            this.ValidateAndThrow(user);
+
             //this.ValidateAndThrowAsync(user);
         }
 
