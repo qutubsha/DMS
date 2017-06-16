@@ -58,7 +58,7 @@ export class UserService {
     
 
     getUserImage(Email: string): Observable<IUserImage> {
-        return this._http.get(this._pathfinder.loginUrl + "/GetEmployeeImage/" + Email, this._pathfinder.getJWT())
+        return this._http.get(this._pathfinder.loginUrl + "/GetEmployeeImage/" + Email, this._pathfinder.getheaderWithoutJWT())
             .map((response: Response) => <IUserImage>response.json())
             .catch(err => this.handleError(err));
     }
@@ -76,6 +76,14 @@ export class UserService {
             .catch(err => this.handleError(err));
     }
 
+    // calls Web API to update employee profile image
+    updateEmployeeImage(userimage: any, Email: string) {
+        debugger
+        let body = JSON.stringify(userimage);
+        return this._http.put(this._pathfinder.loginUrl + "/UpdateEmployeeImage/" + Email, body, this._pathfinder.getheaderWithoutJWT())
+            .map(res => res.json().data)
+            .catch(err => this.handleError(err));
+    }
     updateuserByAdmin(upUserpro: any) {
 
         let headers = new Headers();

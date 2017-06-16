@@ -4,8 +4,12 @@ import { IUserRegistration, UserRegistration, FileReaderEventTarget, FileReaderE
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
+import { NotificationsService, SimpleNotificationsComponent, PushNotificationsService } from 'angular2-notifications';
+import { SharedService } from '../shared/shared.service';
+import { Observable } from 'rxjs/Rx';
 @Component({
     templateUrl: './user-profile.component.html',
+    providers: [UserService, SharedService, NotificationsService]
 })
 export class UserProfileComponent {
     private userprofile: IUserRegistration;
@@ -20,7 +24,8 @@ export class UserProfileComponent {
     constructor(
         private router: Router,
         private element: ElementRef,
-        private _userService: UserService
+        private _userService: UserService,
+        private _sharedService: SharedService
     ) { }
 
     ngOnInit(){
@@ -36,7 +41,7 @@ export class UserProfileComponent {
         
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.editUserProfile(this.currentUser.Email);
-        this.getEmployeeImage();
+       // this.getEmployeeImage();
     }
 
     redirectToDashbord() {
@@ -56,7 +61,7 @@ export class UserProfileComponent {
                 }, error => {
                     this.errorMessage = <any>error;
                     this.notificationTitle = 'Error in getting User details.';
-                   // this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+                    this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
                 });
         }
     }
@@ -103,20 +108,31 @@ export class UserProfileComponent {
         }
     }
     submitForm(event: Event): void {
+        //var image = this.element.nativeElement.querySelector('.img-responsive');
+        //let newConvertedImage: string = image.src;
+        ////if (newConvertedImage.indexOf('please_upload') == -1) {
+        //newConvertedImage = newConvertedImage.replace('data:' + this.userimage.ContentType + ';base64,', '');
+        //this.userimage.ConvertedImage = newConvertedImage;
+        //let saveImage: UserImage = new UserImage(0, '', this.userimage.ContentType, this.userimage.FileName, '', this.userimage.ConvertedImage);
+
         let upUserpro: UserRegistration = new UserRegistration(this.userprofile.UserId, '', this.userprofile.Password, '', this.userprofile.FirstName, this.userprofile.LastName, this.userprofile.Email);
-        this.busy = this._userService.updateuser(upUserpro).subscribe(
+        this.busy = Observable.forkJoin(
+            //this._userService.updateEmployeeImage(saveImage, this.currentUser.Email),
+            this._userService.updateuser(upUserpro)).subscribe(
             data => {
+                debugger
                 this.router.navigate(['/dashboard']);
                 return true;
             },
             error => {
                 this.errorMessage = <any>error;
                 this.notificationTitle = 'Error in Updating User.';
-              //  this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+               this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
             },
             () => {
+                debugger
                 this.notificationTitle = 'User Updated successfully.';
-              //  this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
+                this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);
             });
 
     }

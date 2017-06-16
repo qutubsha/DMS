@@ -36,7 +36,7 @@ export class LoginComponent {
     constructor(
         private router: Router,
         private _userService: UserService,
-        private _sharedService: SharedService,
+        private _sharedService: SharedService
 
     ) {
     }

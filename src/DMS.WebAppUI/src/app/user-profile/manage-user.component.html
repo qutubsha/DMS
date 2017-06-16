@@ -1,11 +1,12 @@
 ﻿<div class="main_cantent_inner">
     <h2>User Details</h2>
     <div class="row" *ngIf="isEditManageUser">
+       
         <form #userprofileform="ngForm" novalidate (ngSubmit)="submitForm($event)">
             <div class="col-lg-3">
             </div>
             <div class="col-lg-6">
-                Dashboard
+                <h2>Edit User</h2>
                 <div class="form-group">
                     <label>First name:</label>
                     <input type="text" class="form-control" name="FirstName"
@@ -37,7 +38,7 @@
             </div>
         </form>
     </div>
-    <div class="row" [ngBusy]="busy">
+    <div class="row" [ngBusy]="busy" style="margin-top:10px;">
         <div class="col-lg-12 col_padding">
             <div class="row">
                 <div>

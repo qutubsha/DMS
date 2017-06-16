@@ -18,6 +18,7 @@
         </div>
         <!-- /.row -->
         <div class="row">
+            <simple-notifications [options]="notificationOptions"></simple-notifications>
             <form #userprofileform="ngForm" novalidate (ngSubmit)="userprofileform.submitted && userprofileform.valid && submitForm($event)">
                 <div class="col-lg-3">
                     <div class="text-center">
@@ -26,12 +27,11 @@
 
                         <input type="file" class="form-control">-->
                         <img *ngIf="imageContent" name="empImage" [src]="imageContent" class="img-responsive" alt="" form="userprofileform" />
-                        <input type="file" id="fileMugshot" (change)="changeImageSrc($event)" form="userprofileform">
+                        <input type="file" id="fileMugshot" (change)="changeImageSrc($event)" form="userprofileform" style="margin-top:10px;">
                      </div>
                 </div>
                
                 <div class="col-lg-6">
-                    Dashboard
  <div class="form-group">
                             <label>First name:</label>
                            <!-- <input class="form-control">-->

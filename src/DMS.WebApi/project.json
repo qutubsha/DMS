@@ -25,7 +25,8 @@
     "Microsoft.AspNetCore.Cors": "1.1.2",
     "System.Runtime": "4.3.0",
     "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.1.3",
-    "MimeMapping": "0.1.5"
+    "MimeMapping": "0.1.5",
+    "FluentValidation.AspNetCore": "7.0.3"
   },
   "frameworks": {
     "netcoreapp1.0": {

@@ -26,7 +26,7 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li style="color:white;padding-top:15px;">{{currentUser.FirstName}} {{currentUser.LastName}}</li>
-                <li class="dropdown">
+                <!--<li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
                     <ul class="dropdown-menu message-dropdown">
                         <li class="message-preview">
@@ -108,7 +108,7 @@
                             <a href="#">View All</a>
                         </li>
                     </ul>
-                </li>
+                </li>-->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <!--{{currentUser.firstName}} {{currentUser.lastName}}--> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -182,7 +182,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a (click)='logout()'><i class="fa fa-fw fa-sign-out" style="cursor:pointer"></i> Logout</a>
+                        <a (click)='logout()' style="cursor:pointer;"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
                     </li>
                     <!--<li>
                         <a routerLink="/document" routerLinkActive="active"><i class="fa fa-fw fa-book"></i> Documents</a>

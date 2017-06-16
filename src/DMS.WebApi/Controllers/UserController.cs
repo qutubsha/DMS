@@ -29,7 +29,7 @@ namespace DMS.WebApi.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(User user)
+        public IActionResult Login(User user)
         {
             return Execute(() => Ok(_userService.Login(user.Email, user.Password)));
         }
