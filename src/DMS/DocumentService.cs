@@ -109,6 +109,11 @@ namespace DMS
             return await _repository.SearchDocument(fileName, Extension, fromDate, toDate);
         }
 
+        public Dictionary<string, int> GetDocumentsCount(int loginId)
+        {
+            return _repository.GetDocumentsCount(loginId);
+        }
+
         public async Task<List<TagWeight>> GetTags(int loginId)
         {
             return await _repository.GetTags(loginId);

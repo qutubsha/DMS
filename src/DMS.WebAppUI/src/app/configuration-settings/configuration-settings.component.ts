@@ -3,7 +3,7 @@ import { IConfigurationSetting, ConfigurationSetting } from './configuration-set
 import { ConfigurationSettingsService } from '../services/configuration-settings.service';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
-import { DataTable } from "angular2-datatable";
+import { DataTable } from '../angular2-datatable/datatable';
 import { SharedService } from '../shared/shared.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalVariable, IDictionary } from '../shared/global';

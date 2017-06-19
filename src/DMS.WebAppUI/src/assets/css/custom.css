@@ -1,0 +1,15 @@
+﻿.pagination_left .pagination {
+    width: 50%;
+    float: left;
+}
+
+/*.pagination_right .pagination {
+    width: 40%;
+    float: right;
+}*/
+
+.pagination_right span {
+    font-weight: bold;
+    float: right;
+    margin: 27px 10px;
+}

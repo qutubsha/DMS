@@ -16,11 +16,11 @@ import { List, Enumerable } from '../../shared/linq';
 })
 export class SecureComponent {
     private currentUser: IUser;
-    private rightsRequired: string = "View Document,View Role,View User,View Email Template,Edit Right,Edit Configuration Setting";
+    private rightsRequired: string = "View Document,View Role,View User,Edit Email Template,Edit Right,Edit Configuration Setting";
     private viewDocument: boolean = false;
     private viewRole: boolean = false;
     private viewUser: boolean = false;
-    private viewEmailTemplate: boolean = false;
+    private editEmailTemplate: boolean = false;
     private editRight: boolean = false;
     private editConfigSetting: boolean = false;
     private viewAdminMenu: boolean = false;
@@ -43,10 +43,10 @@ export class SecureComponent {
                 this.viewDocument = data.indexOf("View Document") > -1;
                 this.viewRole = data.indexOf("View Role") > -1;
                 this.viewUser = data.indexOf("View User") > -1;
-                this.viewEmailTemplate = data.indexOf("View Email Template") > -1;
+                this.editEmailTemplate = data.indexOf("View Email Template") > -1;
                 this.editRight = data.indexOf("Edit Right") > -1;
                 this.editConfigSetting = data.indexOf("Edit Configuration Setting") > -1;
-                this.viewAdminMenu = this.viewRole || this.viewUser || this.viewEmailTemplate || this.editRight || this.editConfigSetting
+                this.viewAdminMenu = this.viewRole || this.viewUser || this.editEmailTemplate || this.editRight || this.editConfigSetting
             },
             error => {
             });

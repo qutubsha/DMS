@@ -8,7 +8,7 @@ import { List, Enumerable } from '../shared/linq';
 import { GlobalVariable, IDictionary } from '../shared/global';
 import { EmailTemplateService } from '../services/email-template.service';
 import { ITemplate, Template } from './email-template';
-import { DataTable } from "angular2-datatable";
+import { DataTable } from '../angular2-datatable/datatable';
 import { IUser, User } from '../login/login';
 import { UserService } from '../services/user.service';
 
