@@ -87,6 +87,12 @@ export class DocumentService {
             .catch(this.handleError);
     }
 
+    getDocumentsCount(loginId: number): any {
+        return this._http.get(this._pathfinder.documentUrl + "/GetDocumentsCount?loginId=" + loginId, this._pathfinder.getheaderWithoutJWT())
+            .map((response: Response) => <any>response.json())
+            .catch(err => this.handleError(err));
+    }
+
     private extractContent(res: Response) {
         let blob: Blob = res.blob();
         return blob;

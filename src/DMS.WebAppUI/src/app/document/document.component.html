@@ -5,7 +5,7 @@
         <!--<a class="btn" (click)="modal.open();" style="cursor:pointer;float:left">
             Upload Multiple Documents
         </a>-->
-        <p-fileUpload [name]="userDetails" [url]="fileUploadUrl" (onUpload)="onUpload($event)" (onError)="onError($event)"
+        <p-fileUpload  *ngIf="addEditDocument" [name]="userDetails" [url]="fileUploadUrl" (onUpload)="onUpload($event)" (onError)="onError($event)"
                       multiple="multiple">
             <template pTemplate="content">
                 <ul *ngIf="uploadedFiles.length">
@@ -68,13 +68,13 @@
                                         <td contenteditable="true" (focus)="onDocTagInputFocus($event, item.DocumentId)" (blur)="onDocTagInputBlur($event, item.DocumentId)">{{item.DocumentTags}}</td>
                                         <td>
                                             <a (click)="DownloadDoc(item.DocumentId, item.FileName, item.Extension, item.CurrentVersion, item.CurrentRevision);" style="cursor:pointer" title="Download File"><span class="glyphicon glyphicon-download"></span></a>
-                                            <a (click)="showDlteCOnfirm(item.DocumentId);" style="cursor:pointer" title="Delete File"><span class="glyphicon glyphicon-remove"></span></a>
-                                            <a (click)="LockDoc(item.DocumentId);" style="cursor:pointer" [title]="item.LockStatus">
+                                            <a *ngIf="deleteDocument" (click)="showDlteCOnfirm(item.DocumentId);" style="cursor:pointer" title="Delete File"><span class="glyphicon glyphicon-remove"></span></a>
+                                            <a *ngIf="addEditDocument"  (click)="LockDoc(item.DocumentId);" style="cursor:pointer" [title]="item.LockStatus">
                                                 <span *ngIf="!item.IsDocCheckedOut" class="glyphicon glyphicon-lock">
                                                 </span>
                                             </a>
 
-                                            <a (click)="SetdocumentId(item.DocumentId);modalCheckIn.open();" style="cursor:pointer" [title]="item.LockStatus">
+                                            <a *ngIf="addEditDocument" (click)="SetdocumentId(item.DocumentId);modalCheckIn.open();" style="cursor:pointer" [title]="item.LockStatus">
                                                 <span *ngIf="item.IsDocCheckedOut" class="fa fa-unlock">
                                                 </span>
                                             </a>

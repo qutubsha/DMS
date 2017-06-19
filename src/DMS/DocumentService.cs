@@ -108,5 +108,10 @@ namespace DMS
         {
             return await _repository.SearchDocument(fileName, Extension, fromDate, toDate);
         }
+
+        public Dictionary<string, int> GetDocumentsCount(int loginId)
+        {
+            return _repository.GetDocumentsCount(loginId);
+        }
     }
 }

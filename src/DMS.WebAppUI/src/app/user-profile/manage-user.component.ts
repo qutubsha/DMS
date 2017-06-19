@@ -30,7 +30,10 @@ export class UserComponent {
     private sortOrder = 'asc';
     private activePage = 1;
 
-    private isEditManageUser= false;
+    private isEditManageUser = false;
+    private rightsRequired: string = "Edit User";
+    private canEditUser: boolean = false;
+    private loggedInUser: IUser;
 
     @ViewChild('mf') mf: DataTable;
     constructor(
@@ -46,9 +49,15 @@ export class UserComponent {
         //    LastName: '',
         //    Email: '',
         //};
-
+        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
         this.isEditManageUser = false;
 
+        this.busy = this._userService.getPermissions(this.rightsRequired, this.loggedInUser.UserId)
+            .subscribe(data => {
+                this.canEditUser = data.indexOf("Edit User") > -1;
+            },
+            error => {
+            });
 
         this.GetUserdetails();
     }

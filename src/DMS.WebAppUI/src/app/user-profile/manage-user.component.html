@@ -1,7 +1,7 @@
 ﻿<div class="main_cantent_inner">
     <h2>User Details</h2>
     <div class="row" *ngIf="isEditManageUser">
-       
+
         <form #userprofileform="ngForm" novalidate (ngSubmit)="submitForm($event)">
             <div class="col-lg-3">
             </div>
@@ -31,7 +31,7 @@
                     <label>Email</label>
                     <input type="text" class="form-control" tabindex="1" name="Email" [(ngModel)]="edituserprofile.Email" #Email="ngModel" placeholder="Enter your Email" required maxlength="200"
                            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" disabled>
-                   
+
                 </div>
                 <button type="submit" class="btn btn-primary">Submit </button>
                 <button type="button" (click)="redirectToDashbord();" class="btn btn-primary">Cancel</button>
@@ -51,7 +51,7 @@
                                     <th style="width:20%"><mfDefaultSorter by="LastName"> LastName</mfDefaultSorter></th>
                                     <th><mfDefaultSorter by="Email">Email</mfDefaultSorter></th>
                                     <th><mfDefaultSorter by="IsActive">Is Active</mfDefaultSorter></th>
-                                    <th style="width:20%">Action</th>
+                                    <th *ngIf="canEditUser" style="width:20%">Action</th>
                                 </tr>
                                 <tr class="filters">
                                     <!--<th class="fifteen"><input type="text" class="form-control" [(ngModel)]="TemplateNameFilter" (ngModelChange)="filteremialtemplatedetails($event)"></th>
@@ -66,11 +66,11 @@
                                     <td>{{item.LastName}}</td>
                                     <td style="width:20%">{{item.Email}}</td>
                                     <td style="width:20%">{{item.IsActive? 'Active': 'InActive'}}</td>
-                                    <td style="width:20%" class="ten delete_department">
-                                       
-                                            <a (click)="edituserdetails(item.Email)" style="cursor:pointer">
-                                                <span class="glyphicon glyphicon-edit" title="Edit"></span>
-                                            </a>
+                                    <td *ngIf="canEditUser" style="width:20%" class="ten delete_department">
+
+                                        <a (click)="edituserdetails(item.Email)" style="cursor:pointer">
+                                            <span class="glyphicon glyphicon-edit" title="Edit"></span>
+                                        </a>
                                         <!--<a class="template_btn">
                                             <img class="new-cursor" title="Edit" alt="Edit" src="../../assets/images/edit1.png" >
                                         </a>-->
@@ -90,5 +90,5 @@
             </div>
         </div>
     </div>
-    
+
 </div>

@@ -311,6 +311,12 @@ namespace DMS.WebApi.Controllers
             return Json(uploadedData);
         }
 
+        [HttpGet("GetDocumentsCount")]
+        public IActionResult GetDocumentsCount(int loginId)
+        {
+            //TODO : Check permission, validate request
+            return Execute(() => Ok(_documentService.GetDocumentsCount(loginId)));
+        }
     }
 
     public static class MultipartRequestHelper
