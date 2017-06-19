@@ -14,6 +14,7 @@ import { IUser, User } from '../login/login';
 import { saveAs as importedSaveAs } from 'file-saver';
 import { PathFinder } from '../path-finder';
 import { FileUpload } from 'primeng/primeng';
+import { UserService } from '../services/user.service';
 
 @Component({
     templateUrl: './document.component.html',
@@ -50,7 +51,9 @@ export class DocumentComponent {
     private VersionRevision: number = 1;;
     private txtWhat: string;
     private txtWhy: string;
-
+    private rightsRequired: string = "Edit Document,Delete Document";
+    private addEditDocument: boolean = false;
+    private deleteDocument: boolean = false;
 
     uploadedFiles: any[] = [];
     fileUploadUrl = this._pathfinder.documentUrl + "/UploadFiles";
@@ -65,11 +68,16 @@ export class DocumentComponent {
     constructor(
         private _pathfinder: PathFinder,
         private _sharedService: SharedService,
+        private _userService: UserService,
         private router: Router, private _documentservice: DocumentService, private _route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
         this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.pageInit();
+    }
+
+    pageInit() {
         if (this.loggedInUser == null) {
             localStorage.removeItem('currentUser');
             this.router.navigate(['/login']);
@@ -93,6 +101,13 @@ export class DocumentComponent {
                     this.GetAllDocuments();
                 });
         }
+        this.busy = this._userService.getPermissions(this.rightsRequired, this.loggedInUser.UserId)
+            .subscribe(data => {
+                this.addEditDocument = data.indexOf("Edit Document") > -1;
+                this.deleteDocument = data.indexOf("Delete Document") > -1;
+            },
+            error => {
+            });
     }
 
     GetAllDocuments() {

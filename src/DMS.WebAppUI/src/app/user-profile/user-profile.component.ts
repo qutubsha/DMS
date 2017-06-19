@@ -37,15 +37,15 @@ export class UserProfileComponent {
             FirstName: '',
             LastName: '',
             Email: '',
+            
         };
-        
+        debugger;
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.editUserProfile(this.currentUser.Email);
-       // this.getEmployeeImage();
+       this.getEmployeeImage();
     }
 
     redirectToDashbord() {
-        debugger
         this.router.navigate(['/dashboard']);
     }
 
@@ -56,6 +56,7 @@ export class UserProfileComponent {
                 .subscribe(data => {
                     debugger
                     if (data.Result != null) {
+                        debugger
                         this.userprofile = data.Result;
                     }
                 }, error => {
@@ -67,6 +68,7 @@ export class UserProfileComponent {
     }
 
     getEmployeeImage() {
+        debugger
         this.busy = this._userService.getUserImage(this.currentUser.Email).subscribe(
             data => {
                 this.userimage = data;
@@ -108,19 +110,19 @@ export class UserProfileComponent {
         }
     }
     submitForm(event: Event): void {
-        //var image = this.element.nativeElement.querySelector('.img-responsive');
-        //let newConvertedImage: string = image.src;
-        ////if (newConvertedImage.indexOf('please_upload') == -1) {
-        //newConvertedImage = newConvertedImage.replace('data:' + this.userimage.ContentType + ';base64,', '');
-        //this.userimage.ConvertedImage = newConvertedImage;
-        //let saveImage: UserImage = new UserImage(0, '', this.userimage.ContentType, this.userimage.FileName, '', this.userimage.ConvertedImage);
+        var image = this.element.nativeElement.querySelector('.img-responsive');
+        let newConvertedImage: string = image.src;
+        //if (newConvertedImage.indexOf('please_upload') == -1) {
+        newConvertedImage = newConvertedImage.replace('data:' + this.userimage.ContentType + ';base64,', '');
+        this.userimage.ConvertedImage = newConvertedImage;
+        let saveImage: UserImage = new UserImage(0, '', this.userimage.ContentType, this.userimage.FileName, '', this.userimage.ConvertedImage);
 
         let upUserpro: UserRegistration = new UserRegistration(this.userprofile.UserId, '', this.userprofile.Password, '', this.userprofile.FirstName, this.userprofile.LastName, this.userprofile.Email);
         this.busy = Observable.forkJoin(
-            //this._userService.updateEmployeeImage(saveImage, this.currentUser.Email),
+            this._userService.updateEmployeeImage(saveImage, this.currentUser.Email),
             this._userService.updateuser(upUserpro)).subscribe(
             data => {
-                debugger
+             //   debugger
                 this.router.navigate(['/dashboard']);
                 return true;
             },

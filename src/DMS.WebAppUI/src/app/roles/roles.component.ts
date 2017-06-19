@@ -7,7 +7,8 @@ import { DataTable } from '../angular2-datatable/datatable';
 import { SharedService } from '../shared/shared.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalVariable, IDictionary } from '../shared/global';
-//import {DatepickerModule} from 'ng2-bootstrap';
+import { UserService } from '../services/user.service';
+import { IUser, User } from '../login/login';
 
 @Component({
     templateUrl: './roles.component.html',
@@ -34,11 +35,16 @@ export class RolesComponent {
     private singleRole: IRole;
     private isEditMode: boolean = false;
     private showForm: boolean = true;
+    private rightsRequired: string = "Add Role,Edit Role";
+    private canEditRole: boolean = false;
+    private canAddRole: boolean = false;
+    private loggedInUser: IUser;
 
     constructor(
         private _sharedService: SharedService,
         private router: Router,
-        private _roleService: RolesService
+        private _roleService: RolesService,
+        private _userService: UserService
     ) {
     }
 
@@ -50,6 +56,7 @@ export class RolesComponent {
         //    this.router.navigate(['/login']);
         //}
         //else {
+        this.loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
         this.singleRole = { RoleId: 0, RoleName: "", IsActive: false, CreatedOn: "", UpdatedOn: "", Rights: [] };
         this.pageInit();
         //}
@@ -65,6 +72,13 @@ export class RolesComponent {
                 this.errorMessage = <any>error;
                 this.notificationTitle = 'Error in fetching Roles.';
                 this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
+            });
+        this.busy = this._userService.getPermissions(this.rightsRequired, this.loggedInUser.UserId)
+            .subscribe(data => {
+                this.canEditRole = data.indexOf("Edit Role") > -1;
+                this.canAddRole = data.indexOf("Add Role") > -1;
+            },
+            error => {
             });
     }
 

@@ -156,9 +156,10 @@ namespace DMS.Repository
 
         public async Task<List<Document>> GetAllDocuments(bool IsShared, int loginId)
         {
-            List<Document> doclist;
+            List<Document> doclist = _GetDocumentsList(IsShared, loginId);
             //TODO : Get documents on which user has rights and  are not deleted
-            doclist = _context.Documents.AsQueryable().Where(x => x.IsShared.Equals(IsShared) && x.IsDeleted.Equals(false)).ToList();
+            
+            
             foreach (Document doc in doclist)
             {
                 User createdByUser = (doc.CreatedBy > 0) ? _context.Users.AsQueryable().Where(x => x.UserId.Equals(doc.CreatedBy)).FirstOrDefault() : null;
@@ -259,5 +260,31 @@ namespace DMS.Repository
             list = doclist.ToList();
             return list;
         }
+
+        public Dictionary<string, int> GetDocumentsCount(int loginId)
+        {
+            Dictionary<string, int> documentsCount = new Dictionary<string, int>();
+            int personalDocCount =_GetDocumentsList(false,loginId).Count;
+            int sharedDocCount = _GetDocumentsList(true, loginId).Count;
+            documentsCount.Add("personal", personalDocCount);
+            documentsCount.Add("public", sharedDocCount);
+            return documentsCount;
+        }
+
+        #region Private Methods
+         private List<Document> _GetDocumentsList(bool IsShared, int loginId)
+        {
+            List<Document> doclist;
+            if (!IsShared)
+            {
+                doclist = _context.Documents.AsQueryable().Where(x => x.IsShared.Equals(IsShared) && x.IsDeleted.Equals(false) && x.CreatedBy.Equals(loginId)).ToList();
+            }
+            else
+            {
+                doclist = _context.Documents.AsQueryable().Where(x => x.IsShared.Equals(IsShared) && x.IsDeleted.Equals(false)).ToList();
+            }
+            return doclist;
+        }
+        #endregion
     }
 }

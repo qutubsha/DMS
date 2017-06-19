@@ -172,7 +172,7 @@
                             <li *ngIf="editRight">
                                 <a routerLink="/rights" routerLinkActive="active">Rights</a>
                             </li>
-                            <li *ngIf="viewEmailTemplate">
+                            <li *ngIf="editEmailTemplate">
                                 <a routerLink="/email-template" routerLinkActive="active" class="waves-effect">Email Template</a>
 
                             </li>
@@ -182,7 +182,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a (click)='logout()' style="cursor:pointer;"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+                        <a (click)='logout()' style="cursor:pointer;"><i class="fa fa-fw fa-power-off"></i> Logout</a>
                     </li>
                     <!--<li>
                         <a routerLink="/document" routerLinkActive="active"><i class="fa fa-fw fa-book"></i> Documents</a>

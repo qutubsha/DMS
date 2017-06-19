@@ -39,18 +39,17 @@ export class ChangePasswordComponent {
         this.router.navigate(['/dashboard']);
     }
     submitForm(event: Event): void {
-        debugger
         let upUser: UpdatePassword = new UpdatePassword(this.passupdate.oldPwd, this.passupdate.newPwd, this.passupdate.RepeatPassword, this.passupdate.eMail);
         this.busy = this._userService.updatepassword(upUser).subscribe(
             data => {
                 debugger
                 if (data.Result != false) {
-                    debugger
-                    this.router.navigate(['/dashboard']);
+                    localStorage.removeItem('currentUser');
+                    this.router.navigate(['/login']);
                     return true;
                 }
                 else {
-                    this.notificationTitle = 'Invalid Password.';
+                    this.notificationTitle = 'Invalid Old Password.';
                     this._sharedService.createNotification(3, this.notificationTitle, this.notificationContent);
                 }
             },
