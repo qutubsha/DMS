@@ -1,7 +1,7 @@
 ﻿import { Component, Input, OnInit, ViewChild, trigger, transition, style, animate, state } from '@angular/core';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
-import { DataTable } from "angular2-datatable";
+import { DataTable } from '../angular2-datatable/datatable';
 import { DocAdvanceSearchService } from '../services/doc-advance-search.service';
 import { DocumentService } from '../services/document.service';
 import { Router, ActivatedRoute } from '@angular/router';

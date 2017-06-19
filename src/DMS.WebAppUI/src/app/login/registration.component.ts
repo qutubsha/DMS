@@ -48,6 +48,7 @@ export class RegistrationComponent {
         let saveUser: UserRegistration = new UserRegistration(this.userreg.UserId, '', this.userreg.Password, this.userreg.RepeatPassword, '', '', this.userreg.Email);
         this.busy = this._userService.addUser(saveUser).subscribe(
             data => {
+                debugger;
                 if (data.Result != null) {
                     debugger
                     this.user = data.Result;

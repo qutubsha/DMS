@@ -4,7 +4,7 @@ import { IAccessHistory, AccessHistory } from './accesshistory';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { DocumentService } from '../services/document.service';
-import {DataTable } from "angular2-datatable";
+import { DataTable } from '../angular2-datatable/datatable';
 import { GlobalVariable, IDictionary } from '../shared/global';
 
 @Component({

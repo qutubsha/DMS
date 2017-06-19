@@ -4,8 +4,7 @@ import { IDocument, Document, DocType } from './document';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { DocumentService } from '../services/document.service';
-//import {DataTable} from '../angular2-datatable/datatable';
-import { DataTable } from "angular2-datatable";
+import {DataTable} from '../angular2-datatable/datatable';
 import { GlobalVariable, IDictionary } from '../shared/global';
 import { SharedService } from '../shared/shared.service';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
@@ -267,9 +266,9 @@ export class DocumentComponent {
             });
     }
     onUpload(event) {
-        for (let file of event.files) {
-            this.uploadedFiles.push(file);
-        }
+        //for (let file of event.files) {
+        //    this.uploadedFiles.push(file);
+        //}
         this.GetAllDocuments();
         this.notificationTitle = 'Files uploaded successfully.';
         this._sharedService.createNotification(1, this.notificationTitle, this.notificationContent);

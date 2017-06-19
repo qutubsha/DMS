@@ -5,7 +5,7 @@ import { IUserRegistration, UserRegistration, EditUserDetails, IUser, IUserDetai
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
-import { DataTable } from "angular2-datatable";
+import { DataTable } from '../angular2-datatable/datatable';
 import { GlobalVariable, IDictionary } from '../shared/global';
 @Component({
     templateUrl: './manage-user.component.html',

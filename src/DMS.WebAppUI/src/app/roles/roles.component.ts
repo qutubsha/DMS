@@ -3,7 +3,7 @@ import { IRole, Role } from './roles';
 import { RolesService } from '../services/roles.service';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
-import { DataTable } from "angular2-datatable";
+import { DataTable } from '../angular2-datatable/datatable';
 import { SharedService } from '../shared/shared.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalVariable, IDictionary } from '../shared/global';

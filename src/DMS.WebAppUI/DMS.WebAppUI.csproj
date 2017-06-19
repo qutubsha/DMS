@@ -127,6 +127,7 @@
     <Content Include="src\assets\css\bootstrap.css" />
     <Content Include="src\assets\css\bootstrap.min.css" />
     <Content Include="src\assets\css\busy.css" />
+    <Content Include="src\assets\css\custom.css" />
     <Content Include="src\assets\css\plugins\morris.css" />
     <Content Include="src\assets\css\sb-admin-rtl.css" />
     <Content Include="src\assets\css\sb-admin.css" />
@@ -161,6 +162,12 @@
     <TypeScriptCompile Include="src\app\accesshistory\accesshistory.component.ts" />
     <TypeScriptCompile Include="src\app\accesshistory\accesshistory.module.ts" />
     <TypeScriptCompile Include="src\app\accesshistory\accesshistory.ts" />
+    <TypeScriptCompile Include="src\app\angular2-datatable\bootstrap-paginator.ts" />
+    <TypeScriptCompile Include="src\app\angular2-datatable\datatable.module.ts" />
+    <TypeScriptCompile Include="src\app\angular2-datatable\datatable.spec.ts" />
+    <TypeScriptCompile Include="src\app\angular2-datatable\datatable.ts" />
+    <TypeScriptCompile Include="src\app\angular2-datatable\default-sorter.ts" />
+    <TypeScriptCompile Include="src\app\angular2-datatable\paginator.ts" />
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
@@ -288,7 +295,9 @@
   <ItemGroup>
     <Content Include="npm-debug.log" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="src\app\angular2-datatable\tsconfig.json" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

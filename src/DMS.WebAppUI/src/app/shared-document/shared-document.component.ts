@@ -3,7 +3,7 @@ import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { SharedDocumentsService } from '../services/shared-documents.service';
 
-import { DataTable } from "angular2-datatable";
+import { DataTable } from '../angular2-datatable/datatable';
 import { SharedService } from '../shared/shared.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalVariable, IDictionary } from '../shared/global';
