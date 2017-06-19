@@ -54,6 +54,17 @@ namespace DMS.Abstraction
 
         public string LockedByName { get; set; }
     }
+
+    public class TagWeight
+    {
+        public TagWeight(string tag, int count )
+        {
+            Tag = tag;
+            Count = count;
+        }
+        public string Tag { get; set; }
+        public int Count { get; set; }
+    }
 }
 
 

@@ -108,5 +108,10 @@ namespace DMS
         {
             return await _repository.SearchDocument(fileName, Extension, fromDate, toDate);
         }
+
+        public async Task<List<TagWeight>> GetTags(int loginId)
+        {
+            return await _repository.GetTags(loginId);
+        }
     }
 }

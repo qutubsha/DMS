@@ -1,5 +1,5 @@
-﻿<div>
-    <angular-tag-cloud id="DMS-Tags"  [data]="data"
+﻿<div *ngIf="data1.length>0">
+    <angular-tag-cloud id="DMS-Tags"  [data]="data1"
                        [width]="options.width"
                        [height]="options.height"
                        [overflow]="options.overflow"

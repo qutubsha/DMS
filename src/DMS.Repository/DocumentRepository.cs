@@ -259,5 +259,31 @@ namespace DMS.Repository
             list = doclist.ToList();
             return list;
         }
+
+        public async Task<List<TagWeight>> GetTags(int loginId)
+        {
+            List<Document> doclist = GetAllDocuments(false, loginId).Result;
+            var tags = doclist
+                        .Select(x => !string.IsNullOrEmpty(x.DocumentTags) ? x.DocumentTags : string.Empty)
+                        .ToList()
+                        .Select(x =>
+                        new
+                        {
+                            t = x.Split(' ')
+                        }).ToList();
+
+            var list = tags.SelectMany(x => x.t).ToList()
+                      .GroupBy(x=>x)
+                      .Select(g =>
+                      new TagWeight(g.Key, g.Count())).ToList();
+            list.RemoveAll(x => string.IsNullOrEmpty(x.Tag));
+            //var list = doclist
+            //        .AsEnumerable()
+            //        .GroupBy(x => !string.IsNullOrEmpty(x.DocumentTags) ? x.DocumentTags : string.Empty)
+            //        .OrderByDescending(g => g.Count())
+            //        .Select(g =>
+            //            new TagWeight( g.Key, g.Count())).ToList();
+            return list;
+        }
     }
 }

@@ -6,6 +6,7 @@ import { Http, Response, Headers, RequestOptions, ResponseContentType } from '@a
 import { Observable } from 'rxjs/Observable';
 import { PathFinder } from '../path-finder';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ITagCount, TagCount } from '../document/tag';
 
 @Injectable()
 export class DocumentService {
@@ -82,9 +83,16 @@ export class DocumentService {
 
     downloadFile(documentId: number, currentVersion: number, currentRevision: number, userId: number): Observable<File> {
         let options = new RequestOptions({ responseType: ResponseContentType.Blob });
-        return this._http.get(this._pathfinder.documentUrl + '/DownloadFile?documentId=' + documentId + '&versionId=' + currentVersion + '&revisionId=' + currentRevision + '&userId=' + userId, options)
+        return this._http.get(this._pathfinder.VersionHistoryUrl + '/DownloadFile?documentId=' + documentId + '&versionId=' + currentVersion + '&revisionId=' + currentRevision + '&userId=' + userId, options)
             .map(this.extractContent)
             .catch(this.handleError);
+    }
+
+    getTags(loginId: number): any
+    {
+        return this._http.get(this._pathfinder.documentUrl + "/GetTags?loginId=" + loginId , this._pathfinder.getheaderWithoutJWT())
+            .map((response: Response) => <ITagCount>response.json())
+            .catch(err => this.handleError(err));
     }
 
     private extractContent(res: Response) {

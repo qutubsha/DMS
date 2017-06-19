@@ -31,5 +31,7 @@ namespace DMS.Abstraction.Documents
 
         Task<List<Document>> SearchDocument(string fileName, string Extension, DateTime fromDate,
                                         DateTime toDate);
+
+        Task<List<TagWeight>> GetTags(int loginId);
     }
 }

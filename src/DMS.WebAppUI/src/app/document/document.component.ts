@@ -80,6 +80,7 @@ export class DocumentComponent {
             this._route.params.subscribe(
                 params => {
                     let type: string = params['type'];
+                  
                     switch (type) {
                         case "personal":
                             this.docType = DocType.Personal;
@@ -91,8 +92,12 @@ export class DocumentComponent {
                             this.docType = DocType.Personal;
                             break;
                     }
-                    this.GetAllDocuments();
+                                      
                 });
+
+            if (this._route.snapshot.params['tag'] != null && this._route.snapshot.params['tag'] != '' && this._route.snapshot.params['id'] != 'undefined')
+                this.DocumentTagFilter = this._route.snapshot.params['tag'];
+            this.GetAllDocuments(); 
         }
     }
 
@@ -119,6 +124,8 @@ export class DocumentComponent {
                     }
                 }
                 this.filteredData = this.data;
+                if (this.DocumentTagFilter != null && this.DocumentTagFilter != "")
+                    this.filterDocuments();
             },
             error => {
                 this.errorMessage = <any>error;

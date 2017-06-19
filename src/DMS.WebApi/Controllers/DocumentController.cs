@@ -311,6 +311,12 @@ namespace DMS.WebApi.Controllers
             return Json(uploadedData);
         }
 
+        [HttpGet("GetTags")]
+        public IActionResult GetTags(int loginId)
+        {
+                return Execute(() => Ok(_documentService.GetTags(loginId).Result));
+        }
+
     }
 
     public static class MultipartRequestHelper
