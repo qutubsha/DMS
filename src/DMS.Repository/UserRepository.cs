@@ -170,7 +170,7 @@ namespace DMS.Repository
                     var objUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
                     if (null != objUser)
                     {
-                        var update = Builders<User>.Update.Set("FirstName", user.FirstName).Set("LastName", user.LastName).Set("IsActive",user.IsActive).Set("IsDeleted", user.IsDeleted);
+                        var update = Builders<User>.Update.Set("FirstName", user.FirstName).Set("LastName", user.LastName).Set("IsActive", user.IsActive).Set("IsDeleted", user.IsDeleted);
                         await _context.Users.UpdateOneAsync(filter, update);
                         return objUser;
                     }
@@ -432,12 +432,12 @@ namespace DMS.Repository
                     Picture = userdetails.Picture,
                     Roles = userdetails.Roles,
                     IsDeleted = userdetails.IsDeleted,
-                    DeletedBy=userdetails.DeletedOn.ToString(),
-                    ModifiedBy=userdetails.ModifiedBy,
-                    ModifiedOn=userdetails.ModifiedOn,
-                   DeletedOn=userdetails.DeletedOn,
-                   LastLoginAttempt=userdetails.LastLoginAttempt,
-                   UserName=userdetails.UserName 
+                    DeletedBy = userdetails.DeletedOn.ToString(),
+                    ModifiedBy = userdetails.ModifiedBy,
+                    ModifiedOn = userdetails.ModifiedOn,
+                    DeletedOn = userdetails.DeletedOn,
+                    LastLoginAttempt = userdetails.LastLoginAttempt,
+                    UserName = userdetails.UserName
 
                 };
 
@@ -445,6 +445,18 @@ namespace DMS.Repository
             }
             return lstuser;
 
+        }
+
+        public List<string> CheckPermissions(string Rights, int UserId)
+        {
+            List<Role> currUserRoleIds = _context.Users.AsQueryable().Where(x => x.UserId.Equals(UserId)).Select(y => y.Roles).FirstOrDefault();
+            List<Rights> permittedRights = new List<Rights>();
+            foreach (Role sngleUserRole in currUserRoleIds)
+            {
+                Role sngleRepositoryRole = _context.Roles.AsQueryable().FirstOrDefault(x => x.RoleId.Equals(sngleUserRole.RoleId));
+                permittedRights = permittedRights.Concat(sngleRepositoryRole.Rights.Where(x =>Rights.Contains(x.RightName))).ToList();
+            }
+            return permittedRights.Select(x => x.RightName).ToList();
         }
     }
 }

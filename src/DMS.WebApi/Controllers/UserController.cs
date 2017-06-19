@@ -29,7 +29,7 @@ namespace DMS.WebApi.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(User user)
+        public IActionResult Login(User user)
         {
             return Execute(() => Ok(_userService.Login(user.Email, user.Password)));
         }
@@ -131,6 +131,12 @@ namespace DMS.WebApi.Controllers
         {
             return Execute(() => Ok(_userService.UpdateUserDetailsByAdmin(user)));
 
+        }
+
+        [HttpGet("GetPermissions")]
+        public IActionResult CheckPermissions(string Rights, int UserId)
+        {
+            return Execute(() => Ok(_userService.CheckPermissions(Rights, UserId)));
         }
     }
 }

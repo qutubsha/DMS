@@ -173,5 +173,11 @@ namespace DMS
             return await _repository.UpdateUserDetailsByAdmin(user);
         }
 
+        public List<string> CheckPermissions(string Rights, int UserId)
+        {
+            if (UserId == 0) throw new ArgumentNullException(nameof(UserId), "UserId should not be null");
+            if (string.IsNullOrEmpty(Rights)) throw new ArgumentNullException(nameof(UserId), "Rights should not be null");
+            return _repository.CheckPermissions(Rights, UserId);
+        }
     }
 }

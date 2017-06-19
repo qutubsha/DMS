@@ -3,6 +3,7 @@ using DMS.Abstraction.Documents;
 using DMS.Abstraction.EmailTemplate;
 using DMS.Abstraction.Roles;
 using DMS.Repository;
+using DMS.Validator;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -41,6 +42,8 @@ namespace DMS.WebApi
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IValidator<IUser>, UserValidator>();
+
             services.Configure<FormOptions>(x =>
             {
                 x.ValueLengthLimit = int.MaxValue;
