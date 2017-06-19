@@ -104,7 +104,7 @@ namespace DMS.WebApi.Controllers
         /// <param name="image"></param>
         /// <param name="eMail"></param>
         /// <returns></returns>
-        [HttpPut("UpdateEmployeeImage")]
+        [HttpPut("UpdateEmployeeImage/{eMail}")]
         public IUserProfilePhoto UpdateEmployeeImage([FromBody]UserProfilePhoto image, string eMail)
         {
             return _userService.UpdateEmployeeImage(image, eMail);
