@@ -14,7 +14,7 @@ export class PathFinder {
     emailtemplateUrl: string = `${AppSettings._DMSUrl}/EmailTemplate`;
     advanceSearchUrl: string = `${AppSettings._DMSUrl}/Document/searchdocuments`;
     configurationSettingUrl: string = `${AppSettings._DMSUrl}/configurationsettings`;
-   
+    sharedDocumentUrl: string = `${AppSettings._DMSUrl}/SharedDocumentUser`;
     getJWT() {
         // create authorization header with jwt token
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));

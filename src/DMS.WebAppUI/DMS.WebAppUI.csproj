@@ -216,6 +216,7 @@
     <TypeScriptCompile Include="src\app\services\user.service.ts" />
     <TypeScriptCompile Include="src\app\shared-document\shared-document.component.ts" />
     <TypeScriptCompile Include="src\app\shared-document\shared-document.module.ts" />
+    <TypeScriptCompile Include="src\app\shared-document\shared-document-view-model.ts" />
     <TypeScriptCompile Include="src\app\shared\appequal-validator.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\auth.guard.ts" />
     <TypeScriptCompile Include="src\app\shared\compare-validator.directive.spec.ts" />

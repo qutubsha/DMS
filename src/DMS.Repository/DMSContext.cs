@@ -8,6 +8,7 @@ using DMS.Abstraction;
 using DMS.Abstraction.Revisions;
 using DMS.Abstraction.EmailTemplate;
 using DMS.Abstraction.ConfigurationSettings;
+using DMS.Abstraction.SharedDocumentUsers;
 
 namespace DMS.Repository
 {
@@ -92,6 +93,14 @@ namespace DMS.Repository
             get
             {
                 return _database.GetCollection<ConfigurationSetting>("ConfigurationSettings");
+            }
+        }
+
+        public IMongoCollection<SharedDocumentUser> SharedDocumentUsers
+        {
+            get
+            {
+                return _database.GetCollection<SharedDocumentUser>("SharedDocumentUsers");
             }
         }
     }

@@ -87,7 +87,7 @@ export class DocumentComponent {
             this._route.params.subscribe(
                 params => {
                     let type: string = params['type'];
-                  
+
                     switch (type) {
                         case "personal":
                             this.docType = DocType.Personal;
@@ -99,12 +99,11 @@ export class DocumentComponent {
                             this.docType = DocType.Personal;
                             break;
                     }
-                                      
+                    if (this._route.snapshot.params['tag'] != null && this._route.snapshot.params['tag'] != '' && this._route.snapshot.params['id'] != 'undefined')
+                        this.DocumentTagFilter = this._route.snapshot.params['tag'];
+                    this.GetAllDocuments();
                 });
 
-            if (this._route.snapshot.params['tag'] != null && this._route.snapshot.params['tag'] != '' && this._route.snapshot.params['id'] != 'undefined')
-                this.DocumentTagFilter = this._route.snapshot.params['tag'];
-            this.GetAllDocuments(); 
         }
         this.busy = this._userService.getPermissions(this.rightsRequired, this.loggedInUser.UserId)
             .subscribe(data => {
@@ -240,7 +239,7 @@ export class DocumentComponent {
                 });
         }
     }
-    
+
     private upFilesData: FormData;
     private DocumentId: number;
 
@@ -257,7 +256,7 @@ export class DocumentComponent {
                 let file: File = fileList[i];
                 formData.append('uploadFile', file, file.name);
             }
-        //    event.srcElement.value = "";
+            //    event.srcElement.value = "";
             this.upFilesData = formData;
         }
     }
